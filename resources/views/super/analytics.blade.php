@@ -39,8 +39,8 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            new Chart(document.getElementById('plansChart'), { type: 'bar', data: { labels: @json($plansChart['labels']), datasets: [{ data: @json($plansChart['data']), backgroundColor: '#F59E0B' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
-            new Chart(document.getElementById('statusChart'), { type: 'pie', data: { labels: @json($statusChart['labels']), datasets: [{ data: @json($statusChart['data']), backgroundColor: ['#22C55E', '#FACC15', '#EF4444', '#64748B'] }] }, options: { responsive: true, maintainAspectRatio: false } });
+            window.igymChart('plansChart', { type: 'bar', data: { labels: @json($plansChart['labels']), datasets: [{ data: @json($plansChart['data']), backgroundColor: '#F59E0B', borderRadius: 8 }] }, options: { plugins: { legend: { display: false } } } });
+            window.igymChart('statusChart', { type: 'pie', data: { labels: @json($statusChart['labels']), datasets: [{ data: @json($statusChart['data']), backgroundColor: ['#22C55E', '#FACC15', '#EF4444', '#64748B'] }] } });
         });
     </script>
 </x-app-layout>

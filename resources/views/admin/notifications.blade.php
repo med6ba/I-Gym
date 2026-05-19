@@ -10,9 +10,21 @@
             <input name="message" placeholder="{{ __('messages.message') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
             <x-button>{{ __('messages.send_notification') }}</x-button>
         </form>
-        <div class="grid gap-3 md:grid-cols-2">
+        <div class="igym-card overflow-hidden">
             @foreach($notifications as $notification)
-                <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800"><div class="flex justify-between gap-3"><p class="font-bold">{{ $notification->title }}</p><x-badge :status="$notification->type" /></div><p class="mt-2 text-sm text-slate-500">{{ $notification->message }}</p><p class="mt-2 text-xs text-slate-400">{{ $notification->user?->name ?? 'Gym-wide' }}</p></div>
+                <div class="flex gap-4 border-b border-slate-100 p-4 last:border-b-0 dark:border-slate-800">
+                    <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-slate-100 text-amber-600 dark:bg-slate-800 dark:text-amber-300">
+                        <x-icon name="inbox" size="19" />
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <p class="font-black text-slate-950 dark:text-white">{{ $notification->title }}</p>
+                            <x-badge :status="$notification->type" />
+                        </div>
+                        <p class="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">{{ $notification->message }}</p>
+                        <p class="mt-2 text-xs font-semibold text-slate-400">{{ $notification->user?->name ?? __('messages.gym_wide') }} · {{ $notification->created_at->diffForHumans() }}</p>
+                    </div>
+                </div>
             @endforeach
         </div>
         {{ $notifications->links() }}

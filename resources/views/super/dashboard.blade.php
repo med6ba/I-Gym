@@ -47,15 +47,13 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            new Chart(document.getElementById('growthChart'), {
+            window.igymChart('growthChart', {
                 type: 'line',
-                data: { labels: @json($growthChart['labels']), datasets: [{ label: 'Gyms', data: @json($growthChart['data']), borderColor: '#F59E0B', backgroundColor: 'rgba(245, 158, 11, .15)', tension: .35, fill: true }] },
-                options: { responsive: true, maintainAspectRatio: false }
+                data: { labels: @json($growthChart['labels']), datasets: [{ label: @js(__('messages.gyms')), data: @json($growthChart['data']), borderColor: '#F59E0B', backgroundColor: 'rgba(245, 158, 11, .15)', tension: .35, fill: true }] },
             });
-            new Chart(document.getElementById('statusChart'), {
+            window.igymChart('statusChart', {
                 type: 'doughnut',
                 data: { labels: @json($statusChart['labels']), datasets: [{ data: @json($statusChart['data']), backgroundColor: ['#22C55E', '#F59E0B', '#EF4444', '#64748B'] }] },
-                options: { responsive: true, maintainAspectRatio: false }
             });
         });
     </script>

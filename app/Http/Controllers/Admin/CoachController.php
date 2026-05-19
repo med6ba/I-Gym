@@ -19,12 +19,14 @@ class CoachController extends Controller
 
     public function store(GymUserRequest $request): RedirectResponse
     {
-        User::create($request->safe()->merge([
+        $coach = User::create($request->safe()->merge([
             'gym_id' => currentGymId(),
             'role' => 'coach',
             'language' => app()->getLocale(),
             'theme' => 'light',
         ])->all());
+
+        record_gym_activity(currentGymId(), 'coach.created', __('messages.log_coach_created', ['coach' => $coach->name]), $coach);
 
         return back()->with('status', __('messages.coach_created'));
     }
@@ -40,13 +42,18 @@ class CoachController extends Controller
 
         $coach->update($data);
 
+        record_gym_activity(currentGymId(), 'coach.updated', __('messages.log_coach_updated', ['coach' => $coach->name]), $coach);
+
         return back()->with('status', __('messages.coach_updated'));
     }
 
     public function destroy(User $coach): RedirectResponse
     {
         $this->authorizeCoach($coach);
+        $name = $coach->name;
         $coach->delete();
+
+        record_gym_activity(currentGymId(), 'coach.deleted', __('messages.log_coach_deleted', ['coach' => $name]));
 
         return back()->with('status', __('messages.coach_deleted'));
     }

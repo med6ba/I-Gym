@@ -121,6 +121,11 @@ class User extends Authenticatable
         return $this->hasMany(MemberProgress::class, 'member_id');
     }
 
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(GymActivityLog::class, 'actor_id');
+    }
+
     public function scopeForCurrentGym(Builder $query): Builder
     {
         if (auth()->check() && ! auth()->user()->isSuperAdmin()) {
@@ -150,6 +155,11 @@ class User extends Authenticatable
         return $this->role === 'coach';
     }
 
+    public function isReception(): bool
+    {
+        return $this->role === 'reception';
+    }
+
     public function isMember(): bool
     {
         return $this->role === 'member';
@@ -161,6 +171,7 @@ class User extends Authenticatable
             'super_admin' => 'super.dashboard',
             'gym_admin' => 'admin.dashboard',
             'coach' => 'coach.dashboard',
+            'reception' => 'reception.scanner',
             default => 'member.dashboard',
         };
     }

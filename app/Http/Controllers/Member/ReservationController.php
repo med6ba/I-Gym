@@ -26,6 +26,10 @@ class ReservationController extends Controller
 
         if ($reservation->status === 'reserved') {
             $reservation->update(['status' => 'cancelled']);
+
+            record_gym_activity(auth()->user()->gym_id, 'reservation.cancelled', __('messages.log_reservation_cancelled', [
+                'course' => $reservation->course?->title ?? __('messages.courses'),
+            ]), $reservation);
         }
 
         return back()->with('status', __('messages.reservation_cancelled'));

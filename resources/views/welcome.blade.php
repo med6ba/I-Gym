@@ -44,10 +44,10 @@
                                 ['icon' => 'qr', 'title' => __('messages.qr_access'), 'text' => __('messages.qr_access_text')],
                                 ['icon' => 'sparkles', 'title' => __('messages.smart_insights'), 'text' => __('messages.smart_insights_text')],
                             ] as $item)
-                                <a href="#platform" class="flex gap-3 rounded-xl p-3 text-slate-200 transition hover:bg-white/10">
+                                <div class="flex gap-3 rounded-xl p-3 text-slate-200 transition hover:bg-white/10">
                                     <span class="grid size-10 place-items-center rounded-xl bg-amber-500 text-slate-950"><x-icon name="{{ $item['icon'] }}" size="19" /></span>
                                     <span><span class="block font-black text-white">{{ $item['title'] }}</span><span class="mt-1 block text-sm text-slate-400">{{ $item['text'] }}</span></span>
-                                </a>
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -63,10 +63,10 @@
                                 ['icon' => 'coach', 'title' => __('messages.gym_teams'), 'text' => __('messages.gym_teams_text')],
                                 ['icon' => 'users', 'title' => __('messages.members'), 'text' => __('messages.members_solution_text')],
                             ] as $item)
-                                <a href="#workflows" class="flex gap-3 rounded-xl p-3 text-slate-200 transition hover:bg-white/10">
+                                <div class="flex gap-3 rounded-xl p-3 text-slate-200 transition hover:bg-white/10">
                                     <span class="grid size-10 place-items-center rounded-xl bg-white/10 text-amber-300"><x-icon name="{{ $item['icon'] }}" size="19" /></span>
                                     <span><span class="block font-black text-white">{{ $item['title'] }}</span><span class="mt-1 block text-sm text-slate-400">{{ $item['text'] }}</span></span>
-                                </a>
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -193,10 +193,10 @@
                     </div>
                     <div class="grid gap-3">
                         @foreach([
-                            ['icon' => 'shield', 'title' => __('messages.super_admin'), 'text' => __('messages.super_admin_text')],
-                            ['icon' => 'building', 'title' => __('messages.gym_admin'), 'text' => __('messages.gym_admin_text')],
-                            ['icon' => 'coach', 'title' => __('messages.coach'), 'text' => __('messages.coach_text')],
-                            ['icon' => 'user', 'title' => __('messages.member'), 'text' => __('messages.member_text')],
+                            ['icon' => 'calendar', 'title' => __('messages.book_class'), 'text' => __('messages.super_admin_text')],
+                            ['icon' => 'qr', 'title' => __('messages.qr_code'), 'text' => __('messages.gym_admin_text')],
+                            ['icon' => 'coach', 'title' => __('messages.training_plans'), 'text' => __('messages.coach_text')],
+                            ['icon' => 'activity', 'title' => __('messages.progress'), 'text' => __('messages.member_text')],
                         ] as $role)
                             <div class="flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
                                 <span class="grid size-12 place-items-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><x-icon name="{{ $role['icon'] }}" size="22" /></span>
@@ -246,10 +246,10 @@
                     </div>
                     <div class="mt-8 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
                         @foreach([
-                            [__('messages.super_admin'), __('messages.demo_super_text')],
-                            [__('messages.gym_admin'), __('messages.demo_admin_text')],
-                            [__('messages.member'), __('messages.demo_member_text')],
-                            [__('messages.coach'), __('messages.demo_coach_text')],
+                            [__('messages.dashboard'), __('messages.demo_super_text')],
+                            [__('messages.courses'), __('messages.demo_admin_text')],
+                            [__('messages.qr_code'), __('messages.demo_member_text')],
+                            [__('messages.progress'), __('messages.demo_coach_text')],
                         ] as $step)
                             <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
                                 <p class="font-black text-amber-200">{{ $step[0] }}</p>
@@ -264,7 +264,7 @@
         <footer class="border-t border-slate-200 py-8 dark:border-slate-800">
             <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 text-sm text-slate-500 sm:px-6 lg:px-8">
                 <x-application-logo />
-                <p>{{ __('messages.next_generation_saas') }}</p>
+                <p>Copyright © {{ now()->year }} <a href="https://github.com/med6ba" class="font-bold text-amber-600 hover:text-amber-500">Medba</a>. {{ __('messages.all_rights_reserved') }}</p>
             </div>
         </footer>
     </div>

@@ -15,7 +15,7 @@
                             <p class="mt-1 text-sm text-slate-500">{{ $course->starts_at->format('M d, H:i') }} · {{ $course->active_reservations_count }}/{{ $course->max_capacity }}</p>
                         </a>
                     @empty
-                        <x-empty-state message="No upcoming sessions." />
+                        <x-empty-state :message="__('messages.no_upcoming_sessions')" />
                     @endforelse
                 </div>
             </x-chart-card>
@@ -24,7 +24,7 @@
                     @forelse($followUps as $member)
                         <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800"><p class="font-bold">{{ $member->name }}</p><p class="text-sm text-slate-500">{{ $member->email }}</p></div>
                     @empty
-                        <x-empty-state message="All assigned members have recent progress records." />
+                        <x-empty-state :message="__('messages.all_members_recent_progress')" />
                     @endforelse
                 </div>
             </x-chart-card>

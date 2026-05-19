@@ -45,7 +45,9 @@ class ClassController extends Controller
         ]);
 
         $member = User::findOrFail($validated['member_id']);
-        $recorder->handle(auth()->user(), $member, $course, $validated['method']);
+        $attendance = $recorder->handle(auth()->user(), $member, $course, $validated['method']);
+
+        record_gym_activity(auth()->user()->gym_id, 'attendance.recorded', __('messages.log_attendance_recorded', ['member' => $member->name]), $attendance);
 
         return back()->with('status', __('messages.attendance_recorded'));
     }

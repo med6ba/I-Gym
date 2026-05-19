@@ -1,38 +1,6 @@
 @php
     $user = auth()->user();
-    $items = match ($user->role) {
-        'super_admin' => [
-            ['label' => __('messages.dashboard'), 'route' => 'super.dashboard', 'active' => 'super.dashboard', 'icon' => 'dashboard'],
-            ['label' => __('messages.gyms'), 'route' => 'super.gyms.index', 'active' => 'super.gyms.*', 'icon' => 'building'],
-            ['label' => __('messages.analytics'), 'route' => 'super.analytics', 'active' => 'super.analytics', 'icon' => 'chart'],
-        ],
-        'gym_admin' => [
-            ['label' => __('messages.dashboard'), 'route' => 'admin.dashboard', 'active' => 'admin.dashboard', 'icon' => 'dashboard'],
-            ['label' => __('messages.members'), 'route' => 'admin.members.index', 'active' => 'admin.members.*', 'icon' => 'users'],
-            ['label' => __('messages.coaches'), 'route' => 'admin.coaches.index', 'active' => 'admin.coaches.*', 'icon' => 'coach'],
-            ['label' => __('messages.courses'), 'route' => 'admin.courses.index', 'active' => 'admin.courses.*', 'icon' => 'calendar'],
-            ['label' => __('messages.reservations'), 'route' => 'admin.reservations.index', 'active' => 'admin.reservations.*', 'icon' => 'attendance'],
-            ['label' => __('messages.subscriptions'), 'route' => 'admin.subscriptions.index', 'active' => 'admin.subscriptions.*', 'icon' => 'credit-card'],
-            ['label' => __('messages.attendance'), 'route' => 'admin.attendance.index', 'active' => 'admin.attendance.*', 'icon' => 'qr'],
-            ['label' => __('messages.notifications'), 'route' => 'admin.notifications.index', 'active' => 'admin.notifications.*', 'icon' => 'bell'],
-        ],
-        'coach' => [
-            ['label' => __('messages.dashboard'), 'route' => 'coach.dashboard', 'active' => 'coach.dashboard', 'icon' => 'dashboard'],
-            ['label' => __('messages.classes'), 'route' => 'coach.classes.index', 'active' => 'coach.classes.*', 'icon' => 'calendar'],
-            ['label' => __('messages.members'), 'route' => 'coach.members.index', 'active' => 'coach.members.*', 'icon' => 'users'],
-            ['label' => __('messages.training_plans'), 'route' => 'coach.training-plans.index', 'active' => 'coach.training-plans.*', 'icon' => 'target'],
-            ['label' => __('messages.progress'), 'route' => 'coach.progress.index', 'active' => 'coach.progress.*', 'icon' => 'activity'],
-        ],
-        default => [
-            ['label' => __('messages.dashboard'), 'route' => 'member.dashboard', 'active' => 'member.dashboard', 'icon' => 'dashboard'],
-            ['label' => __('messages.qr_code'), 'route' => 'member.qr-code', 'active' => 'member.qr-code', 'icon' => 'qr'],
-            ['label' => __('messages.courses'), 'route' => 'member.courses.index', 'active' => 'member.courses.*', 'icon' => 'calendar'],
-            ['label' => __('messages.reservations'), 'route' => 'member.reservations.index', 'active' => 'member.reservations.*', 'icon' => 'attendance'],
-            ['label' => __('messages.subscription'), 'route' => 'member.subscription', 'active' => 'member.subscription', 'icon' => 'credit-card'],
-            ['label' => __('messages.progress'), 'route' => 'member.progress', 'active' => 'member.progress', 'icon' => 'activity'],
-            ['label' => __('messages.notifications'), 'route' => 'member.notifications.index', 'active' => 'member.notifications.*', 'icon' => 'bell'],
-        ],
-    };
+    $items = igym_navigation_items($user);
 @endphp
 
 <aside class="hidden w-72 shrink-0 border-e border-slate-200 bg-white px-4 py-5 dark:border-slate-800 dark:bg-slate-900 lg:flex lg:flex-col">
@@ -46,7 +14,7 @@
                 <x-icon name="{{ $user->isSuperAdmin() ? 'shield' : 'building' }}" size="18" />
             </span>
             <div class="min-w-0">
-                <p class="text-xs font-bold uppercase text-amber-700 dark:text-amber-300">{{ Str::headline($user->role) }}</p>
+                <p class="text-xs font-bold uppercase text-amber-700 dark:text-amber-300">{{ __('messages.'.$user->role) }}</p>
                 <p class="mt-1 truncate text-sm font-semibold text-slate-900 dark:text-white">{{ $user->gym?->name ?? __('messages.global_saas') }}</p>
             </div>
         </div>
@@ -65,17 +33,32 @@
         @endforeach
     </nav>
 
-    <div class="mt-auto space-y-2 pt-6">
-        <a href="{{ route('profile.edit') }}" class="group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800">
-            <x-icon name="user" size="18" class="text-slate-400 group-hover:text-amber-500" />
-            {{ __('messages.profile') }}
+    <div class="mt-auto space-y-3 pt-6">
+        <a href="{{ route('profile.edit') }}" class="igym-focus group flex items-center gap-3 rounded-xl border border-slate-200 p-3 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-800 dark:hover:border-amber-800 dark:hover:bg-amber-950/30">
+            <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="size-11 rounded-xl object-cover">
+            <span class="min-w-0">
+                <span class="block truncate text-sm font-black text-slate-950 dark:text-white">{{ $user->name }}</span>
+                <span class="mt-0.5 block truncate text-xs font-semibold text-slate-500 dark:text-slate-400">{{ __('messages.profile') }}</span>
+            </span>
         </a>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button class="igym-focus group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-start text-sm font-bold text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800">
-                <x-icon name="logout" size="18" class="text-slate-400 group-hover:text-rose-500" />
-                {{ __('messages.logout') }}
-            </button>
-        </form>
+
+        <button type="button" x-data x-on:click="$dispatch('open-modal', 'confirm-logout')" class="igym-focus group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-start text-sm font-bold text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800">
+            <x-icon name="logout" size="18" class="text-slate-400 group-hover:text-rose-500" />
+            {{ __('messages.logout') }}
+        </button>
     </div>
 </aside>
+
+<x-modal name="confirm-logout">
+    <form method="POST" action="{{ route('logout') }}" class="space-y-5">
+        @csrf
+        <div>
+            <p class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.logout_confirm_title') }}</p>
+            <p class="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{{ __('messages.logout_confirm_body') }}</p>
+        </div>
+        <div class="flex justify-end gap-3">
+            <x-button type="button" variant="secondary" x-on:click="$dispatch('close-modal', 'confirm-logout')">{{ __('messages.cancel') }}</x-button>
+            <x-button variant="danger">{{ __('messages.logout') }}</x-button>
+        </div>
+    </form>
+</x-modal>

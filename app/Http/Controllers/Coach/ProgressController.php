@@ -24,7 +24,11 @@ class ProgressController extends Controller
         $data = $request->validated();
         abort_unless(User::where('gym_id', auth()->user()->gym_id)->role('member')->whereKey($data['member_id'])->exists(), 403);
 
-        MemberProgress::create($data + ['gym_id' => auth()->user()->gym_id]);
+        $progress = MemberProgress::create($data + ['gym_id' => auth()->user()->gym_id]);
+
+        record_gym_activity(auth()->user()->gym_id, 'progress.recorded', __('messages.log_progress_recorded', [
+            'member' => $progress->member?->name ?? __('messages.member'),
+        ]), $progress);
 
         return back()->with('status', __('messages.progress_recorded'));
     }

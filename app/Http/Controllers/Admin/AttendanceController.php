@@ -27,7 +27,9 @@ class AttendanceController extends Controller
         $member = User::findOrFail($request->integer('member_id'));
         $course = $request->filled('course_id') ? Course::findOrFail($request->integer('course_id')) : null;
 
-        $recorder->handle(auth()->user(), $member, $course, $request->input('method', 'manual'));
+        $attendance = $recorder->handle(auth()->user(), $member, $course, $request->input('method', 'manual'));
+
+        record_gym_activity(currentGymId(), 'attendance.recorded', __('messages.log_attendance_recorded', ['member' => $member->name]), $attendance);
 
         return back()->with('status', __('messages.attendance_recorded'));
     }

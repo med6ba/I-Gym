@@ -25,6 +25,8 @@ class NotificationController extends Controller
 
         $notification->update(['is_read' => true]);
 
+        record_gym_activity(auth()->user()->gym_id, 'notification.read', __('messages.log_notification_read', ['title' => $notification->title]), $notification);
+
         return back()->with('status', __('messages.notification_read'));
     }
 }

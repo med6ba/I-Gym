@@ -27,7 +27,9 @@ class NotificationController extends Controller
             abort_unless(User::where('gym_id', currentGymId())->whereKey($data['user_id'])->exists(), 403);
         }
 
-        GymNotification::create($data + ['gym_id' => currentGymId(), 'is_read' => false]);
+        $notification = GymNotification::create($data + ['gym_id' => currentGymId(), 'is_read' => false]);
+
+        record_gym_activity(currentGymId(), 'notification.sent', __('messages.log_notification_sent', ['title' => $notification->title]), $notification);
 
         return back()->with('status', __('messages.notification_sent'));
     }

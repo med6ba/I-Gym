@@ -29,6 +29,9 @@
         @case('bell')
             <path d="M6 8a6 6 0 1 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9" /><path d="M10 21h4" />
             @break
+        @case('inbox')
+            <path d="M22 12h-6l-2 3h-4l-2-3H2" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z" />
+            @break
         @case('settings')
             <path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z" /><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.88l-.06-.06A2 2 0 1 1 7.03 4.2l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.2.61.76 1 1.55 1H21a2 2 0 1 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15Z" />
             @break
@@ -40,6 +43,9 @@
             @break
         @case('qr')
             <rect x="3" y="3" width="6" height="6" rx="1" /><rect x="15" y="3" width="6" height="6" rx="1" /><rect x="3" y="15" width="6" height="6" rx="1" /><path d="M15 15h2v2h-2zM19 15h2M15 19h2M19 19h2v2" />
+            @break
+        @case('scan')
+            <path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /><path d="M7 12h10" />
             @break
         @case('dumbbell')
             <path d="m6.5 6.5 11 11" /><path d="m21 21-3-3M3 3l3 3" /><path d="m18.5 5.5-2 2M7.5 18.5l-2 2M14.5 3.5l6 6M3.5 14.5l6 6" />
@@ -56,6 +62,18 @@
         @case('globe')
             <circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15.3 15.3 0 0 1 0 20" /><path d="M12 2a15.3 15.3 0 0 0 0 20" />
             @break
+        @case('sun')
+            <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+            @break
+        @case('moon')
+            <path d="M12 3a6 6 0 0 0 9 7.4A9 9 0 1 1 12 3Z" />
+            @break
+        @case('monitor')
+            <rect x="3" y="4" width="18" height="12" rx="2" /><path d="M8 20h8M12 16v4" />
+            @break
+        @case('phone')
+            <rect x="7" y="2" width="10" height="20" rx="2" /><path d="M11 18h2" />
+            @break
         @case('palette')
             <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><path d="M12 22a10 10 0 1 1 10-10c0 2.76-2.24 5-5 5h-1.5a1.5 1.5 0 0 0-1.3 2.25c.53.92-.13 2.75-2.2 2.75Z" />
             @break
@@ -70,6 +88,12 @@
             @break
         @case('plus')
             <path d="M12 5v14M5 12h14" />
+            @break
+        @case('list')
+            <path d="M8 6h13M8 12h13M8 18h13" /><path d="M3 6h.01M3 12h.01M3 18h.01" />
+            @break
+        @case('check')
+            <path d="m20 6-11 11-5-5" />
             @break
         @case('activity')
             <path d="M22 12h-4l-3 9L9 3l-3 9H2" />

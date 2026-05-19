@@ -16,6 +16,7 @@ class LocaleMiddleware
     {
         $locale = $request->user()?->language
             ?? $request->session()->get('locale')
+            ?? $request->cookie('igym_locale')
             ?? config('app.locale', 'en');
 
         if (! in_array($locale, $this->supported, true)) {
@@ -25,6 +26,8 @@ class LocaleMiddleware
         App::setLocale($locale);
         $request->session()->put('locale', $locale);
 
-        return $next($request);
+        $response = $next($request);
+
+        return $response->withCookie(cookie()->forever('igym_locale', $locale));
     }
 }

@@ -27,10 +27,12 @@ class TrainingPlanController extends Controller
             ? collect(preg_split('/\r\n|\r|\n/', $data['exercises']))->filter()->values()->all()
             : null;
 
-        TrainingPlan::create($data + [
+        $plan = TrainingPlan::create($data + [
             'gym_id' => auth()->user()->gym_id,
             'coach_id' => auth()->id(),
         ]);
+
+        record_gym_activity(auth()->user()->gym_id, 'training_plan.created', __('messages.log_training_plan_created', ['plan' => $plan->title]), $plan);
 
         return back()->with('status', __('messages.training_plan_created'));
     }

@@ -12,7 +12,7 @@
         </form>
         <x-table>
             <thead class="bg-slate-50 dark:bg-slate-800/60"><tr><th class="px-4 py-3 text-start">{{ __('messages.member') }}</th><th class="px-4 py-3 text-start">{{ __('messages.courses') }}</th><th class="px-4 py-3 text-start">{{ __('messages.method') }}</th><th class="px-4 py-3 text-start">{{ __('messages.time') }}</th></tr></thead>
-            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">@foreach($attendances as $attendance)<tr><td class="px-4 py-3 font-bold">{{ $attendance->member->name }}</td><td class="px-4 py-3">{{ $attendance->course?->title ?? 'Gym access' }}</td><td class="px-4 py-3"><x-badge :status="$attendance->method" /></td><td class="px-4 py-3">{{ $attendance->check_in_time->format('M d, H:i') }}</td></tr>@endforeach</tbody>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">@foreach($attendances as $attendance)<tr><td class="px-4 py-3 font-bold">{{ $attendance->member->name }}</td><td class="px-4 py-3">{{ $attendance->course?->title ?? __('messages.gym_access_only') }}</td><td class="px-4 py-3"><x-badge :status="$attendance->method" /></td><td class="px-4 py-3">{{ $attendance->check_in_time->format('M d, H:i') }}</td></tr>@endforeach</tbody>
         </x-table>
         {{ $attendances->links() }}
     </div>

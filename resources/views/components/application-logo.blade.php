@@ -13,6 +13,6 @@
     >
     <div>
         <div class="text-xl font-black tracking-normal {{ $titleClass }}">I-Gym</div>
-        <div class="text-xs font-bold uppercase tracking-normal {{ $subtitleClass }}">Fitness SaaS</div>
+        <div class="text-xs font-bold uppercase tracking-normal {{ $subtitleClass }}">{{ __('messages.fitness_app') }}</div>
     </div>
 </div>

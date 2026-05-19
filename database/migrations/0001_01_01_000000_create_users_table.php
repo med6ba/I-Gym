@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['super_admin', 'gym_admin', 'coach', 'member'])->default('member')->index();
+            $table->enum('role', ['super_admin', 'gym_admin', 'coach', 'reception', 'member'])->default('member')->index();
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active')->index();

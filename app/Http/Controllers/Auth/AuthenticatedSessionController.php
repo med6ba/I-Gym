@@ -29,7 +29,9 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         $request->session()->put('locale', $request->user()->language);
 
-        return redirect()->intended(route($request->user()->dashboardRoute(), absolute: false));
+        return redirect()
+            ->intended(route($request->user()->dashboardRoute(), absolute: false))
+            ->withCookie(cookie()->forever('igym_locale', $request->user()->language));
     }
 
     /**

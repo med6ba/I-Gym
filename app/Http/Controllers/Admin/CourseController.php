@@ -34,7 +34,9 @@ class CourseController extends Controller
         $data = $request->validated();
         $this->authorizeCoach($data['coach_id']);
 
-        Course::create($data + ['gym_id' => currentGymId()]);
+        $course = Course::create($data + ['gym_id' => currentGymId()]);
+
+        record_gym_activity(currentGymId(), 'course.created', __('messages.log_course_created', ['course' => $course->title]), $course);
 
         return back()->with('status', __('messages.course_created'));
     }
@@ -46,6 +48,8 @@ class CourseController extends Controller
         $this->authorizeCoach($data['coach_id']);
         $course->update($data);
 
+        record_gym_activity(currentGymId(), 'course.updated', __('messages.log_course_updated', ['course' => $course->title]), $course);
+
         return back()->with('status', __('messages.course_updated'));
     }
 
@@ -53,6 +57,8 @@ class CourseController extends Controller
     {
         $this->authorizeCourse($course);
         $course->update(['status' => 'cancelled']);
+
+        record_gym_activity(currentGymId(), 'course.cancelled', __('messages.log_course_cancelled', ['course' => $course->title]), $course);
 
         return back()->with('status', __('messages.course_cancelled'));
     }

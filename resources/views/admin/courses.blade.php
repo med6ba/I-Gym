@@ -14,19 +14,25 @@
             <input type="number" name="max_capacity" value="12" min="1" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
             <input type="hidden" name="status" value="scheduled"><textarea name="description" placeholder="{{ __('messages.description') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 lg:col-span-3"></textarea><x-button>{{ __('messages.create_course') }}</x-button>
         </form>
-        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            @foreach($courses as $course)
-                <div class="igym-card igym-hover p-5">
-                    <div class="flex items-start justify-between gap-3">
-                        <div><p class="font-black">{{ $course->title }}</p><p class="text-sm text-slate-500">{{ $course->coach->name }} · {{ $course->starts_at->format('M d, H:i') }}</p></div>
-                        <x-badge :status="$course->status" />
+        <form method="GET" data-ajax-filter data-ajax-target="#admin-course-results" class="flex flex-wrap gap-3">
+            <select name="category" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950"><option value="">{{ __('messages.all_categories') }}</option>@foreach($categories as $category)<option value="{{ $category }}" @selected(request('category')===$category)>{{ $category }}</option>@endforeach</select>
+            <x-button type="submit">{{ __('messages.filter') }}</x-button>
+        </form>
+        <div id="admin-course-results" data-ajax-target="#admin-course-results" class="transition">
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                @foreach($courses as $course)
+                    <div class="igym-card igym-hover p-5">
+                        <div class="flex items-start justify-between gap-3">
+                            <div><p class="font-black">{{ $course->title }}</p><p class="text-sm text-slate-500">{{ $course->coach->name }} · {{ $course->starts_at->format('M d, H:i') }}</p></div>
+                            <x-badge :status="$course->status" />
+                        </div>
+                        <div class="mt-4"><div class="mb-1 flex justify-between text-xs font-bold"><span>{{ $course->active_reservations_count }}/{{ $course->max_capacity }}</span><span>{{ $course->occupancy_rate }}%</span></div><x-progress-bar :value="$course->occupancy_rate" /></div>
+                        @if($course->smart_alert)<x-alert type="warning" class="mt-4">{{ $course->smart_alert }}</x-alert>@endif
+                        <form method="POST" action="{{ route('admin.courses.destroy', $course) }}" class="mt-4">@csrf @method('DELETE')<button class="text-sm font-bold text-rose-600">{{ __('messages.cancel_course') }}</button></form>
                     </div>
-                    <div class="mt-4"><div class="mb-1 flex justify-between text-xs font-bold"><span>{{ $course->active_reservations_count }}/{{ $course->max_capacity }}</span><span>{{ $course->occupancy_rate }}%</span></div><x-progress-bar :value="$course->occupancy_rate" /></div>
-                    @if($course->smart_alert)<x-alert type="warning" class="mt-4">{{ $course->smart_alert }}</x-alert>@endif
-                    <form method="POST" action="{{ route('admin.courses.destroy', $course) }}" class="mt-4">@csrf @method('DELETE')<button class="text-sm font-bold text-rose-600">{{ __('messages.cancel_course') }}</button></form>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
+            <div class="mt-5">{{ $courses->links() }}</div>
         </div>
-        {{ $courses->links() }}
     </div>
 </x-app-layout>

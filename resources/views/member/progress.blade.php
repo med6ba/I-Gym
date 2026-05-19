@@ -6,7 +6,7 @@
     </div>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            new Chart(document.getElementById('memberProgressChart'), { type: 'line', data: { labels: @json($progressChart['labels']), datasets: [{ label: 'Weight', data: @json($progressChart['weight']), borderColor: '#F59E0B' }, { label: 'Body fat', data: @json($progressChart['bodyFat']), borderColor: '#FB923C' }] }, options: { responsive: true, maintainAspectRatio: false } });
+            window.igymChart('memberProgressChart', { type: 'line', data: { labels: @json($progressChart['labels']), datasets: [{ label: @js(__('messages.weight')), data: @json($progressChart['weight']), borderColor: '#F59E0B', tension: .35 }, { label: @js(__('messages.body_fat')), data: @json($progressChart['bodyFat']), borderColor: '#FB923C', tension: .35 }] } });
         });
     </script>
 </x-app-layout>

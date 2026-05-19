@@ -30,7 +30,7 @@
                         <td class="px-4 py-3">{{ $gym->users_count }}</td>
                         <td class="px-4 py-3 text-end">
                             <a href="{{ route('super.gyms.edit', $gym) }}" class="text-sm font-bold text-amber-600 hover:text-amber-500">{{ __('messages.edit') }}</a>
-                            <form method="POST" action="{{ route('super.gyms.destroy', $gym) }}" class="inline" onsubmit="return confirm('Delete this gym?')">
+                            <form method="POST" action="{{ route('super.gyms.destroy', $gym) }}" class="inline" onsubmit="return confirm('{{ __('messages.delete_gym_confirm') }}')">
                                 @csrf @method('DELETE')
                                 <button class="ms-3 text-sm font-bold text-rose-600">{{ __('messages.delete') }}</button>
                             </form>

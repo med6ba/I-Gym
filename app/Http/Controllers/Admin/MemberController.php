@@ -19,12 +19,14 @@ class MemberController extends Controller
 
     public function store(GymUserRequest $request): RedirectResponse
     {
-        User::create($request->safe()->merge([
+        $member = User::create($request->safe()->merge([
             'gym_id' => currentGymId(),
             'role' => 'member',
             'language' => app()->getLocale(),
             'theme' => 'light',
         ])->all());
+
+        record_gym_activity(currentGymId(), 'member.created', __('messages.log_member_created', ['member' => $member->name]), $member);
 
         return back()->with('status', __('messages.member_created'));
     }
@@ -40,13 +42,18 @@ class MemberController extends Controller
 
         $member->update($data);
 
+        record_gym_activity(currentGymId(), 'member.updated', __('messages.log_member_updated', ['member' => $member->name]), $member);
+
         return back()->with('status', __('messages.member_updated'));
     }
 
     public function destroy(User $member): RedirectResponse
     {
         $this->authorizeMember($member);
+        $name = $member->name;
         $member->delete();
+
+        record_gym_activity(currentGymId(), 'member.deleted', __('messages.log_member_deleted', ['member' => $name]));
 
         return back()->with('status', __('messages.member_deleted'));
     }

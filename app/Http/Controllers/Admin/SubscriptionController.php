@@ -24,7 +24,11 @@ class SubscriptionController extends Controller
     {
         $data = $request->validated();
         $this->authorizeMember($data['user_id']);
-        Subscription::create($data + ['gym_id' => currentGymId()]);
+        $subscription = Subscription::create($data + ['gym_id' => currentGymId()]);
+
+        record_gym_activity(currentGymId(), 'subscription.created', __('messages.log_subscription_created', [
+            'member' => $subscription->member?->name ?? __('messages.member'),
+        ]), $subscription);
 
         return back()->with('status', __('messages.subscription_created'));
     }
@@ -35,6 +39,10 @@ class SubscriptionController extends Controller
         $data = $request->validated();
         $this->authorizeMember($data['user_id']);
         $subscription->update($data);
+
+        record_gym_activity(currentGymId(), 'subscription.updated', __('messages.log_subscription_updated', [
+            'member' => $subscription->member?->name ?? __('messages.member'),
+        ]), $subscription);
 
         return back()->with('status', __('messages.subscription_updated'));
     }

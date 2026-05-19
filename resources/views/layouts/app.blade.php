@@ -7,7 +7,7 @@
 
         <title>{{ config('app.name', 'I-Gym') }}</title>
         <meta name="theme-color" content="#F59E0B">
-        <meta name="description" content="I-Gym smart fitness SaaS platform">
+        <meta name="description" content="I-Gym smart fitness app">
         <link rel="manifest" href="/manifest.json">
         <link rel="icon" href="/icons/igym-logo.svg" type="image/svg+xml">
 
@@ -23,7 +23,7 @@
         </script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans">
+    <body class="font-sans" data-notification-count="{{ auth()->check() ? igym_unread_notification_count() : 0 }}">
         <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
             <div class="flex min-h-screen">
                 @auth
@@ -34,14 +34,6 @@
                     @auth
                         <x-topbar />
                     @endauth
-
-                    @isset($header)
-                        <header class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-                            <div class="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-                                {{ $header }}
-                            </div>
-                        </header>
-                    @endisset
 
                     <main class="flex-1 pb-24 lg:pb-8">
                         {{ $slot }}

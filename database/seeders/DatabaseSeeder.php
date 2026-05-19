@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'I-Gym Super Admin',
-            'email' => 'super@igym.test',
+            'email' => 'super@igym.com',
             'role' => 'super_admin',
             'gym_id' => null,
             'password' => 'password',
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
         $gyms = collect([
             [
                 'name' => 'Atlas Fitness Club',
-                'email' => 'contact@atlasfitness.test',
+                'email' => 'contact@atlasfitness.com',
                 'phone' => '+212 522 100 100',
                 'address' => '12 Avenue Mohammed V',
                 'city' => 'Casablanca',
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Orange Gym Center',
-                'email' => 'hello@orangegym.test',
+                'email' => 'hello@orangegym.com',
                 'phone' => '+212 537 200 200',
                 'address' => '44 Rue Agdal',
                 'city' => 'Rabat',
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'PowerHouse Rabat',
-                'email' => 'team@powerhouserabat.test',
+                'email' => 'team@powerhouserabat.com',
                 'phone' => '+212 535 300 300',
                 'address' => '7 Boulevard Annakhil',
                 'city' => 'Rabat',
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
         $rooms = ['Studio A', 'Studio B', 'Main Floor', 'Ring', 'Zen Room'];
 
         $gyms->each(function (Gym $gym, int $gymIndex) use ($categories, $rooms): void {
-            $adminEmail = $gymIndex === 0 ? 'admin@igym.test' : 'admin'.($gymIndex + 1).'@igym.test';
+            $adminEmail = $gymIndex === 0 ? 'admin@igym.com' : 'admin'.($gymIndex + 1).'@igym.com';
             $admin = User::create([
                 'gym_id' => $gym->id,
                 'name' => $gym->name.' Admin',
@@ -85,6 +85,20 @@ class DatabaseSeeder extends Seeder
                 'bio' => 'Gym operations lead focused on occupancy, retention, and member experience.',
             ]);
 
+            User::create([
+                'gym_id' => $gym->id,
+                'name' => $gym->name.' Reception',
+                'email' => $gymIndex === 0 ? 'reception@igym.com' : 'reception'.($gymIndex + 1).'@igym.com',
+                'password' => 'password',
+                'role' => 'reception',
+                'phone' => '+212 600 30 40 '.($gymIndex + 1),
+                'status' => 'active',
+                'language' => 'en',
+                'theme' => 'light',
+                'currency' => 'MAD',
+                'bio' => 'Reception account for QR access simulation and gym entry checks.',
+            ]);
+
             $coaches = collect([
                 ['name' => 'Nadia Benali', 'focus' => 'Yoga'],
                 ['name' => 'Youssef El Amrani', 'focus' => 'Strength'],
@@ -93,7 +107,7 @@ class DatabaseSeeder extends Seeder
                 return User::create([
                     'gym_id' => $gym->id,
                     'name' => $coach['name'],
-                    'email' => $gymIndex === 0 && $index === 0 ? 'coach@igym.test' : 'coach'.($gymIndex + 1).($index + 1).'@igym.test',
+                    'email' => $gymIndex === 0 && $index === 0 ? 'coach@igym.com' : 'coach'.($gymIndex + 1).($index + 1).'@igym.com',
                     'password' => 'password',
                     'role' => 'coach',
                     'phone' => '+212 611 '.($gymIndex + 1).$index.' 00 00',
@@ -127,7 +141,7 @@ class DatabaseSeeder extends Seeder
                 return User::create([
                     'gym_id' => $gym->id,
                     'name' => $name,
-                    'email' => $gymIndex === 0 && $index === 0 ? 'member@igym.test' : 'member'.($gymIndex + 1).($index + 1).'@igym.test',
+                    'email' => $gymIndex === 0 && $index === 0 ? 'member@igym.com' : 'member'.($gymIndex + 1).($index + 1).'@igym.com',
                     'password' => 'password',
                     'role' => 'member',
                     'phone' => '+212 622 '.($gymIndex + 1).$index.' 00 00',

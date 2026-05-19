@@ -6,12 +6,13 @@ I-Gym is a Laravel SaaS fitness platform built for the hackathon theme **“I-Gy
 
 ## Main Features
 
-- Four roles: `super_admin`, `gym_admin`, `coach`, `member`
+- Five roles: `super_admin`, `gym_admin`, `coach`, `reception`, `member`
 - Laravel Breeze authentication with role redirects
 - Simple SaaS multi-gym isolation using `gym_id`
 - Super Admin customer gym management and global analytics
 - Gym Admin member, coach, course, subscription, attendance, reservation, and notification tools
 - Coach class attendance, member follow-up, training plans, and progress capture
+- Reception QR access simulation with a fake scanner
 - Member booking, QR code access, reservations, subscription status, progress, and notifications
 - Smart occupancy alerts, no-show tracking, subscription expiration alerts, and simulated AI recommendations
 - Responsive Blade + Tailwind UI with dark/light mode
@@ -73,10 +74,11 @@ All demo accounts use the password:
 password
 ```
 
-- Super Admin: `super@igym.test`
-- Gym Admin: `admin@igym.test`
-- Coach: `coach@igym.test`
-- Member: `member@igym.test`
+- Super Admin: `super@igym.com`
+- Gym Admin: `admin@igym.com`
+- Coach: `coach@igym.com`
+- Reception: `reception@igym.com`
+- Member: `member@igym.com`
 
 ## Roles
 
@@ -86,6 +88,8 @@ password
 
 `coach` sees only assigned courses and can mark attendance, manage plans, and record progress inside their gym.
 
+`reception` simulates front-desk QR scanning and records valid gym access check-ins.
+
 `member` sees only their own bookings, QR code, subscription, progress, and notifications.
 
 ## Route Security
@@ -93,6 +97,7 @@ password
 - `/super/*` requires `auth` and `role:super_admin`.
 - `/admin/*` requires `auth`, `role:gym_admin`, and an active/trial gym workspace.
 - `/coach/*` requires `auth`, `role:coach`, and an active/trial gym workspace.
+- `/reception/*` requires `auth`, `role:reception`, and an active/trial gym workspace.
 - `/member/*` requires `auth`, `role:member`, and an active/trial gym workspace.
 - Tenant route parameters are scoped in `AppServiceProvider`, so `{member}`, `{coach}`, `{course}`, `{reservation}`, `{subscription}`, and `{notification}` resolve only inside the authenticated user’s allowed gym and role context.
 
@@ -109,6 +114,7 @@ Core tables:
 - `notifications`
 - `training_plans`
 - `member_progress`
+- `activity_logs`
 
 Every operational table includes `gym_id`. Super admins are global and have `gym_id = null`.
 

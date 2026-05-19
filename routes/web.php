@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Admin\ActivityLogController as AdminActivityLogController;
 use App\Http\Controllers\Admin\CoachController as AdminCoachController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Member\QrCodeController;
 use App\Http\Controllers\Member\ReservationController as MemberReservationController;
 use App\Http\Controllers\Member\SubscriptionController as MemberSubscriptionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Reception\ScannerController as ReceptionScannerController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Super\AnalyticsController;
 use App\Http\Controllers\Super\GymController;
@@ -77,6 +79,7 @@ Route::middleware(['auth', 'role:gym_admin', 'gym.access'])->prefix('admin')->na
 
     Route::get('/notifications', [AdminNotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications', [AdminNotificationController::class, 'store'])->name('notifications.store');
+    Route::get('/logs', [AdminActivityLogController::class, 'index'])->name('logs.index');
 });
 
 Route::middleware(['auth', 'role:coach', 'gym.access'])->prefix('coach')->name('coach.')->group(function () {
@@ -94,6 +97,7 @@ Route::middleware(['auth', 'role:coach', 'gym.access'])->prefix('coach')->name('
 Route::middleware(['auth', 'role:member', 'gym.access'])->prefix('member')->name('member.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'member'])->name('dashboard');
     Route::get('/qr-code', QrCodeController::class)->name('qr-code');
+    Route::get('/qr-code/code', [QrCodeController::class, 'code'])->name('qr-code.code');
     Route::get('/courses', [MemberCourseController::class, 'index'])->name('courses.index');
     Route::post('/courses/{course}/reserve', [MemberCourseController::class, 'reserve'])->name('courses.reserve');
     Route::get('/reservations', [MemberReservationController::class, 'index'])->name('reservations.index');
@@ -102,6 +106,11 @@ Route::middleware(['auth', 'role:member', 'gym.access'])->prefix('member')->name
     Route::get('/progress', MemberProgressController::class)->name('progress');
     Route::get('/notifications', [MemberNotificationController::class, 'index'])->name('notifications.index');
     Route::patch('/notifications/{notification}/read', [MemberNotificationController::class, 'markRead'])->name('notifications.read');
+});
+
+Route::middleware(['auth', 'role:reception', 'gym.access'])->prefix('reception')->name('reception.')->group(function () {
+    Route::get('/scanner', [ReceptionScannerController::class, 'index'])->name('scanner');
+    Route::post('/scanner', [ReceptionScannerController::class, 'scan'])->name('scanner.scan');
 });
 
 require __DIR__.'/auth.php';

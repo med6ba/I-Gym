@@ -63,12 +63,14 @@ class CourseController extends Controller
             return back()->withErrors(['course' => __('messages.already_reserved')]);
         }
 
-        Reservation::create([
+        $reservation = Reservation::create([
             'gym_id' => $member->gym_id,
             'user_id' => $member->id,
             'course_id' => $course->id,
             'status' => 'reserved',
         ]);
+
+        record_gym_activity($member->gym_id, 'reservation.created', __('messages.log_class_booked', ['course' => $course->title]), $reservation, $member);
 
         return back()->with('status', __('messages.class_booked'));
     }

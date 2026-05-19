@@ -46,8 +46,8 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            new Chart(document.getElementById('attendanceChart'), { type: 'line', data: { labels: @json($attendanceChart['labels']), datasets: [{ label: 'Check-ins', data: @json($attendanceChart['data']), borderColor: '#F59E0B', backgroundColor: 'rgba(245,158,11,.15)', fill: true, tension: .35 }] }, options: { responsive: true, maintainAspectRatio: false } });
-            new Chart(document.getElementById('popularChart'), { type: 'bar', data: { labels: @json($popularClassesChart['labels']), datasets: [{ data: @json($popularClassesChart['data']), backgroundColor: '#FB923C' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            window.igymChart('attendanceChart', { type: 'line', data: { labels: @json($attendanceChart['labels']), datasets: [{ label: @js(__('messages.check_ins')), data: @json($attendanceChart['data']), borderColor: '#F59E0B', backgroundColor: 'rgba(245,158,11,.15)', fill: true, tension: .35 }] } });
+            window.igymChart('popularChart', { type: 'bar', data: { labels: @json($popularClassesChart['labels']), datasets: [{ data: @json($popularClassesChart['data']), backgroundColor: '#FB923C', borderRadius: 8 }] }, options: { plugins: { legend: { display: false } } } });
         });
     </script>
 </x-app-layout>

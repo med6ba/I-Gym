@@ -30,7 +30,7 @@
     </div>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            new Chart(document.getElementById('progressChart'), { type: 'line', data: { labels: @json($progressChart['labels']), datasets: [{ label: 'Weight', data: @json($progressChart['data']), borderColor: '#F59E0B', backgroundColor: 'rgba(245,158,11,.15)', fill: true, tension: .35 }] }, options: { responsive: true, maintainAspectRatio: false } });
+            window.igymChart('progressChart', { type: 'line', data: { labels: @json($progressChart['labels']), datasets: [{ label: @js(__('messages.weight')), data: @json($progressChart['data']), borderColor: '#F59E0B', backgroundColor: 'rgba(245,158,11,.15)', fill: true, tension: .35 }] } });
         });
     </script>
 </x-app-layout>
