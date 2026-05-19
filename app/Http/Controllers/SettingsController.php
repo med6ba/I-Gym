@@ -10,6 +10,11 @@ use Illuminate\View\View;
 
 class SettingsController extends Controller
 {
+    public function index(): View
+    {
+        return view('settings.index');
+    }
+
     public function language(): View
     {
         return view('settings.language');
@@ -55,5 +60,29 @@ class SettingsController extends Controller
         }
 
         return back()->with('status', __('messages.settings_saved'));
+    }
+
+    public function save(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validated = $request->validate([
+            'language' => ['required', Rule::in(['en', 'fr', 'es', 'ar'])],
+            'theme' => ['required', Rule::in(['light', 'dark', 'system'])],
+        ]);
+
+        App::setLocale($validated['language']);
+        $request->session()->put('locale', $validated['language']);
+
+        if ($request->user()) {
+            $request->user()->update([
+                'language' => $validated['language'],
+                'theme' => $validated['theme'],
+            ]);
+        }
+
+        return response()->json([
+            'status' => __('messages.settings_saved'),
+            'language' => $validated['language'],
+            'theme' => $validated['theme'],
+        ])->withCookie(cookie()->forever('igym_locale', $validated['language']));
     }
 }

@@ -32,7 +32,7 @@ if (! function_exists('igym_navigation_items')) {
             return [];
         }
 
-        return match ($user->role) {
+        $items = match ($user->role) {
             'super_admin' => [
                 ['label' => __('messages.dashboard'), 'route' => 'super.dashboard', 'active' => 'super.dashboard', 'icon' => 'dashboard'],
                 ['label' => __('messages.gyms'), 'route' => 'super.gyms.index', 'active' => 'super.gyms.*', 'icon' => 'building'],
@@ -60,7 +60,6 @@ if (! function_exists('igym_navigation_items')) {
             ],
             default => [
                 ['label' => __('messages.dashboard'), 'route' => 'member.dashboard', 'active' => 'member.dashboard', 'icon' => 'dashboard'],
-                ['label' => __('messages.qr_code'), 'route' => 'member.qr-code', 'active' => 'member.qr-code', 'icon' => 'qr'],
                 ['label' => __('messages.courses'), 'route' => 'member.courses.index', 'active' => 'member.courses.*', 'icon' => 'calendar'],
                 ['label' => __('messages.reservations'), 'route' => 'member.reservations.index', 'active' => 'member.reservations.*', 'icon' => 'attendance'],
                 ['label' => __('messages.subscription'), 'route' => 'member.subscription', 'active' => 'member.subscription', 'icon' => 'credit-card'],
@@ -68,6 +67,10 @@ if (! function_exists('igym_navigation_items')) {
                 ['label' => __('messages.notifications'), 'route' => 'member.notifications.index', 'active' => 'member.notifications.*', 'icon' => 'bell'],
             ],
         };
+
+        $items[] = ['label' => __('messages.settings'), 'route' => 'settings.index', 'active' => 'settings.*', 'icon' => 'settings'];
+
+        return $items;
     }
 }
 
@@ -78,12 +81,8 @@ if (! function_exists('igym_current_page_title')) {
             return __('messages.profile');
         }
 
-        if (request()->routeIs('settings.language')) {
-            return __('messages.language');
-        }
-
-        if (request()->routeIs('settings.theme')) {
-            return __('messages.theme');
+        if (request()->routeIs('settings.*')) {
+            return __('messages.settings');
         }
 
         foreach (igym_navigation_items($user) as $item) {
@@ -189,7 +188,7 @@ if (! function_exists('status_badge_class')) {
     {
         return match ($status) {
             'active', 'paid', 'attended', 'success', 'scheduled' => 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800',
-            'qr', 'manual' => 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-300 dark:border-violet-800',
+            'qr' => 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-300 dark:border-violet-800',
             'trial', 'reserved', 'info' => 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-300 dark:border-sky-800',
             'expired', 'cancelled', 'danger', 'no_show', 'inactive' => 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800',
             'warning', 'unpaid', 'suspended' => 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800',

@@ -13,7 +13,7 @@ class RecordAttendance
     /**
      * @throws AuthorizationException
      */
-    public function handle(User $actor, User $member, ?Course $course, string $method = 'manual'): Attendance
+    public function handle(User $actor, User $member, ?Course $course, string $method = 'qr'): Attendance
     {
         if ($member->role !== 'member' || $member->gym_id !== $actor->gym_id) {
             throw new AuthorizationException('Member does not belong to this gym.');

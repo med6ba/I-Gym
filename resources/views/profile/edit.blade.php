@@ -1,20 +1,8 @@
 @php
-    $languageOptions = [
-        'en' => 'English',
-        'fr' => 'Français',
-        'es' => 'Español',
-        'ar' => 'العربية',
-    ];
-    $themeOptions = [
-        'light' => __('messages.light'),
-        'dark' => __('messages.dark'),
-        'system' => __('messages.system'),
-    ];
     $currencyOptions = [
         'MAD' => 'MAD',
         'USD' => 'USD',
         'EUR' => 'EUR',
-        'GBP' => 'GBP',
     ];
     $genderOptions = [
         'female' => __('messages.female'),
@@ -43,7 +31,6 @@
     <div
         class="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8"
         x-data="{
-            editing: {{ $errors->getBag('default')->isNotEmpty() ? 'true' : 'false' }},
             passwordOpen: {{ $errors->updatePassword->isNotEmpty() ? 'true' : 'false' }},
             dangerOpen: {{ $errors->userDeletion->isNotEmpty() ? 'true' : 'false' }}
         }"
@@ -54,12 +41,12 @@
 
         <div class="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
             <section class="igym-card overflow-hidden">
-                <div class="bg-slate-950 px-6 py-8 text-white">
+                <div class="bg-white px-6 py-8 text-slate-950 dark:bg-slate-950 dark:text-white">
                     <div class="flex items-center gap-4">
-                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="size-24 rounded-2xl border-4 border-white/15 object-cover shadow-xl shadow-slate-950/30">
+                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="size-24 rounded-2xl border-4 border-slate-200 object-cover shadow-xl shadow-slate-950/10 dark:border-white/15 dark:shadow-slate-950/30">
                         <div class="min-w-0">
                             <p class="truncate text-2xl font-black">{{ $user->name }}</p>
-                            <p class="mt-1 truncate text-sm font-semibold text-slate-300">{{ $user->email }}</p>
+                            <p class="mt-1 truncate text-sm font-semibold text-slate-500 dark:text-slate-300">{{ $user->email }}</p>
                             <div class="mt-3 flex flex-wrap gap-2">
                                 <x-badge status="info">{{ __('messages.'.$user->role) }}</x-badge>
                                 <x-badge :status="$user->status" />
@@ -72,14 +59,6 @@
                     <div>
                         <p class="text-xs font-black uppercase text-slate-400">{{ __('messages.account_preferences') }}</p>
                         <div class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                            <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
-                                <p class="text-xs font-bold text-slate-500">{{ __('messages.language') }}</p>
-                                <p class="mt-1 font-black text-slate-950 dark:text-white">{{ $languageOptions[$user->language] ?? strtoupper($user->language) }}</p>
-                            </div>
-                            <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
-                                <p class="text-xs font-bold text-slate-500">{{ __('messages.theme') }}</p>
-                                <p class="mt-1 font-black text-slate-950 dark:text-white">{{ $themeOptions[$user->theme] ?? __('messages.light') }}</p>
-                            </div>
                             <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
                                 <p class="text-xs font-bold text-slate-500">{{ __('messages.currency') }}</p>
                                 <p class="mt-1 font-black text-slate-950 dark:text-white">{{ $user->currency ?? 'MAD' }}</p>
@@ -114,13 +93,13 @@
                             <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.personal_information') }}</h3>
                             <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ __('messages.profile_locked_hint') }}</p>
                         </div>
-                        <button type="button" x-on:click="editing = ! editing" class="igym-focus inline-flex items-center gap-2 rounded-lg border border-amber-500 bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 transition hover:border-amber-400 hover:bg-amber-400">
+                        <button type="button" x-on:click="$dispatch('open-modal', 'edit-profile')" class="igym-focus inline-flex items-center gap-2 rounded-lg border border-amber-500 bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 transition hover:border-amber-400 hover:bg-amber-400">
                             <x-icon name="edit" size="17" />
-                            <span x-text="editing ? @js(__('messages.cancel')) : @js(__('messages.edit_profile'))"></span>
+                            {{ __('messages.edit_profile') }}
                         </button>
                     </div>
 
-                    <div x-show="! editing" x-transition class="mt-6 grid gap-4 md:grid-cols-2">
+                    <div class="mt-6 grid gap-4 md:grid-cols-2">
                         <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800">
                             <p class="text-xs font-bold text-slate-500">{{ __('messages.phone') }}</p>
                             <p class="mt-1 font-semibold text-slate-950 dark:text-white">{{ $user->phone ?: __('messages.not_set') }}</p>
@@ -143,7 +122,12 @@
                         </div>
                     </div>
 
-                    <div x-cloak x-show="editing" x-transition class="mt-6">
+                    <x-modal name="edit-profile" :show="$errors->getBag('default')->isNotEmpty()" maxWidth="2xl">
+                        <div class="mb-5">
+                            <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.edit_profile') }}</h3>
+                            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ __('messages.personal_information') }}</p>
+                        </div>
+
                         <form id="send-verification" method="post" action="{{ route('verification.send') }}">
                             @csrf
                         </form>
@@ -159,6 +143,12 @@
                                         <x-input-label for="avatar" :value="__('messages.profile_photo')" />
                                         <input id="avatar" name="avatar" type="file" accept="image/jpeg,image/png,image/webp" class="mt-2 block w-full text-sm text-slate-600 file:me-4 file:rounded-lg file:border-0 file:bg-amber-500 file:px-4 file:py-2 file:text-sm file:font-black file:text-slate-950 hover:file:bg-amber-400 dark:text-slate-300" />
                                         <p class="mt-2 text-xs text-slate-500">{{ __('messages.upload_avatar_help') }}</p>
+                                        @if ($user->avatar)
+                                            <label class="mt-2 inline-flex items-center gap-2 text-sm text-rose-600 dark:text-rose-400">
+                                                <input type="checkbox" name="remove_avatar" value="1" class="rounded border-slate-300 text-rose-500 focus:ring-rose-400 dark:border-slate-600 dark:bg-slate-900">
+                                                {{ __('messages.remove_avatar') }}
+                                            </label>
+                                        @endif
                                         <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
                                     </div>
                                 </div>
@@ -167,19 +157,19 @@
                             <div class="grid gap-4 md:grid-cols-2">
                                 <div>
                                     <x-input-label for="name" :value="__('messages.name')" />
-                                    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autocomplete="name" />
+                                    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" placeholder="Sarah Johnson" required autocomplete="name" />
                                     <x-input-error class="mt-2" :messages="$errors->get('name')" />
                                 </div>
 
                                 <div>
                                     <x-input-label for="email" :value="__('messages.email')" />
-                                    <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+                                    <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" placeholder="member@example.com" required autocomplete="username" />
                                     <x-input-error class="mt-2" :messages="$errors->get('email')" />
                                 </div>
 
                                 <div>
                                     <x-input-label for="phone" :value="__('messages.phone')" />
-                                    <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="tel" />
+                                    <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" placeholder="+212 600 000 000" autocomplete="tel" />
                                     <x-input-error class="mt-2" :messages="$errors->get('phone')" />
                                 </div>
 
@@ -195,27 +185,7 @@
                                 </div>
                             </div>
 
-                            <div class="grid gap-4 md:grid-cols-3">
-                                <div>
-                                    <x-input-label for="language" :value="__('messages.language')" />
-                                    <select id="language" name="language" class="mt-1 block w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 focus:border-amber-500 focus:ring-amber-500">
-                                        @foreach($languageOptions as $value => $label)
-                                            <option value="{{ $value }}" @selected(old('language', $user->language) === $value)>{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                    <x-input-error class="mt-2" :messages="$errors->get('language')" />
-                                </div>
-
-                                <div>
-                                    <x-input-label for="theme" :value="__('messages.theme')" />
-                                    <select id="theme" name="theme" class="mt-1 block w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 focus:border-amber-500 focus:ring-amber-500">
-                                        @foreach($themeOptions as $value => $label)
-                                            <option value="{{ $value }}" @selected(old('theme', $user->theme) === $value)>{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                    <x-input-error class="mt-2" :messages="$errors->get('theme')" />
-                                </div>
-
+                            <div class="grid gap-4 md:grid-cols-1">
                                 <div>
                                     <x-input-label for="currency" :value="__('messages.currency')" />
                                     <select id="currency" name="currency" class="mt-1 block w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 focus:border-amber-500 focus:ring-amber-500">
@@ -237,19 +207,19 @@
                                 <div class="mt-4 grid gap-4 md:grid-cols-4">
                                     <div>
                                         <x-input-label for="age" :value="__('messages.age')" />
-                                        <x-text-input id="age" name="age" type="number" min="10" max="100" class="mt-1 block w-full" :value="old('age', $user->age)" />
+                                        <x-text-input id="age" name="age" type="number" min="10" max="100" class="mt-1 block w-full" :value="old('age', $user->age)" placeholder="29" />
                                         <x-input-error class="mt-2" :messages="$errors->get('age')" />
                                     </div>
 
                                     <div>
                                         <x-input-label for="height_cm" :value="__('messages.height')" />
-                                        <x-text-input id="height_cm" name="height_cm" type="number" min="80" max="260" step="0.1" class="mt-1 block w-full" :value="old('height_cm', $user->height_cm)" />
+                                        <x-text-input id="height_cm" name="height_cm" type="number" min="80" max="260" step="0.1" class="mt-1 block w-full" :value="old('height_cm', $user->height_cm)" placeholder="175" />
                                         <x-input-error class="mt-2" :messages="$errors->get('height_cm')" />
                                     </div>
 
                                     <div>
                                         <x-input-label for="weight_kg" :value="__('messages.weight')" />
-                                        <x-text-input id="weight_kg" name="weight_kg" type="number" min="25" max="350" step="0.1" class="mt-1 block w-full" :value="old('weight_kg', $user->weight_kg)" />
+                                        <x-text-input id="weight_kg" name="weight_kg" type="number" min="25" max="350" step="0.1" class="mt-1 block w-full" :value="old('weight_kg', $user->weight_kg)" placeholder="72.5" />
                                         <x-input-error class="mt-2" :messages="$errors->get('weight_kg')" />
                                     </div>
 
@@ -268,7 +238,7 @@
 
                             <div>
                                 <x-input-label for="bio" :value="__('messages.bio')" />
-                                <textarea id="bio" name="bio" rows="4" class="mt-1 block w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 focus:border-amber-500 focus:ring-amber-500">{{ old('bio', $user->bio) }}</textarea>
+                                <textarea id="bio" name="bio" rows="4" placeholder="A short note about your training preferences" class="mt-1 block w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 focus:border-amber-500 focus:ring-amber-500">{{ old('bio', $user->bio) }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('bio')" />
                             </div>
 
@@ -284,7 +254,7 @@
                             @endif
 
                             <div class="flex flex-wrap items-center justify-end gap-3">
-                                <button type="button" x-on:click="editing = false" class="igym-focus rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30">
+                                <button type="button" x-on:click="$dispatch('close-modal', 'edit-profile')" class="igym-focus rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30">
                                     {{ __('messages.cancel') }}
                                 </button>
                                 <button class="igym-focus inline-flex items-center gap-2 rounded-lg border border-amber-500 bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 transition hover:border-amber-400 hover:bg-amber-400">
@@ -293,7 +263,7 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
+                    </x-modal>
                 </div>
 
                 <div class="igym-card p-5 sm:p-6">

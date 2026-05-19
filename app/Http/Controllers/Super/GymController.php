@@ -30,7 +30,13 @@ class GymController extends Controller
         $data = $request->validated();
         $admin = $this->pullAdminData($data);
 
-        $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
+        $baseSlug = Str::slug($data['name']);
+        $slug = $baseSlug;
+        $counter = 1;
+        while (Gym::where('slug', $slug)->exists()) {
+            $slug = $baseSlug.'-'.$counter++;
+        }
+        $data['slug'] = $slug;
 
         DB::transaction(function () use ($data, $admin): void {
             $gym = Gym::create($data);
@@ -51,7 +57,10 @@ class GymController extends Controller
     {
         $data = $request->validated();
         $admin = $this->pullAdminData($data);
-        $data['slug'] = $data['slug'] ?: Str::slug($data['name']);
+
+        if (blank($data['slug'] ?? null)) {
+            $data['slug'] = $gym->slug;
+        }
 
         DB::transaction(function () use ($gym, $data, $admin): void {
             $gym->update($data);

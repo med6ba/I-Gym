@@ -21,7 +21,7 @@
     class="fixed inset-0 z-50 grid place-items-center bg-slate-950/70 p-4 backdrop-blur-sm"
     style="display: none;"
 >
-    <div x-show="open" x-transition.scale.origin.center x-on:click.outside="open = false" {{ $attributes->merge(['class' => 'w-full '.$maxWidthClass.' rounded-xl border border-slate-200 bg-white p-5 shadow-2xl shadow-slate-950/20 dark:border-slate-800 dark:bg-slate-900']) }}>
+    <div x-show="open" x-transition.scale.origin.center x-on:click.outside="open = false" {{ $attributes->merge(['class' => 'max-h-[calc(100vh-2rem)] w-full overflow-y-auto '.$maxWidthClass.' rounded-xl border border-slate-200 bg-white p-5 shadow-2xl shadow-slate-950/20 dark:border-slate-800 dark:bg-slate-900']) }}>
         {{ $slot }}
     </div>
 </div>

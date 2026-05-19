@@ -12,7 +12,7 @@
 
         <div>
             <x-input-label for="email" :value="__('messages.email')" />
-            <x-text-input id="email" class="mt-1 block w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-text-input id="email" class="mt-1 block w-full" type="email" name="email" :value="old('email')" placeholder="member@example.com" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -22,6 +22,7 @@
             <x-text-input id="password" class="mt-1 block w-full"
                             type="password"
                             name="password"
+                            placeholder="{{ __('messages.password') }}"
                             required autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -39,6 +40,7 @@
         <p class="mt-2">super@igym.com / password</p>
         <p>admin@igym.com / password</p>
         <p>coach@igym.com / password</p>
+        <p>reception@igym.com / password</p>
         <p>member@igym.com / password</p>
     </div>
 </x-guest-layout>

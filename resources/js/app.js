@@ -116,6 +116,7 @@ document.addEventListener('change', (event) => {
 
             if (replacement) {
                 target.innerHTML = replacement.innerHTML;
+                window.Alpine?.initTree(target);
                 window.history.replaceState({}, '', url);
             }
         })
@@ -158,6 +159,7 @@ document.addEventListener('click', (event) => {
 
             if (replacement) {
                 target.innerHTML = replacement.innerHTML;
+                window.Alpine?.initTree(target);
                 window.history.replaceState({}, '', link.href);
             }
         })

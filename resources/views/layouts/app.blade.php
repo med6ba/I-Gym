@@ -24,16 +24,22 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans" data-notification-count="{{ auth()->check() ? igym_unread_notification_count() : 0 }}">
-        <div class="min-h-screen bg-slate-50 dark:bg-slate-950">
+        <div x-data class="min-h-screen bg-slate-50 dark:bg-slate-950">
             <div class="flex min-h-screen">
                 @auth
                     <x-sidebar />
                 @endauth
 
-                <div class="flex min-w-0 flex-1 flex-col">
+                <div class="flex min-w-0 flex-1 flex-col lg:ms-72">
                     @auth
                         <x-topbar />
                     @endauth
+
+                    @isset($header)
+                        <div class="border-b border-slate-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    @endisset
 
                     <main class="flex-1 pb-24 lg:pb-8">
                         {{ $slot }}

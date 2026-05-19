@@ -97,6 +97,20 @@ class DatabaseSeeder extends Seeder
                 'bio' => 'Gym operations lead focused on occupancy, retention, and member experience.',
             ]);
 
+            User::create([
+                'gym_id' => $gym->id,
+                'name' => $gymIndex === 0 ? 'Samir Reception' : 'Reception '.($gymIndex + 1).' '.$gym->name,
+                'email' => $gymIndex === 0 ? 'reception@igym.com' : 'reception'.($gymIndex + 1).'@igym.com',
+                'password' => 'password',
+                'role' => 'reception',
+                'phone' => '+212 612 00 00 '.($gymIndex + 1),
+                'status' => 'active',
+                'language' => 'en',
+                'theme' => 'light',
+                'currency' => 'MAD',
+                'bio' => 'Front desk receptionist managing NFC bracelet check-ins.',
+            ]);
+
             $coaches = collect([
                 ['name' => 'Nadia Benali', 'focus' => 'Yoga'],
                 ['name' => 'Youssef El Amrani', 'focus' => 'Strength'],
@@ -220,7 +234,7 @@ class DatabaseSeeder extends Seeder
                             'course_id' => $course->id,
                             'checked_in_by' => $course->coach_id,
                             'check_in_time' => Carbon::parse($course->starts_at)->addMinutes(5),
-                            'method' => $memberIndex % 2 === 0 ? 'qr' : 'manual',
+                            'method' => 'qr',
                         ]);
                     }
                 });

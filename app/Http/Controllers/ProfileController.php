@@ -38,6 +38,11 @@ class ProfileController extends Controller
             }
 
             $validated['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        } elseif ($request->boolean('remove_avatar')) {
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $validated['avatar'] = null;
         } else {
             unset($validated['avatar']);
         }
@@ -49,7 +54,6 @@ class ProfileController extends Controller
         }
 
         $user->save();
-        $request->session()->put('locale', $user->language);
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

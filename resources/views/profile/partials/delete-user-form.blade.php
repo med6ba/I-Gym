@@ -12,7 +12,11 @@
     <x-danger-button
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('messages.delete_account') }}</x-danger-button>
+        class="gap-2"
+    >
+        <x-icon name="trash" size="16" />
+        {{ __('messages.delete_account') }}
+    </x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
         <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
@@ -28,7 +32,7 @@
             </p>
 
             <div class="mt-6">
-                <x-input-label for="password" value="{{ __('messages.password') }}" class="sr-only" />
+                <x-input-label for="password" value="{{ __('messages.password') }}" />
 
                 <x-text-input
                     id="password"
@@ -46,7 +50,8 @@
                     {{ __('messages.cancel') }}
                 </x-secondary-button>
 
-                <x-danger-button class="ms-3">
+                <x-danger-button class="ms-3 gap-2">
+                    <x-icon name="trash" size="16" />
                     {{ __('messages.delete_account') }}
                 </x-danger-button>
             </div>

@@ -44,7 +44,7 @@
                         <div x-cloak x-show="product" x-transition class="absolute start-0 mt-3 w-80 rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl shadow-slate-950/10 dark:border-white/10 dark:bg-slate-950 dark:shadow-slate-950/40">
                             @foreach([
                                 ['icon' => 'dashboard', 'title' => __('messages.role_dashboards'), 'text' => __('messages.role_dashboards_text')],
-                                ['icon' => 'qr', 'title' => __('messages.qr_access'), 'text' => __('messages.qr_access_text')],
+                                ['icon' => 'nfc', 'title' => __('messages.nfc_access'), 'text' => __('messages.nfc_access_text')],
                                 ['icon' => 'sparkles', 'title' => __('messages.smart_insights'), 'text' => __('messages.smart_insights_text')],
                             ] as $item)
                                 <div class="group flex gap-3 rounded-xl p-3 text-slate-700 transition hover:bg-amber-50 dark:text-slate-200 dark:hover:bg-white/10">
@@ -147,7 +147,7 @@
                     @foreach([
                         ['icon' => 'building', 'value' => '3+', 'label' => __('messages.customer_gyms')],
                         ['icon' => 'users', 'value' => '4', 'label' => __('messages.secure_roles')],
-                        ['icon' => 'qr', 'value' => 'QR', 'label' => __('messages.access_simulation')],
+                        ['icon' => 'nfc', 'value' => 'NFC', 'label' => __('messages.access_simulation')],
                         ['icon' => 'sparkles', 'value' => 'AI', 'label' => __('messages.recommendations')],
                     ] as $stat)
                         <div class="flex items-center gap-3 rounded-xl border border-slate-100 p-4 dark:border-slate-800">
@@ -168,7 +168,7 @@
                         @foreach([
                             ['icon' => 'dashboard', 'title' => __('messages.intelligent_dashboards'), 'text' => __('messages.intelligent_dashboards_text')],
                             ['icon' => 'calendar', 'title' => __('messages.smart_bookings'), 'text' => __('messages.smart_bookings_text')],
-                            ['icon' => 'qr', 'title' => __('messages.qr_access'), 'text' => __('messages.qr_access_feature_text')],
+                            ['icon' => 'nfc', 'title' => __('messages.nfc_access'), 'text' => __('messages.nfc_access_feature_text')],
                             ['icon' => 'activity', 'title' => __('messages.progress_tracking'), 'text' => __('messages.progress_tracking_text')],
                         ] as $feature)
                             <div class="rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-1 hover:border-amber-300 dark:border-slate-800 dark:bg-slate-900">
@@ -186,12 +186,12 @@
                     <div>
                         <p class="text-sm font-black uppercase text-amber-600">{{ __('messages.workflow') }}</p>
                         <h2 class="mt-3 text-3xl font-black tracking-normal sm:text-4xl">{{ __('messages.workflow_title') }}</h2>
-                        <p class="mt-4 leading-7 text-slate-600 dark:text-slate-400">{{ __('messages.workflow_text') }}</p>
+                        <p class="mt-4 leading-7 text-slate-600 dark:text-slate-400">{{ __('messages.workflow_text_nfc') }}</p>
                     </div>
                     <div class="grid gap-3">
                         @foreach([
                             ['icon' => 'calendar', 'title' => __('messages.book_class'), 'text' => __('messages.super_admin_text')],
-                            ['icon' => 'qr', 'title' => __('messages.qr_code'), 'text' => __('messages.gym_admin_text')],
+                            ['icon' => 'nfc', 'title' => __('messages.nfc_access'), 'text' => __('messages.gym_admin_text')],
                             ['icon' => 'coach', 'title' => __('messages.training_plans'), 'text' => __('messages.coach_text')],
                             ['icon' => 'activity', 'title' => __('messages.progress'), 'text' => __('messages.member_text')],
                         ] as $role)
@@ -245,7 +245,7 @@
                         @foreach([
                             [__('messages.dashboard'), __('messages.demo_super_text')],
                             [__('messages.courses'), __('messages.demo_admin_text')],
-                            [__('messages.qr_code'), __('messages.demo_member_text')],
+                            [__('messages.nfc_access'), __('messages.demo_member_text')],
                             [__('messages.progress'), __('messages.demo_coach_text')],
                         ] as $step)
                             <div class="rounded-2xl border border-amber-200 bg-white p-5 dark:border-white/10 dark:bg-white/5">

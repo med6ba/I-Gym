@@ -37,10 +37,9 @@ class DashboardController extends Controller
             'trialGyms' => Gym::where('status', 'trial')->count(),
             'expiredGyms' => Gym::where('status', 'expired')->count(),
             'totalAdmins' => User::role('gym_admin')->count(),
-            'totalUsers' => User::where('role', '!=', 'super_admin')->count(),
             'monthlyRevenue' => (Gym::where('status', 'active')->count() * 249) + (Gym::where('subscription_plan', 'business')->count() * 179),
             'recentGyms' => Gym::with('primaryAdmin')->latest()->take(5)->get(),
-            'adminAccounts' => User::role('gym_admin')->with('gym')->latest()->get(),
+            'adminAccounts' => User::role('gym_admin')->with('gym.primaryAdmin')->latest()->get(),
             'growthChart' => ['labels' => $growthLabels, 'data' => $growthData],
             'statusChart' => ['labels' => $statusChart->keys(), 'data' => $statusChart->values()],
         ]);

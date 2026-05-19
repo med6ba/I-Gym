@@ -5,23 +5,33 @@
                 <p class="text-sm font-bold uppercase text-amber-600">{{ __('messages.saas_command_center') }}</p>
                 <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.dashboard') }}</h2>
             </div>
-            <a href="{{ route('super.admins.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">
+            <button type="button" x-on:click="$dispatch('open-modal', 'add-gym')" class="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">
                 <x-icon name="plus" size="17" />
                 {{ __('messages.add_admin_with_gym') }}
-            </a>
+            </button>
         </div>
     </x-slot>
 
     <div class="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif
+        @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
 
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-6">
+        <x-modal name="add-gym" :show="old('_modal') === 'add-gym'" maxWidth="2xl">
+            <form method="POST" action="{{ route('super.gyms.store') }}" class="space-y-5">
+                <div>
+                    <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.add_admin_with_gym') }}</h3>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ __('messages.gyms') }}</p>
+                </div>
+                @include('super.gyms._form', ['gym' => new \App\Models\Gym, 'inModal' => true, 'modalName' => 'add-gym'])
+            </form>
+        </x-modal>
+
+        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
             <x-stat-card :label="__('messages.gyms')" :value="$totalGyms" />
             <x-stat-card :label="__('messages.active_gyms')" :value="$activeGyms" />
             <x-stat-card :label="__('messages.trial_gyms')" :value="$trialGyms" />
             <x-stat-card :label="__('messages.expired_gyms')" :value="$expiredGyms" />
             <x-stat-card :label="__('messages.admin_accounts')" :value="$totalAdmins" />
-            <x-stat-card :label="__('messages.platform_users')" :value="$totalUsers" />
         </div>
 
         <div class="grid gap-6 lg:grid-cols-2">
@@ -76,7 +86,22 @@
                                 <td class="px-3 py-3"><x-badge :status="$admin->status" /></td>
                                 <td class="px-3 py-3 text-end">
                                     @if($admin->gym)
-                                        <a href="{{ route('super.gyms.edit', $admin->gym) }}" class="text-sm font-bold text-amber-600 hover:text-amber-500">{{ __('messages.edit') }}</a>
+                                        @php($editModal = 'edit-dashboard-gym-'.$admin->gym->id)
+                                        <button type="button" class="igym-action igym-action-edit" x-on:click="$dispatch('open-modal', '{{ $editModal }}')" title="{{ __('messages.edit') }}">
+                                            <x-icon name="edit" size="16" />
+                                            {{ __('messages.edit') }}
+                                        </button>
+
+                                        <x-modal name="{{ $editModal }}" :show="old('_modal') === $editModal" maxWidth="2xl">
+                                            <form method="POST" action="{{ route('super.gyms.update', $admin->gym) }}" class="space-y-5">
+                                                @method('PATCH')
+                                                <div>
+                                                    <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.edit_gym', ['name' => $admin->gym->name]) }}</h3>
+                                                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $admin->gym->email }}</p>
+                                                </div>
+                                                @include('super.gyms._form', ['gym' => $admin->gym, 'inModal' => true, 'modalName' => $editModal])
+                                            </form>
+                                        </x-modal>
                                     @endif
                                 </td>
                             </tr>

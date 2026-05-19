@@ -25,6 +25,30 @@
         @apply rounded-xl border border-slate-200 bg-white transition dark:border-slate-800 dark:bg-slate-900;
     }
 
+    .igym-field {
+        @apply space-y-1.5;
+    }
+
+    .igym-label {
+        @apply block text-sm font-bold text-slate-700 dark:text-slate-300;
+    }
+
+    .igym-input {
+        @apply w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 focus:border-amber-500 focus:ring-amber-500;
+    }
+
+    .igym-action {
+        @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-bold transition focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950;
+    }
+
+    .igym-action-edit {
+        @apply text-amber-700 hover:bg-amber-50 dark:text-amber-300 dark:hover:bg-amber-950/30;
+    }
+
+    .igym-action-danger {
+        @apply text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950/30;
+    }
+
     .igym-hover {
         @apply hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50/40 dark:hover:border-amber-700 dark:hover:bg-amber-950/20;
     }

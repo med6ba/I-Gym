@@ -116,6 +116,15 @@
         @case('key')
             <circle cx="7.5" cy="15.5" r="4.5" /><path d="M11 12 21 2" /><path d="m15 6 3 3" /><path d="m17 4 3 3" />
             @break
+        @case('alert')
+            <path d="M12 9v4M12 17h.01" /><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+            @break
+        @case('x')
+            <path d="M18 6 6 18M6 6l12 12" />
+            @break
+        @case('nfc')
+            <path d="M6 8v8" /><path d="M8 6h8" /><path d="M8 18h8" /><path d="M18 8v8" /><path d="M12 10v4" /><path d="M10 12h4" />
+            @break
         @default
             <circle cx="12" cy="12" r="10" />
     @endswitch

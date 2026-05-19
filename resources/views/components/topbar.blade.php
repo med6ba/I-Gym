@@ -5,12 +5,11 @@
     $unreadNotifications = igym_unread_notification_count($user);
     $quickActions = match ($user->role) {
         'super_admin' => [
-            ['label' => __('messages.add_admin_with_gym'), 'route' => 'super.admins.create', 'icon' => 'plus'],
             ['label' => __('messages.manage_gyms_admins'), 'route' => 'super.gyms.index', 'icon' => 'building'],
         ],
         'gym_admin' => [
             ['label' => __('messages.create_course'), 'route' => 'admin.courses.index', 'icon' => 'calendar'],
-            ['label' => __('messages.scan_qr_access'), 'route' => 'admin.attendance.index', 'icon' => 'qr'],
+            ['label' => __('messages.attendance'), 'route' => 'admin.attendance.index', 'icon' => 'qr'],
             ['label' => __('messages.notifications'), 'route' => 'admin.notifications.index', 'icon' => 'bell'],
         ],
         'coach' => [
@@ -23,7 +22,6 @@
         ],
         default => [
             ['label' => __('messages.book_class'), 'route' => 'member.courses.index', 'icon' => 'calendar'],
-            ['label' => __('messages.qr_code'), 'route' => 'member.qr-code', 'icon' => 'qr'],
             ['label' => __('messages.subscription'), 'route' => 'member.subscription', 'icon' => 'credit-card'],
         ],
     };
@@ -54,19 +52,19 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <x-language-switcher />
-                <x-theme-toggle />
-            </div>
-
-            @if($notificationRoute)
-                <a href="{{ $notificationRoute }}" class="igym-focus relative grid size-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30" title="{{ __('messages.notifications') }}">
-                    <x-icon name="inbox" size="18" />
-                    @if($unreadNotifications > 0)
-                        <span class="absolute -end-1 -top-1 flex size-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-black text-white ring-2 ring-white dark:ring-slate-900">{{ $unreadNotifications }}</span>
-                        <span class="absolute end-1 top-1 size-2 rounded-full bg-rose-500 ring-2 ring-white motion-safe:animate-ping dark:ring-slate-900"></span>
-                    @endif
+                @if($notificationRoute)
+                    <a href="{{ $notificationRoute }}" class="igym-focus relative grid size-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30" title="{{ __('messages.notifications') }}">
+                        <x-icon name="inbox" size="18" />
+                        @if($unreadNotifications > 0)
+                            <span class="absolute -end-1 -top-1 flex size-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-black text-white ring-2 ring-white dark:ring-slate-900">{{ $unreadNotifications }}</span>
+                            <span class="absolute end-1 top-1 size-2 rounded-full bg-rose-500 ring-2 ring-white motion-safe:animate-ping dark:ring-slate-900"></span>
+                        @endif
+                    </a>
+                @endif
+                <a href="{{ route('settings.index') }}" class="igym-focus grid size-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30" title="{{ __('messages.settings') }}">
+                    <x-icon name="settings" size="18" />
                 </a>
-            @endif
+            </div>
         </div>
     </div>
 </div>
