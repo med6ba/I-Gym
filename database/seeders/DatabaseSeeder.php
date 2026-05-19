@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
                 'city' => 'Casablanca',
                 'status' => 'active',
                 'subscription_plan' => 'business',
+                'admin_name' => 'Amine Atlas',
             ],
             [
                 'name' => 'Orange Gym Center',
@@ -50,6 +51,7 @@ class DatabaseSeeder extends Seeder
                 'city' => 'Rabat',
                 'status' => 'trial',
                 'subscription_plan' => 'pro',
+                'admin_name' => 'Hind Orange',
             ],
             [
                 'name' => 'PowerHouse Rabat',
@@ -59,12 +61,22 @@ class DatabaseSeeder extends Seeder
                 'city' => 'Rabat',
                 'status' => 'expired',
                 'subscription_plan' => 'basic',
+                'admin_name' => 'Yassine Power',
             ],
-        ])->map(fn (array $gym) => Gym::create($gym + [
-            'slug' => Str::slug($gym['name']),
-            'subscription_started_at' => now()->subMonths(3),
-            'subscription_ends_at' => $gym['status'] === 'expired' ? now()->subDays(3) : now()->addMonths(2),
-        ]));
+        ])->map(function (array $gym) {
+            $adminName = $gym['admin_name'];
+            unset($gym['admin_name']);
+
+            $model = Gym::create($gym + [
+                'slug' => Str::slug($gym['name']),
+                'subscription_started_at' => now()->subMonths(3),
+                'subscription_ends_at' => $gym['status'] === 'expired' ? now()->subDays(3) : now()->addMonths(2),
+            ]);
+
+            $model->setAttribute('seed_admin_name', $adminName);
+
+            return $model;
+        });
 
         $categories = ['Crossfit', 'Yoga', 'Cardio', 'Strength', 'Boxing', 'Pilates'];
         $rooms = ['Studio A', 'Studio B', 'Main Floor', 'Ring', 'Zen Room'];
@@ -73,7 +85,7 @@ class DatabaseSeeder extends Seeder
             $adminEmail = $gymIndex === 0 ? 'admin@igym.com' : 'admin'.($gymIndex + 1).'@igym.com';
             $admin = User::create([
                 'gym_id' => $gym->id,
-                'name' => $gym->name.' Admin',
+                'name' => $gym->seed_admin_name,
                 'email' => $adminEmail,
                 'password' => 'password',
                 'role' => 'gym_admin',
@@ -83,20 +95,6 @@ class DatabaseSeeder extends Seeder
                 'theme' => 'light',
                 'currency' => 'MAD',
                 'bio' => 'Gym operations lead focused on occupancy, retention, and member experience.',
-            ]);
-
-            User::create([
-                'gym_id' => $gym->id,
-                'name' => $gym->name.' Reception',
-                'email' => $gymIndex === 0 ? 'reception@igym.com' : 'reception'.($gymIndex + 1).'@igym.com',
-                'password' => 'password',
-                'role' => 'reception',
-                'phone' => '+212 600 30 40 '.($gymIndex + 1),
-                'status' => 'active',
-                'language' => 'en',
-                'theme' => 'light',
-                'currency' => 'MAD',
-                'bio' => 'Reception account for QR access simulation and gym entry checks.',
             ]);
 
             $coaches = collect([

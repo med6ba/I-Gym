@@ -1,6 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.dashboard') }}</h2>
+        <div>
+            <p class="text-sm font-bold uppercase text-amber-600">{{ auth()->user()->gym?->name }}</p>
+            <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.dashboard') }}</h2>
+        </div>
     </x-slot>
 
     <div class="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
@@ -14,7 +17,11 @@
         </div>
 
         <div class="grid gap-6 lg:grid-cols-[1fr_.8fr]">
-            <x-chart-card :title="__('messages.attendance_trend')"><canvas id="attendanceChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.attendance_trend')">
+                <div class="igym-chart-frame">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </x-chart-card>
             <x-chart-card title="{{ __('messages.smart_alerts') }}">
                 <div class="space-y-3">
                     @foreach($smartAlerts as $alert)
@@ -25,7 +32,11 @@
         </div>
 
         <div class="grid gap-6 lg:grid-cols-2">
-            <x-chart-card :title="__('messages.popular_classes')"><canvas id="popularChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.popular_classes')">
+                <div class="igym-chart-frame">
+                    <canvas id="popularChart"></canvas>
+                </div>
+            </x-chart-card>
             <x-chart-card :title="__('messages.expiring_subscriptions')">
                 <div class="space-y-3">
                     @forelse($expiringSubscriptions as $subscription)
@@ -38,6 +49,40 @@
                         </div>
                     @empty
                         <x-empty-state :message="__('messages.no_renewals_this_week')" />
+                    @endforelse
+                </div>
+            </x-chart-card>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-2">
+            <x-chart-card :title="__('messages.coaches_for_this_gym')">
+                <div class="space-y-3">
+                    @forelse($gymCoaches as $coach)
+                        <div class="flex items-center justify-between gap-3 rounded-lg border border-slate-200 p-3 dark:border-slate-800">
+                            <div>
+                                <p class="font-bold text-slate-950 dark:text-white">{{ $coach->name }}</p>
+                                <p class="text-xs text-slate-500">{{ $coach->email }}</p>
+                            </div>
+                            <x-badge :status="$coach->status" />
+                        </div>
+                    @empty
+                        <x-empty-state :message="__('messages.no_data')" />
+                    @endforelse
+                </div>
+            </x-chart-card>
+
+            <x-chart-card :title="__('messages.members_for_this_gym')">
+                <div class="space-y-3">
+                    @forelse($gymMembers as $member)
+                        <div class="flex items-center justify-between gap-3 rounded-lg border border-slate-200 p-3 dark:border-slate-800">
+                            <div>
+                                <p class="font-bold text-slate-950 dark:text-white">{{ $member->name }}</p>
+                                <p class="text-xs text-slate-500">{{ $member->email }}</p>
+                            </div>
+                            <x-badge :status="$member->status" />
+                        </div>
+                    @empty
+                        <x-empty-state :message="__('messages.no_data')" />
                     @endforelse
                 </div>
             </x-chart-card>

@@ -54,6 +54,10 @@ window.igymChart = (id, config) => {
         window.igymCharts[id].destroy();
     }
 
+    element.style.display = 'block';
+    element.style.width = '100%';
+    element.style.height = '100%';
+
     const dark = document.documentElement.classList.contains('dark');
     const grid = dark ? 'rgba(148, 163, 184, .18)' : 'rgba(100, 116, 139, .18)';
     const text = dark ? '#CBD5E1' : '#475569';

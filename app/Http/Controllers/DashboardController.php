@@ -36,9 +36,11 @@ class DashboardController extends Controller
             'activeGyms' => Gym::where('status', 'active')->count(),
             'trialGyms' => Gym::where('status', 'trial')->count(),
             'expiredGyms' => Gym::where('status', 'expired')->count(),
-            'totalUsers' => User::count(),
+            'totalAdmins' => User::role('gym_admin')->count(),
+            'totalUsers' => User::where('role', '!=', 'super_admin')->count(),
             'monthlyRevenue' => (Gym::where('status', 'active')->count() * 249) + (Gym::where('subscription_plan', 'business')->count() * 179),
-            'recentGyms' => Gym::latest()->take(5)->get(),
+            'recentGyms' => Gym::with('primaryAdmin')->latest()->take(5)->get(),
+            'adminAccounts' => User::role('gym_admin')->with('gym')->latest()->get(),
             'growthChart' => ['labels' => $growthLabels, 'data' => $growthData],
             'statusChart' => ['labels' => $statusChart->keys(), 'data' => $statusChart->values()],
         ]);
@@ -72,6 +74,8 @@ class DashboardController extends Controller
             'expiringSubscriptions' => $expiringSubscriptions,
             'noShows' => Reservation::where('gym_id', $gymId)->where('status', 'no_show')->count(),
             'smartAlerts' => $this->businessInsights($gymId, $occupancyRate, $expiringSubscriptions->count()),
+            'gymCoaches' => User::where('gym_id', $gymId)->role('coach')->latest()->get(),
+            'gymMembers' => User::where('gym_id', $gymId)->role('member')->latest()->get(),
             'attendanceChart' => ['labels' => $attendanceLabels, 'data' => $attendanceData],
             'popularClassesChart' => ['labels' => $popularCourses->pluck('title'), 'data' => $popularCourses->pluck('active_reservations_count')],
         ]);

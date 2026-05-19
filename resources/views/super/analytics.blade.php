@@ -11,8 +11,16 @@
         </div>
 
         <div class="grid gap-6 lg:grid-cols-2">
-            <x-chart-card :title="__('messages.plans_mix')"><canvas id="plansChart" class="h-72 w-full"></canvas></x-chart-card>
-            <x-chart-card :title="__('messages.customer_status')"><canvas id="statusChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.plans_mix')">
+                <div class="igym-chart-frame">
+                    <canvas id="plansChart"></canvas>
+                </div>
+            </x-chart-card>
+            <x-chart-card :title="__('messages.customer_status')">
+                <div class="igym-chart-frame">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </x-chart-card>
         </div>
 
         <x-table>

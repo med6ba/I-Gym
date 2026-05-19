@@ -96,4 +96,34 @@ class ProfileTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    public function test_super_admin_cannot_access_profile_page(): void
+    {
+        $user = User::factory()->create([
+            'role' => 'super_admin',
+            'gym_id' => null,
+        ]);
+
+        $this
+            ->actingAs($user)
+            ->get('/profile')
+            ->assertForbidden();
+    }
+
+    public function test_super_admin_cannot_delete_their_account(): void
+    {
+        $user = User::factory()->create([
+            'role' => 'super_admin',
+            'gym_id' => null,
+        ]);
+
+        $this
+            ->actingAs($user)
+            ->delete('/profile', [
+                'password' => 'password',
+            ])
+            ->assertForbidden();
+
+        $this->assertNotNull($user->fresh());
+    }
 }

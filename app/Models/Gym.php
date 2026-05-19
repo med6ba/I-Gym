@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Gym extends Model
 {
@@ -41,6 +42,16 @@ class Gym extends Model
     public function members(): HasMany
     {
         return $this->users()->where('role', 'member');
+    }
+
+    public function admins(): HasMany
+    {
+        return $this->users()->where('role', 'gym_admin');
+    }
+
+    public function primaryAdmin(): HasOne
+    {
+        return $this->hasOne(User::class)->where('role', 'gym_admin')->oldestOfMany();
     }
 
     public function coaches(): HasMany

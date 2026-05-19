@@ -18,7 +18,11 @@
                 <p class="mt-2 text-sm text-slate-500">{{ $recommendation['reason'] }}</p>
                 <div class="mt-4 flex flex-wrap gap-2">@foreach($recommendation['classes'] as $class)<x-badge status="info">{{ $class }}</x-badge>@endforeach</div>
             </x-chart-card>
-            <x-chart-card :title="__('messages.progress_summary')"><canvas id="progressChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.progress_summary')">
+                <div class="igym-chart-frame">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </x-chart-card>
         </div>
         <x-chart-card :title="__('messages.notifications')">
             <div class="grid gap-3 md:grid-cols-2">

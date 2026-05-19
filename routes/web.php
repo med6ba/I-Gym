@@ -22,7 +22,6 @@ use App\Http\Controllers\Member\SubscriptionController as MemberSubscriptionCont
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Reception\ScannerController as ReceptionScannerController;
 use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\Super\AnalyticsController;
 use App\Http\Controllers\Super\GymController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,8 +44,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:super_admin'])->prefix('super')->name('super.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'super'])->name('dashboard');
+    Route::get('/admins/create', [GymController::class, 'create'])->name('admins.create');
     Route::resource('gyms', GymController::class)->except(['show']);
-    Route::get('/analytics', AnalyticsController::class)->name('analytics');
 });
 
 Route::middleware(['auth', 'role:gym_admin', 'gym.access'])->prefix('admin')->name('admin.')->group(function () {

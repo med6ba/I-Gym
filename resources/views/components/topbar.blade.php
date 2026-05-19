@@ -5,8 +5,8 @@
     $unreadNotifications = igym_unread_notification_count($user);
     $quickActions = match ($user->role) {
         'super_admin' => [
-            ['label' => __('messages.new_gym_customer'), 'route' => 'super.gyms.create', 'icon' => 'plus'],
-            ['label' => __('messages.analytics'), 'route' => 'super.analytics', 'icon' => 'chart'],
+            ['label' => __('messages.add_admin_with_gym'), 'route' => 'super.admins.create', 'icon' => 'plus'],
+            ['label' => __('messages.manage_gyms_admins'), 'route' => 'super.gyms.index', 'icon' => 'building'],
         ],
         'gym_admin' => [
             ['label' => __('messages.create_course'), 'route' => 'admin.courses.index', 'icon' => 'calendar'],
@@ -45,8 +45,8 @@
                 </button>
                 <div x-show="quick" x-cloak x-transition x-on:click.outside="quick = false" class="absolute end-0 mt-2 w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-950/10 dark:border-slate-800 dark:bg-slate-900">
                     @foreach($quickActions as $action)
-                        <a href="{{ route($action['route']) }}" class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-amber-950/30 dark:hover:text-amber-200">
-                            <x-icon name="{{ $action['icon'] }}" size="18" class="text-amber-500" />
+                        <a href="{{ route($action['route']) }}" class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-amber-950/30 dark:hover:text-amber-200">
+                            <span class="igym-menu-icon"><x-icon name="{{ $action['icon'] }}" size="18" /></span>
                             {{ $action['label'] }}
                         </a>
                     @endforeach

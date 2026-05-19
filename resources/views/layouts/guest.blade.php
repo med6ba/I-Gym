@@ -23,12 +23,15 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans">
-        <div class="min-h-screen bg-slate-950 text-white">
-            <div class="absolute inset-0 bg-cover bg-center opacity-50" style="background-image: linear-gradient(90deg, rgba(2,6,23,.98), rgba(15,23,42,.78)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
+        <div class="relative min-h-screen overflow-hidden bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-white">
+            <div class="absolute inset-0 bg-cover bg-center opacity-10 dark:hidden" style="background-image: linear-gradient(90deg, rgba(255,255,255,.92), rgba(255,247,237,.72)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
+            <div class="absolute inset-0 hidden bg-cover bg-center opacity-20 dark:block" style="background-image: linear-gradient(90deg, rgba(2,6,23,.98), rgba(15,23,42,.86)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
+            <div class="absolute inset-0 hidden bg-slate-950/70 dark:block"></div>
             <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6">
                 <div class="flex items-center justify-between gap-4">
                     <a href="{{ route('landing') }}" class="igym-focus rounded-lg">
-                        <x-application-logo tone="inverse" />
+                        <span class="dark:hidden"><x-application-logo /></span>
+                        <span class="hidden dark:block"><x-application-logo tone="inverse" /></span>
                     </a>
                     <div class="flex items-center gap-3">
                         <x-language-switcher />
@@ -37,7 +40,7 @@
                 </div>
 
                 <div class="grid flex-1 place-items-center py-10">
-                    <div class="w-full max-w-md rounded-2xl border border-white/10 bg-slate-950/78 p-6 text-white shadow-2xl shadow-slate-950/40 backdrop-blur-xl">
+                    <div class="w-full max-w-md rounded-2xl border border-slate-200 bg-white/95 p-6 text-slate-950 shadow-2xl shadow-slate-950/10 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 dark:text-white dark:shadow-black/30">
                         {{ $slot }}
                     </div>
                 </div>

@@ -14,7 +14,11 @@ class GymRequest extends FormRequest
 
     public function rules(): array
     {
-        $gymId = $this->route('gym')?->id;
+        $gym = $this->route('gym');
+        $gymId = $gym?->id;
+        $adminId = $gym?->primaryAdmin?->id;
+        $creating = $this->isMethod('post');
+        $needsAdminPassword = $creating || ! $adminId;
 
         return [
             'name' => ['required', 'string', 'max:255'],
@@ -27,6 +31,9 @@ class GymRequest extends FormRequest
             'subscription_plan' => ['required', Rule::in(['basic', 'pro', 'business'])],
             'subscription_started_at' => ['nullable', 'date'],
             'subscription_ends_at' => ['nullable', 'date', 'after_or_equal:subscription_started_at'],
+            'admin_name' => ['required', 'string', 'max:255'],
+            'admin_email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($adminId)],
+            'admin_password' => [$needsAdminPassword ? 'required' : 'nullable', 'string', 'min:8'],
         ];
     }
 }

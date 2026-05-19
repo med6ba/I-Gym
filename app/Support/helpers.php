@@ -36,7 +36,6 @@ if (! function_exists('igym_navigation_items')) {
             'super_admin' => [
                 ['label' => __('messages.dashboard'), 'route' => 'super.dashboard', 'active' => 'super.dashboard', 'icon' => 'dashboard'],
                 ['label' => __('messages.gyms'), 'route' => 'super.gyms.index', 'active' => 'super.gyms.*', 'icon' => 'building'],
-                ['label' => __('messages.analytics'), 'route' => 'super.analytics', 'active' => 'super.analytics', 'icon' => 'chart'],
             ],
             'gym_admin' => [
                 ['label' => __('messages.dashboard'), 'route' => 'admin.dashboard', 'active' => 'admin.dashboard', 'icon' => 'dashboard'],

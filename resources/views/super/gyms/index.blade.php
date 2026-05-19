@@ -2,7 +2,10 @@
     <x-slot name="header">
         <div class="flex items-center justify-between gap-4">
             <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.gyms') }}</h2>
-            <a href="{{ route('super.gyms.create') }}" class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">{{ __('messages.create_gym') }}</a>
+            <a href="{{ route('super.admins.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">
+                <x-icon name="plus" size="17" />
+                {{ __('messages.add_admin_with_gym') }}
+            </a>
         </div>
     </x-slot>
 
@@ -11,7 +14,8 @@
         <x-table>
             <thead class="bg-slate-50 dark:bg-slate-800/60">
                 <tr>
-                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.gyms') }}</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.gym_name') }}</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.gym_admin') }}</th>
                     <th class="px-4 py-3 text-start font-bold">{{ __('messages.plan') }}</th>
                     <th class="px-4 py-3 text-start font-bold">{{ __('messages.status') }}</th>
                     <th class="px-4 py-3 text-start font-bold">{{ __('messages.platform_users') }}</th>
@@ -24,6 +28,10 @@
                         <td class="px-4 py-3">
                             <p class="font-bold text-slate-950 dark:text-white">{{ $gym->name }}</p>
                             <p class="text-xs text-slate-500">{{ $gym->city }} · {{ $gym->email }}</p>
+                        </td>
+                        <td class="px-4 py-3">
+                            <p class="font-bold text-slate-950 dark:text-white">{{ $gym->primaryAdmin?->name ?? __('messages.no_admin_assigned') }}</p>
+                            <p class="text-xs text-slate-500">{{ $gym->primaryAdmin?->email }}</p>
                         </td>
                         <td class="px-4 py-3">{{ Str::headline($gym->subscription_plan) }}</td>
                         <td class="px-4 py-3"><x-badge :status="$gym->status" /></td>
