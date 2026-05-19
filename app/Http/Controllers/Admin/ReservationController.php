@@ -11,15 +11,13 @@ use Illuminate\View\View;
 
 class ReservationController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
         return view('admin.reservations', [
             'reservations' => Reservation::where('gym_id', currentGymId())
-                ->when($request->filled('status'), fn ($query) => $query->where('status', $request->status))
                 ->with(['member', 'course.coach'])
                 ->latest()
-                ->paginate(14)
-                ->withQueryString(),
+                ->paginate(14),
         ]);
     }
 

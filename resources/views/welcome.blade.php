@@ -148,7 +148,7 @@
                         ['icon' => 'building', 'value' => '3+', 'label' => __('messages.customer_gyms')],
                         ['icon' => 'users', 'value' => '4', 'label' => __('messages.secure_roles')],
                         ['icon' => 'nfc', 'value' => 'NFC', 'label' => __('messages.access_simulation')],
-                        ['icon' => 'sparkles', 'value' => 'AI', 'label' => __('messages.recommendations')],
+                        ['icon' => 'credit-card', 'value' => '2', 'label' => __('messages.subscriptions')],
                     ] as $stat)
                         <div class="flex items-center gap-3 rounded-xl border border-slate-100 p-4 dark:border-slate-800">
                             <span class="grid size-11 place-items-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><x-icon name="{{ $stat['icon'] }}" size="20" /></span>

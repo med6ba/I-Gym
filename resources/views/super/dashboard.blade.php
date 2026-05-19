@@ -53,7 +53,7 @@
                     <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 p-4 dark:border-slate-800">
                         <div>
                             <p class="font-bold text-slate-950 dark:text-white">{{ $gym->name }}</p>
-                            <p class="text-sm text-slate-500">{{ $gym->city }} · {{ $gym->primaryAdmin?->name ?? __('messages.no_admin_assigned') }} · {{ $gym->primaryAdmin?->email ?? $gym->email }}</p>
+                            <p class="text-sm text-slate-500">{{ $gym->city }} · {{ $gym->primaryAdmin?->name ?? __('messages.no_admin_assigned') }} · {{ $gym->primaryAdmin?->email }}</p>
                         </div>
                         <x-badge :status="$gym->status" />
                     </div>
@@ -97,7 +97,7 @@
                                                 @method('PATCH')
                                                 <div>
                                                     <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.edit_gym', ['name' => $admin->gym->name]) }}</h3>
-                                                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $admin->gym->email }}</p>
+                                                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $admin->email }}</p>
                                                 </div>
                                                 @include('super.gyms._form', ['gym' => $admin->gym, 'inModal' => true, 'modalName' => $editModal])
                                             </form>

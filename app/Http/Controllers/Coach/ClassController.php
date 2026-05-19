@@ -13,15 +13,13 @@ use Illuminate\View\View;
 
 class ClassController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
         return view('coach.classes', [
             'courses' => Course::assignedTo(auth()->user())
-                ->when($request->filled('status'), fn ($query) => $query->where('status', $request->status))
                 ->withCount('activeReservations')
                 ->orderBy('starts_at')
-                ->paginate(12)
-                ->withQueryString(),
+                ->paginate(12),
         ]);
     }
 

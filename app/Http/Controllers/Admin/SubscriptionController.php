@@ -17,6 +17,7 @@ class SubscriptionController extends Controller
             'subscriptions' => Subscription::where('gym_id', currentGymId())->with('member')->latest('ends_at')->paginate(14),
             'members' => User::where('gym_id', currentGymId())->role('member')->orderBy('name')->get(),
             'expiring' => Subscription::where('gym_id', currentGymId())->expiringSoon()->with('member')->get(),
+            'plans' => Subscription::plans(),
         ]);
     }
 
@@ -24,6 +25,7 @@ class SubscriptionController extends Controller
     {
         $data = $request->validated();
         $this->authorizeMember($data['user_id']);
+        $data['price'] = Subscription::priceForPlan($data['plan_name']);
         $subscription = Subscription::create($data + ['gym_id' => currentGymId()]);
 
         record_gym_activity(currentGymId(), 'subscription.created', __('messages.log_subscription_created', [
@@ -38,6 +40,7 @@ class SubscriptionController extends Controller
         abort_unless($subscription->gym_id === currentGymId(), 403);
         $data = $request->validated();
         $this->authorizeMember($data['user_id']);
+        $data['price'] = Subscription::priceForPlan($data['plan_name']);
         $subscription->update($data);
 
         record_gym_activity(currentGymId(), 'subscription.updated', __('messages.log_subscription_updated', [

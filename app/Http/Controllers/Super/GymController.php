@@ -88,7 +88,7 @@ class GymController extends Controller
             'password' => $data['admin_password'] ?? null,
         ];
 
-        unset($data['admin_name'], $data['admin_email'], $data['admin_password']);
+        unset($data['admin_name'], $data['admin_email'], $data['admin_password'], $data['admin_password_confirmation']);
 
         return $admin;
     }

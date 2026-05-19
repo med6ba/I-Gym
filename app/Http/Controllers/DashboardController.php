@@ -116,7 +116,6 @@ class DashboardController extends Controller
             ->first();
         $progress = MemberProgress::where('member_id', $member->id)->orderBy('recorded_at')->get();
         $latestProgress = $progress->last();
-        $goal = $latestProgress?->goal ?? $member->trainingPlansAsMember()->latest()->value('goal');
 
         return view('member.dashboard', [
             'subscription' => $subscription,
@@ -126,7 +125,6 @@ class DashboardController extends Controller
                 'labels' => $progress->pluck('recorded_at')->map(fn ($date) => $date->format('M d')),
                 'data' => $progress->pluck('weight'),
             ],
-            'recommendation' => ai_recommendation($goal),
             'notifications' => GymNotification::where('gym_id', $member->gym_id)
                 ->where(fn ($query) => $query->whereNull('user_id')->orWhere('user_id', $member->id))
                 ->latest()
@@ -162,7 +160,7 @@ class DashboardController extends Controller
         $popularCategory = Course::where('gym_id', $gymId)
             ->withCount('activeReservations')
             ->orderByDesc('active_reservations_count')
-            ->value('category') ?? 'Cardio';
+            ->value('category') ?? Course::DEFAULT_CATEGORIES[0];
 
         return collect([
             __('messages.insight_busy_period'),

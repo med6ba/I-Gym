@@ -5,7 +5,7 @@
             <div class="flex gap-2">
                 <button type="button" x-on:click="$dispatch('open-modal', 'add-gym')" class="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">
                     <x-icon name="plus" size="17" />
-                    {{ __('messages.add_gym') }}
+                    {{ __('messages.add_admin_with_gym') }}
                 </button>
             </div>
         </div>
@@ -43,7 +43,7 @@
                     <tr>
                         <td class="px-4 py-3">
                             <p class="font-bold text-slate-950 dark:text-white">{{ $gym->name }}</p>
-                            <p class="text-xs text-slate-500">{{ $gym->city }} · {{ $gym->email }}</p>
+                            <p class="text-xs text-slate-500">{{ $gym->city }} · {{ $gym->phone }}</p>
                         </td>
                         <td class="px-4 py-3">
                             <p class="font-bold text-slate-950 dark:text-white">{{ $gym->primaryAdmin?->name ?? __('messages.no_admin_assigned') }}</p>
@@ -79,7 +79,7 @@
                     @method('PATCH')
                     <div>
                         <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.edit_gym', ['name' => $gym->name]) }}</h3>
-                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $gym->email }}</p>
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $gym->primaryAdmin?->email }}</p>
                     </div>
                     @include('super.gyms._form', ['gym' => $gym, 'inModal' => true, 'modalName' => $editModal])
                 </form>
@@ -92,7 +92,7 @@
 
                     <div>
                         <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.delete') }} {{ __('messages.gym') }}</h3>
-                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $gym->name }} · {{ $gym->email }}</p>
+                        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $gym->name }} · {{ $gym->city }}</p>
                     </div>
 
                     <div class="flex justify-end gap-3">

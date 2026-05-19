@@ -39,6 +39,10 @@
                         <span class="igym-label">{{ __('messages.password') }}</span>
                         <input type="password" name="password" placeholder="Minimum 8 characters" class="igym-input" required>
                     </label>
+                    <label class="igym-field">
+                        <span class="igym-label">{{ __('messages.confirm_password') }}</span>
+                        <input type="password" name="password_confirmation" placeholder="{{ __('messages.confirm_password') }}" class="igym-input" required>
+                    </label>
                 </div>
 
                 <div class="flex justify-end gap-3">
@@ -107,6 +111,10 @@
                         <label class="igym-field">
                             <span class="igym-label">{{ __('messages.new_password') }}</span>
                             <input type="password" name="password" placeholder="{{ __('messages.leave_blank_keep_password') }}" class="igym-input">
+                        </label>
+                        <label class="igym-field">
+                            <span class="igym-label">{{ __('messages.confirm_password') }}</span>
+                            <input type="password" name="password_confirmation" placeholder="{{ __('messages.confirm_password') }}" class="igym-input">
                         </label>
                         <label class="igym-field md:col-span-2">
                             <span class="igym-label">{{ __('messages.status') }}</span>

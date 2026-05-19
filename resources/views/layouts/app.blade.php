@@ -31,10 +31,6 @@
                 @endauth
 
                 <div class="flex min-w-0 flex-1 flex-col lg:ms-72">
-                    @auth
-                        <x-topbar />
-                    @endauth
-
                     @isset($header)
                         <div class="border-b border-slate-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
                             {{ $header }}

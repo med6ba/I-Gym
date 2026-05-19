@@ -12,6 +12,8 @@ class Course extends Model
 {
     use HasFactory;
 
+    public const DEFAULT_CATEGORIES = ['Crossfit', 'Yoga', 'Cardio', 'Strength', 'Boxing', 'Pilates'];
+
     protected $fillable = [
         'gym_id',
         'coach_id',
@@ -103,5 +105,25 @@ class Course extends Model
     public function scopeAssignedTo(Builder $query, User $coach): Builder
     {
         return $query->where('gym_id', $coach->gym_id)->where('coach_id', $coach->id);
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public static function categoryOptions(?int $gymId = null): array
+    {
+        $storedCategories = static::query()
+            ->when($gymId, fn (Builder $query) => $query->where('gym_id', $gymId))
+            ->whereNotNull('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category')
+            ->all();
+
+        return collect($storedCategories)
+            ->merge(self::DEFAULT_CATEGORIES)
+            ->unique()
+            ->values()
+            ->all();
     }
 }

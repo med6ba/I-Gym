@@ -28,268 +28,182 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
             'language' => 'en',
             'theme' => 'light',
-            'currency' => 'USD',
-            'bio' => 'SaaS operator account for the I-Gym demo.',
+            'currency' => 'MAD',
+            'bio' => 'SaaS owner account for managing gym admins.',
         ]);
 
-        $gyms = collect([
-            [
-                'name' => 'Atlas Fitness Club',
-                'email' => 'contact@atlasfitness.com',
-                'phone' => '+212 522 100 100',
-                'address' => '12 Avenue Mohammed V',
-                'city' => 'Casablanca',
+        $gym = Gym::create([
+            'name' => 'Atlas Fitness Club',
+            'slug' => Str::slug('Atlas Fitness Club'),
+            'phone' => '+212 522 100 100',
+            'address' => '12 Avenue Mohammed V',
+            'city' => 'Casablanca',
+            'status' => 'active',
+            'subscription_plan' => 'business',
+            'subscription_started_at' => Carbon::parse('2026-07-01'),
+            'subscription_ends_at' => Carbon::parse('2027-07-01'),
+        ]);
+
+        $admin = User::create([
+            'gym_id' => $gym->id,
+            'name' => 'Amine Atlas',
+            'email' => 'admin@igym.com',
+            'password' => 'password',
+            'role' => 'gym_admin',
+            'phone' => '+212 600 10 20 01',
+            'status' => 'active',
+            'language' => 'en',
+            'theme' => 'light',
+            'currency' => 'MAD',
+            'bio' => 'Gym admin responsible for members, coaches, courses, and subscriptions.',
+        ]);
+
+        User::create([
+            'gym_id' => $gym->id,
+            'name' => 'Samir Reception',
+            'email' => 'reception@igym.com',
+            'password' => 'password',
+            'role' => 'reception',
+            'phone' => '+212 612 00 00 01',
+            'status' => 'active',
+            'language' => 'en',
+            'theme' => 'light',
+            'currency' => 'MAD',
+            'bio' => 'Front desk receptionist managing bracelet check-ins.',
+        ]);
+
+        $coach = User::create([
+            'gym_id' => $gym->id,
+            'name' => 'Nadia Benali',
+            'email' => 'coach@igym.com',
+            'password' => 'password',
+            'role' => 'coach',
+            'phone' => '+212 611 10 00 00',
+            'status' => 'active',
+            'language' => 'en',
+            'theme' => 'light',
+            'currency' => 'MAD',
+            'age' => 31,
+            'height_cm' => 168,
+            'weight_kg' => 64,
+            'gender' => 'female',
+            'fitness_goal' => 'fitness',
+            'bio' => 'Coach helping members build steady training routines.',
+        ]);
+
+        $member = User::create([
+            'gym_id' => $gym->id,
+            'name' => 'Omar Alaoui',
+            'email' => 'member@igym.com',
+            'password' => 'password',
+            'role' => 'member',
+            'phone' => '+212 622 10 00 00',
+            'status' => 'active',
+            'language' => 'en',
+            'theme' => 'light',
+            'currency' => 'MAD',
+            'age' => 27,
+            'height_cm' => 178,
+            'weight_kg' => 82,
+            'gender' => 'male',
+            'fitness_goal' => 'fitness',
+            'bio' => 'Member profile prepared for booking, access, and progress tracking.',
+        ]);
+
+        foreach (Subscription::plans() as $planName => $plan) {
+            Subscription::create([
+                'gym_id' => $gym->id,
+                'user_id' => $member->id,
+                'plan_name' => $planName,
+                'price' => $plan['price'],
+                'starts_at' => $planName === Subscription::PLAN_PRIMARY ? '2026-07-01' : '2026-08-01',
+                'ends_at' => $planName === Subscription::PLAN_PRIMARY ? '2026-07-31' : '2026-08-31',
                 'status' => 'active',
-                'subscription_plan' => 'business',
-                'admin_name' => 'Amine Atlas',
-            ],
-            [
-                'name' => 'Orange Gym Center',
-                'email' => 'hello@orangegym.com',
-                'phone' => '+212 537 200 200',
-                'address' => '44 Rue Agdal',
-                'city' => 'Rabat',
-                'status' => 'trial',
-                'subscription_plan' => 'pro',
-                'admin_name' => 'Hind Orange',
-            ],
-            [
-                'name' => 'PowerHouse Rabat',
-                'email' => 'team@powerhouserabat.com',
-                'phone' => '+212 535 300 300',
-                'address' => '7 Boulevard Annakhil',
-                'city' => 'Rabat',
-                'status' => 'expired',
-                'subscription_plan' => 'basic',
-                'admin_name' => 'Yassine Power',
-            ],
-        ])->map(function (array $gym) {
-            $adminName = $gym['admin_name'];
-            unset($gym['admin_name']);
-
-            $model = Gym::create($gym + [
-                'slug' => Str::slug($gym['name']),
-                'subscription_started_at' => now()->subMonths(3),
-                'subscription_ends_at' => $gym['status'] === 'expired' ? now()->subDays(3) : now()->addMonths(2),
+                'payment_status' => 'paid',
             ]);
+        }
 
-            $model->setAttribute('seed_admin_name', $adminName);
+        $strengthClass = Course::create([
+            'gym_id' => $gym->id,
+            'coach_id' => $coach->id,
+            'title' => 'Strength Training',
+            'category' => 'Strength',
+            'description' => 'A focused strength class for measurable progress.',
+            'starts_at' => Carbon::parse('2026-07-06 18:00'),
+            'ends_at' => Carbon::parse('2026-07-06 19:00'),
+            'max_capacity' => 12,
+            'room' => 'Studio A',
+            'status' => 'scheduled',
+        ]);
 
-            return $model;
-        });
+        Course::create([
+            'gym_id' => $gym->id,
+            'coach_id' => $coach->id,
+            'title' => 'Cardio Session',
+            'category' => 'Cardio',
+            'description' => 'A conditioning class for stamina and recovery.',
+            'starts_at' => Carbon::parse('2026-07-08 18:00'),
+            'ends_at' => Carbon::parse('2026-07-08 19:00'),
+            'max_capacity' => 10,
+            'room' => 'Main Floor',
+            'status' => 'scheduled',
+        ]);
 
-        $categories = ['Crossfit', 'Yoga', 'Cardio', 'Strength', 'Boxing', 'Pilates'];
-        $rooms = ['Studio A', 'Studio B', 'Main Floor', 'Ring', 'Zen Room'];
+        $reservation = Reservation::create([
+            'gym_id' => $gym->id,
+            'user_id' => $member->id,
+            'course_id' => $strengthClass->id,
+            'status' => 'reserved',
+        ]);
 
-        $gyms->each(function (Gym $gym, int $gymIndex) use ($categories, $rooms): void {
-            $adminEmail = $gymIndex === 0 ? 'admin@igym.com' : 'admin'.($gymIndex + 1).'@igym.com';
-            $admin = User::create([
+        Attendance::create([
+            'gym_id' => $gym->id,
+            'user_id' => $member->id,
+            'course_id' => $strengthClass->id,
+            'checked_in_by' => $coach->id,
+            'check_in_time' => Carbon::parse('2026-07-06 18:05'),
+            'method' => 'qr',
+        ]);
+
+        TrainingPlan::create([
+            'gym_id' => $gym->id,
+            'coach_id' => $coach->id,
+            'member_id' => $member->id,
+            'title' => 'Fitness 6-week plan',
+            'goal' => 'fitness',
+            'description' => 'Progressive weekly program with class work and recovery notes.',
+            'exercises' => ['Warm-up mobility', 'Main strength block', 'Conditioning finisher'],
+        ]);
+
+        foreach (['2026-07-01', '2026-07-08', '2026-07-15'] as $index => $date) {
+            MemberProgress::create([
                 'gym_id' => $gym->id,
-                'name' => $gym->seed_admin_name,
-                'email' => $adminEmail,
-                'password' => 'password',
-                'role' => 'gym_admin',
-                'phone' => '+212 600 10 20 '.($gymIndex + 1),
-                'status' => 'active',
-                'language' => 'en',
-                'theme' => 'light',
-                'currency' => 'MAD',
-                'bio' => 'Gym operations lead focused on occupancy, retention, and member experience.',
+                'member_id' => $member->id,
+                'weight' => 82 - ($index * 0.8),
+                'body_fat' => 24 - ($index * 0.3),
+                'muscle_mass' => 31 + ($index * 0.2),
+                'goal' => 'fitness',
+                'notes' => 'Consistent training week with good recovery.',
+                'recorded_at' => $date,
             ]);
+        }
 
-            User::create([
-                'gym_id' => $gym->id,
-                'name' => $gymIndex === 0 ? 'Samir Reception' : 'Reception '.($gymIndex + 1).' '.$gym->name,
-                'email' => $gymIndex === 0 ? 'reception@igym.com' : 'reception'.($gymIndex + 1).'@igym.com',
-                'password' => 'password',
-                'role' => 'reception',
-                'phone' => '+212 612 00 00 '.($gymIndex + 1),
-                'status' => 'active',
-                'language' => 'en',
-                'theme' => 'light',
-                'currency' => 'MAD',
-                'bio' => 'Front desk receptionist managing NFC bracelet check-ins.',
-            ]);
+        GymNotification::create([
+            'gym_id' => $gym->id,
+            'user_id' => $member->id,
+            'title' => 'Subscription renewal reminder',
+            'message' => 'Your current plan is active. Keep your weekly streak alive.',
+            'type' => 'warning',
+        ]);
 
-            $coaches = collect([
-                ['name' => 'Nadia Benali', 'focus' => 'Yoga'],
-                ['name' => 'Youssef El Amrani', 'focus' => 'Strength'],
-                ['name' => 'Sara Mansouri', 'focus' => 'Cardio'],
-            ])->map(function (array $coach, int $index) use ($gym, $gymIndex): User {
-                return User::create([
-                    'gym_id' => $gym->id,
-                    'name' => $coach['name'],
-                    'email' => $gymIndex === 0 && $index === 0 ? 'coach@igym.com' : 'coach'.($gymIndex + 1).($index + 1).'@igym.com',
-                    'password' => 'password',
-                    'role' => 'coach',
-                    'phone' => '+212 611 '.($gymIndex + 1).$index.' 00 00',
-                    'status' => 'active',
-                    'language' => 'en',
-                    'theme' => 'light',
-                    'currency' => 'MAD',
-                    'age' => 28 + $index,
-                    'height_cm' => 168 + ($index * 5),
-                    'weight_kg' => 64 + ($index * 6),
-                    'gender' => $index === 1 ? 'male' : 'female',
-                    'fitness_goal' => match ($coach['focus']) {
-                        'Strength' => 'muscle_gain',
-                        'Cardio' => 'endurance',
-                        default => 'fitness',
-                    },
-                    'bio' => $coach['focus'].' coach helping members build sustainable routines.',
-                ]);
-            });
+        GymNotification::create([
+            'gym_id' => $gym->id,
+            'user_id' => $admin->id,
+            'title' => 'Course occupancy update',
+            'message' => 'Strength Training has one member reserved for July 6.',
+            'type' => 'info',
+        ]);
 
-            $members = collect([
-                'Omar Alaoui',
-                'Lina Berrada',
-                'Mehdi Idrissi',
-                'Ines Tazi',
-                'Adam Fassi',
-                'Salma Hilali',
-                'Karim Saidi',
-                'Maya Chraibi',
-            ])->map(function (string $name, int $index) use ($gym, $gymIndex): User {
-                return User::create([
-                    'gym_id' => $gym->id,
-                    'name' => $name,
-                    'email' => $gymIndex === 0 && $index === 0 ? 'member@igym.com' : 'member'.($gymIndex + 1).($index + 1).'@igym.com',
-                    'password' => 'password',
-                    'role' => 'member',
-                    'phone' => '+212 622 '.($gymIndex + 1).$index.' 00 00',
-                    'status' => $index === 7 ? 'inactive' : 'active',
-                    'language' => 'en',
-                    'theme' => $index % 4 === 0 ? 'dark' : 'light',
-                    'currency' => 'MAD',
-                    'age' => 21 + $index,
-                    'height_cm' => 162 + ($index * 3),
-                    'weight_kg' => 58 + ($index * 4),
-                    'gender' => $index % 2 === 0 ? 'male' : 'female',
-                    'fitness_goal' => ['weight_loss', 'muscle_gain', 'fitness', 'endurance'][$index % 4],
-                    'bio' => 'Member profile prepared for the demo booking, QR access, and progress flow.',
-                ]);
-            });
-
-            $members->each(function (User $member, int $index) use ($gym): void {
-                $endsAt = match (true) {
-                    $index === 2 => now()->addDays(4),
-                    $index === 5 => now()->subDays(8),
-                    default => now()->addDays(30 + ($index * 4)),
-                };
-
-                Subscription::create([
-                    'gym_id' => $gym->id,
-                    'user_id' => $member->id,
-                    'plan_name' => $index % 3 === 0 ? 'Premium Coaching' : 'Monthly Access',
-                    'price' => $index % 3 === 0 ? 599 : 299,
-                    'starts_at' => now()->subMonth()->toDateString(),
-                    'ends_at' => $endsAt->toDateString(),
-                    'status' => $endsAt->isPast() ? 'expired' : 'active',
-                    'payment_status' => $index === 4 ? 'unpaid' : 'paid',
-                ]);
-            });
-
-            $courses = collect(range(0, 11))->map(function (int $index) use ($gym, $coaches, $categories, $rooms): Course {
-                $start = now()->subDays(3)->addDays($index)->setTime(18 + ($index % 3), 0);
-                $category = $categories[$index % count($categories)];
-
-                return Course::create([
-                    'gym_id' => $gym->id,
-                    'coach_id' => $coaches[$index % $coaches->count()]->id,
-                    'title' => $category === 'Strength' ? 'Strength Training' : $category.' Session',
-                    'category' => $category,
-                    'description' => 'A focused '.$category.' class designed for measurable progress and strong member engagement.',
-                    'starts_at' => $start,
-                    'ends_at' => (clone $start)->addMinutes(60),
-                    'max_capacity' => $index === 5 ? 4 : ($index === 6 ? 5 : 12),
-                    'room' => $rooms[$index % count($rooms)],
-                    'status' => $index === 1 ? 'completed' : 'scheduled',
-                ]);
-            });
-
-            $courses->each(function (Course $course, int $courseIndex) use ($gym, $members): void {
-                $bookingLimit = match ($courseIndex) {
-                    5 => 4,
-                    6 => 4,
-                    default => min($members->count(), 2 + ($courseIndex % 5)),
-                };
-                $bookingMembers = $courseIndex === 3 ? $members : $members->slice(1)->values();
-
-                $bookingMembers->take($bookingLimit)->each(function (User $member, int $memberIndex) use ($gym, $course): void {
-                    $status = $course->ends_at->isPast()
-                        ? ($memberIndex % 3 === 0 ? 'no_show' : 'attended')
-                        : 'reserved';
-
-                    Reservation::create([
-                        'gym_id' => $gym->id,
-                        'user_id' => $member->id,
-                        'course_id' => $course->id,
-                        'status' => $status,
-                    ]);
-
-                    if ($status === 'attended') {
-                        Attendance::create([
-                            'gym_id' => $gym->id,
-                            'user_id' => $member->id,
-                            'course_id' => $course->id,
-                            'checked_in_by' => $course->coach_id,
-                            'check_in_time' => Carbon::parse($course->starts_at)->addMinutes(5),
-                            'method' => 'qr',
-                        ]);
-                    }
-                });
-            });
-
-            $members->take(5)->each(function (User $member, int $index) use ($gym, $coaches): void {
-                $goal = ['weight_loss', 'muscle_gain', 'fitness', 'endurance', 'weight_loss'][$index];
-
-                TrainingPlan::create([
-                    'gym_id' => $gym->id,
-                    'coach_id' => $coaches[$index % $coaches->count()]->id,
-                    'member_id' => $member->id,
-                    'title' => Str::headline($goal).' 6-week plan',
-                    'goal' => $goal,
-                    'description' => 'Progressive weekly program with smart class mix and recovery notes.',
-                    'exercises' => ['Warm-up mobility', 'Main strength block', 'Conditioning finisher'],
-                ]);
-
-                collect(range(5, 0))->each(function (int $week) use ($gym, $member, $goal, $index): void {
-                    MemberProgress::create([
-                        'gym_id' => $gym->id,
-                        'member_id' => $member->id,
-                        'weight' => 82 - ($index * 2) - ((5 - $week) * 0.7),
-                        'body_fat' => 24 - ((5 - $week) * 0.4),
-                        'muscle_mass' => 31 + ((5 - $week) * 0.3),
-                        'goal' => $goal,
-                        'notes' => 'Consistent training week with good recovery.',
-                        'recorded_at' => now()->subWeeks($week)->toDateString(),
-                    ]);
-                });
-            });
-
-            GymNotification::create([
-                'gym_id' => $gym->id,
-                'user_id' => $members->first()->id,
-                'title' => 'Subscription renewal reminder',
-                'message' => 'Your current plan is active. Keep your weekly streak alive.',
-                'type' => 'warning',
-            ]);
-
-            GymNotification::create([
-                'gym_id' => $gym->id,
-                'user_id' => null,
-                'title' => 'High occupancy alert',
-                'message' => 'Cardio has reached 85% average occupancy this week.',
-                'type' => 'info',
-            ]);
-
-            GymNotification::create([
-                'gym_id' => $gym->id,
-                'user_id' => $admin->id,
-                'title' => 'Smart business insight',
-                'message' => 'Wednesday evenings are your busiest period.',
-                'type' => 'success',
-            ]);
-        });
+        record_gym_activity($gym->id, 'reservation.created', __('messages.log_class_booked', ['course' => $strengthClass->title]), $reservation, $member);
     }
 }

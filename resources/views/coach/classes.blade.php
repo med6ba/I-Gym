@@ -1,14 +1,7 @@
 <x-app-layout>
     <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.classes') }}</h2></x-slot>
     <div class="mx-auto max-w-7xl space-y-5 px-4 py-6 sm:px-6 lg:px-8">
-        <form method="GET" data-ajax-filter data-ajax-target="#coach-class-results" class="flex flex-wrap items-end gap-3">
-            <label class="igym-field">
-                <span class="igym-label">{{ __('messages.status') }}</span>
-                <select name="status" class="igym-input min-w-48"><option value="">{{ __('messages.status') }}</option>@foreach(['scheduled','completed','cancelled'] as $status)<option value="{{ $status }}" @selected(request('status')===$status)>{{ Str::headline($status) }}</option>@endforeach</select>
-            </label>
-            <x-button type="submit">{{ __('messages.filter') }}</x-button>
-        </form>
-        <div id="coach-class-results" data-ajax-target="#coach-class-results" class="transition">
+        <div class="transition">
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 @foreach($courses as $course)
                     <a href="{{ route('coach.classes.attendance', $course) }}" class="igym-card igym-hover p-5">

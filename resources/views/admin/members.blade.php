@@ -39,6 +39,10 @@
                         <span class="igym-label">{{ __('messages.password') }}</span>
                         <input type="password" name="password" placeholder="Minimum 8 characters" class="igym-input" required>
                     </label>
+                    <label class="igym-field">
+                        <span class="igym-label">{{ __('messages.confirm_password') }}</span>
+                        <input type="password" name="password_confirmation" placeholder="{{ __('messages.confirm_password') }}" class="igym-input" required>
+                    </label>
                 </div>
 
                 <div class="flex justify-end gap-3">
@@ -56,7 +60,7 @@
                     @php($deleteModal = 'delete-member-'.$member->id)
                     <tr>
                         <td class="px-4 py-3"><p class="font-bold">{{ $member->name }}</p><p class="text-xs text-slate-500">{{ $member->email }}</p></td>
-                        <td class="px-4 py-3">{{ $member->activeSubscription?->plan_name ?? 'No active plan' }}</td>
+                        <td class="px-4 py-3">{{ $member->activeSubscription ? \App\Models\Subscription::labelForPlan($member->activeSubscription->plan_name) : __('messages.no_data') }}</td>
                         <td class="px-4 py-3"><x-badge :status="$member->status" /></td>
                         <td class="px-4 py-3 text-end">
                             <div class="flex justify-end gap-1">
@@ -107,6 +111,10 @@
                         <label class="igym-field">
                             <span class="igym-label">{{ __('messages.new_password') }}</span>
                             <input type="password" name="password" placeholder="{{ __('messages.leave_blank_keep_password') }}" class="igym-input">
+                        </label>
+                        <label class="igym-field">
+                            <span class="igym-label">{{ __('messages.confirm_password') }}</span>
+                            <input type="password" name="password_confirmation" placeholder="{{ __('messages.confirm_password') }}" class="igym-input">
                         </label>
                         <label class="igym-field md:col-span-2">
                             <span class="igym-label">{{ __('messages.status') }}</span>

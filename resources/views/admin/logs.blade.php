@@ -2,20 +2,7 @@
     <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.activity_logs') }}</h2></x-slot>
 
     <div class="mx-auto max-w-7xl space-y-5 px-4 py-6 sm:px-6 lg:px-8">
-        <form method="GET" data-ajax-filter data-ajax-target="#activity-log-results" class="flex flex-wrap items-end gap-3">
-            <label class="igym-field">
-                <span class="igym-label">{{ __('messages.action') }}</span>
-                <select name="action" class="igym-input min-w-56">
-                    <option value="">{{ __('messages.all_activity') }}</option>
-                    @foreach($actions as $action)
-                        <option value="{{ $action }}" @selected(request('action') === $action)>{{ Str::headline(str_replace('.', ' ', $action)) }}</option>
-                    @endforeach
-                </select>
-            </label>
-            <x-button type="submit">{{ __('messages.filter') }}</x-button>
-        </form>
-
-        <div id="activity-log-results" data-ajax-target="#activity-log-results" class="transition">
+        <div class="transition">
             <x-table>
                 <thead class="bg-slate-50 dark:bg-slate-800/60">
                     <tr>

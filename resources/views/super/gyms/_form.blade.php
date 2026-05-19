@@ -10,21 +10,20 @@
 <div class="grid gap-4 md:grid-cols-2">
     <label class="igym-field"><span class="igym-label">{{ __('messages.name') }}</span><input name="name" value="{{ $fieldValue('name', $gym->name) }}" placeholder="I-Gym Casablanca" class="igym-input" required></label>
     <label class="igym-field"><span class="igym-label">{{ __('messages.slug') }}</span><input name="slug" value="{{ $fieldValue('slug', $gym->slug) }}" placeholder="i-gym-casablanca" class="igym-input"></label>
-    <label class="igym-field"><span class="igym-label">{{ __('messages.email') }}</span><input type="email" name="email" value="{{ $fieldValue('email', $gym->email) }}" placeholder="owner@gym.com" class="igym-input" required></label>
     <label class="igym-field"><span class="igym-label">{{ __('messages.phone') }}</span><input name="phone" value="{{ $fieldValue('phone', $gym->phone) }}" placeholder="+212 600 000 000" class="igym-input"></label>
     <label class="igym-field"><span class="igym-label">{{ __('messages.city') }}</span><input name="city" value="{{ $fieldValue('city', $gym->city) }}" placeholder="Casablanca" class="igym-input"></label>
     <label class="igym-field"><span class="igym-label">{{ __('messages.address') }}</span><input name="address" value="{{ $fieldValue('address', $gym->address) }}" placeholder="123 Fitness Avenue" class="igym-input"></label>
     <label class="igym-field"><span class="igym-label">{{ __('messages.status') }}</span><select name="status" class="igym-input">@foreach(['active','trial','expired','suspended'] as $status)<option value="{{ $status }}" @selected($fieldValue('status', $gym->status ?? 'trial') === $status)>{{ Str::headline($status) }}</option>@endforeach</select></label>
     <label class="igym-field"><span class="igym-label">{{ __('messages.plan') }}</span><select name="subscription_plan" class="igym-input">@foreach(['basic','pro','business'] as $plan)<option value="{{ $plan }}" @selected($fieldValue('subscription_plan', $gym->subscription_plan ?? 'basic') === $plan)>{{ Str::headline($plan) }}</option>@endforeach</select></label>
-    <label class="igym-field"><span class="igym-label">{{ __('messages.started_at') }}</span><input type="date" name="subscription_started_at" value="{{ $fieldValue('subscription_started_at', optional($gym->subscription_started_at)->format('Y-m-d')) }}" placeholder="YYYY-MM-DD" class="igym-input"></label>
-    <label class="igym-field"><span class="igym-label">{{ __('messages.ends_at') }}</span><input type="date" name="subscription_ends_at" value="{{ $fieldValue('subscription_ends_at', optional($gym->subscription_ends_at)->format('Y-m-d')) }}" placeholder="YYYY-MM-DD" class="igym-input"></label>
+    <label class="igym-field"><span class="igym-label">{{ __('messages.started_at') }}</span><input type="date" name="subscription_started_at" value="{{ $fieldValue('subscription_started_at', $gym->exists ? optional($gym->subscription_started_at)->format('Y-m-d') : '2026-07-01') }}" placeholder="YYYY-MM-DD" class="igym-input"></label>
+    <label class="igym-field"><span class="igym-label">{{ __('messages.ends_at') }}</span><input type="date" name="subscription_ends_at" value="{{ $fieldValue('subscription_ends_at', $gym->exists ? optional($gym->subscription_ends_at)->format('Y-m-d') : '2027-07-01') }}" placeholder="YYYY-MM-DD" class="igym-input"></label>
 </div>
 <div class="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/60 dark:bg-amber-950/20">
     <div class="mb-4">
         <p class="text-sm font-black uppercase text-amber-700 dark:text-amber-300">{{ __('messages.gym_admin') }}</p>
         <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{{ __('messages.admin_account_help') }}</p>
     </div>
-    <div class="grid gap-4 md:grid-cols-3">
+    <div class="grid gap-4 md:grid-cols-2">
         <label class="igym-field"><span class="igym-label">{{ __('messages.name') }}</span><input name="admin_name" value="{{ $fieldValue('admin_name', $admin?->name) }}" placeholder="Gym Owner" class="igym-input" required></label>
         <label class="igym-field"><span class="igym-label">{{ __('messages.email') }}</span><input type="email" name="admin_email" value="{{ $fieldValue('admin_email', $admin?->email) }}" placeholder="admin@gym.com" class="igym-input" required></label>
         <label class="igym-field">
@@ -33,6 +32,10 @@
             @if($gym->exists && $admin)
                 <span class="mt-1 block text-xs text-slate-500">{{ __('messages.leave_blank_keep_password') }}</span>
             @endif
+        </label>
+        <label class="igym-field">
+            <span class="igym-label">{{ __('messages.confirm_password') }}</span>
+            <input type="password" name="admin_password_confirmation" placeholder="{{ __('messages.confirm_password') }}" class="igym-input" @required(! $gym->exists || ! $admin)>
         </label>
     </div>
 </div>

@@ -16,7 +16,6 @@ class ProgressController extends Controller
         return view('member.progress', [
             'progress' => $progress,
             'latest' => $latest,
-            'recommendation' => ai_recommendation($latest?->goal ?? auth()->user()->trainingPlansAsMember()->latest()->value('goal')),
             'progressChart' => [
                 'labels' => $progress->pluck('recorded_at')->map(fn ($date) => $date->format('M d')),
                 'weight' => $progress->pluck('weight'),

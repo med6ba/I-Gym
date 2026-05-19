@@ -1,5 +1,7 @@
 <x-app-layout>
     <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.courses') }}</h2></x-slot>
+    @php($defaultCourseStart = '2026-07-01T09:00')
+    @php($defaultCourseEnd = '2026-07-01T10:00')
     <div class="mx-auto max-w-7xl space-y-5 px-4 py-6 sm:px-6 lg:px-8">
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
@@ -49,11 +51,11 @@
                     </label>
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.started_at') }}</span>
-                        <input type="datetime-local" name="starts_at" value="{{ old('_modal') === 'add-course' ? old('starts_at') : now()->addDay()->format('Y-m-d\TH:i') }}" placeholder="YYYY-MM-DD HH:MM" class="igym-input" required>
+                        <input type="datetime-local" name="starts_at" value="{{ old('_modal') === 'add-course' ? old('starts_at') : $defaultCourseStart }}" placeholder="YYYY-MM-DD HH:MM" class="igym-input" required>
                     </label>
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.ends_at') }}</span>
-                        <input type="datetime-local" name="ends_at" value="{{ old('_modal') === 'add-course' ? old('ends_at') : now()->addDay()->addHour()->format('Y-m-d\TH:i') }}" placeholder="YYYY-MM-DD HH:MM" class="igym-input" required>
+                        <input type="datetime-local" name="ends_at" value="{{ old('_modal') === 'add-course' ? old('ends_at') : $defaultCourseEnd }}" placeholder="YYYY-MM-DD HH:MM" class="igym-input" required>
                     </label>
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.capacity') }}</span>
@@ -72,14 +74,7 @@
             </form>
         </x-modal>
 
-        <form method="GET" data-ajax-filter data-ajax-target="#admin-course-results" class="flex flex-wrap items-end gap-3">
-            <label class="igym-field">
-                <span class="igym-label">{{ __('messages.all_categories') }}</span>
-                <select name="category" class="igym-input min-w-48"><option value="">{{ __('messages.all_categories') }}</option>@foreach($categories as $category)<option value="{{ $category }}" @selected(request('category')===$category)>{{ $category }}</option>@endforeach</select>
-            </label>
-            <x-button type="submit">{{ __('messages.filter') }}</x-button>
-        </form>
-        <div id="admin-course-results" data-ajax-target="#admin-course-results" class="transition">
+        <div class="transition">
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 @foreach($courses as $course)
                     @php($editModal = 'edit-course-'.$course->id)

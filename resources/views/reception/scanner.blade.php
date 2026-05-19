@@ -9,11 +9,21 @@
         </div>
     </x-slot>
 
-    <div class="mx-auto flex flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8" x-data="nfcReader()" x-init="init()">
+    <div class="mx-auto flex flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8" x-data='nfcReader(@js($members))' x-init="init()">
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
 
         <div class="relative w-full max-w-md">
+            <label class="igym-field mb-6 text-start">
+                <span class="igym-label">{{ __('messages.member') }}</span>
+                <select x-model="selectedMemberId" class="igym-input">
+                    <option value="">{{ __('messages.member') }}</option>
+                    <template x-for="member in availableMembers" :key="member.id">
+                        <option x-bind:value="member.id" x-text="`${member.name} - ${member.email}`"></option>
+                    </template>
+                </select>
+            </label>
+
             <div class="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-2xl shadow-slate-950/10 dark:border-slate-700 dark:bg-slate-900">
                 <div class="relative mx-auto mb-6">
                     <div class="relative mx-auto flex size-48 items-center justify-center">
@@ -84,8 +94,18 @@
     </div>
 
     <div x-data="{ fullscreen: false }" x-on:open-fullscreen.window="fullscreen = true" x-cloak x-show="fullscreen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950" x-transition>
-        <div class="flex size-full flex-col items-center justify-center px-6" x-data="nfcReader()" x-init="init()">
+        <div class="flex size-full flex-col items-center justify-center px-6" x-data='nfcReader(@js($members))' x-init="init()">
             <div class="relative w-full max-w-md">
+                <label class="igym-field mb-8 text-start">
+                    <span class="igym-label text-slate-300">{{ __('messages.member') }}</span>
+                    <select x-model="selectedMemberId" class="igym-input border-slate-700 bg-slate-900 text-white">
+                        <option value="">{{ __('messages.member') }}</option>
+                        <template x-for="member in availableMembers" :key="member.id">
+                            <option x-bind:value="member.id" x-text="`${member.name} - ${member.email}`"></option>
+                        </template>
+                    </select>
+                </label>
+
                 <div class="text-center">
                     <div class="relative mx-auto mb-8">
                         <div class="relative mx-auto flex size-56 items-center justify-center sm:size-64">
@@ -168,20 +188,35 @@
     </div>
 
     <script>
-        function nfcReader() {
+        function nfcReader(members = []) {
             return {
+                members,
+                selectedMemberId: '',
+                warningMemberIds: [],
                 scanning: false,
                 result: null,
                 titleText: '{{ __('messages.nfc_reader_title') }}',
                 bodyText: '{{ __('messages.nfc_reader_body') }}',
                 detailText: '',
                 statusClass: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
+                get availableMembers() {
+                    return this.members.filter((member) => !this.warningMemberIds.includes(Number(member.id)));
+                },
+                get selectedMember() {
+                    return this.members.find((member) => Number(member.id) === Number(this.selectedMemberId));
+                },
                 init() {
+                    window.igymScannerWarningMemberIds = window.igymScannerWarningMemberIds || [];
+                    this.warningMemberIds = window.igymScannerWarningMemberIds;
+                    window.addEventListener('igym-scanner-warning-member', (event) => {
+                        this.warningMemberIds = [...new Set([...this.warningMemberIds, Number(event.detail)])];
+                    });
                     this.titleText = '{{ __('messages.nfc_reader_title') }}';
                     this.bodyText = '{{ __('messages.nfc_reader_body') }}';
                 },
                 simulate(type) {
                     if (this.scanning) return;
+                    const member = this.selectedMember;
                     this.scanning = true;
                     this.result = null;
                     this.statusClass = 'bg-amber-100 text-amber-700 motion-safe:animate-pulse dark:bg-amber-950/50 dark:text-amber-300';
@@ -195,17 +230,24 @@
                             this.statusClass = 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30';
                             this.titleText = '{{ __('messages.nfc_allowed') }}';
                             this.bodyText = '{{ __('messages.nfc_allowed_desc') }}';
-                            this.detailText = '{{ __('messages.nfc_allowed_detail') }}';
+                            this.detailText = member ? `${member.name} - ${member.email}` : '{{ __('messages.nfc_allowed_detail') }}';
                         } else if (type === 'warning') {
                             this.statusClass = 'bg-amber-500 text-white shadow-lg shadow-amber-500/30';
                             this.titleText = '{{ __('messages.nfc_warning') }}';
                             this.bodyText = '{{ __('messages.nfc_warning_desc') }}';
-                            this.detailText = '{{ __('messages.nfc_warning_detail') }}';
+                            this.detailText = member ? `${member.name} - ${member.email}` : '{{ __('messages.nfc_warning_detail') }}';
+
+                            if (member) {
+                                this.warningMemberIds = [...new Set([...this.warningMemberIds, Number(member.id)])];
+                                window.igymScannerWarningMemberIds = this.warningMemberIds;
+                                window.dispatchEvent(new CustomEvent('igym-scanner-warning-member', { detail: Number(member.id) }));
+                                this.selectedMemberId = '';
+                            }
                         } else {
                             this.statusClass = 'bg-rose-500 text-white shadow-lg shadow-rose-500/30';
                             this.titleText = '{{ __('messages.nfc_denied') }}';
                             this.bodyText = '{{ __('messages.nfc_denied_desc') }}';
-                            this.detailText = '{{ __('messages.nfc_denied_detail') }}';
+                            this.detailText = member ? `${member.name} - ${member.email}` : '{{ __('messages.nfc_denied_detail') }}';
                         }
                     }, 1800);
                 },

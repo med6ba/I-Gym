@@ -7,27 +7,23 @@ use App\Models\Course;
 use App\Models\Reservation;
 use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CourseController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
         $member = auth()->user();
         $courses = Course::where('gym_id', $member->gym_id)
             ->where('status', 'scheduled')
             ->where('starts_at', '>=', now())
-            ->when($request->filled('category'), fn ($query) => $query->where('category', $request->category))
             ->with('coach')
             ->withCount('activeReservations')
             ->orderBy('starts_at')
-            ->paginate(12)
-            ->withQueryString();
+            ->paginate(12);
 
         return view('member.courses', [
             'courses' => $courses,
-            'categories' => ['Crossfit', 'Yoga', 'Cardio', 'Strength', 'Boxing', 'Pilates'],
             'reservedCourseIds' => Reservation::where('user_id', $member->id)->where('status', 'reserved')->pluck('course_id')->all(),
             'hasActiveSubscription' => Subscription::where('user_id', $member->id)
                 ->where('status', 'active')

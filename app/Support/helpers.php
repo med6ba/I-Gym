@@ -151,38 +151,6 @@ if (! function_exists('record_gym_activity')) {
     }
 }
 
-if (! function_exists('ai_recommendation')) {
-    function ai_recommendation(?string $goal): array
-    {
-        return match ($goal) {
-            'weight_loss' => [
-                'title' => __('messages.recommended_weight_loss'),
-                'frequency' => '4x / week',
-                'classes' => ['Cardio', 'Crossfit'],
-                'reason' => __('messages.recommendation_weight_loss_reason'),
-            ],
-            'muscle_gain' => [
-                'title' => __('messages.recommended_muscle_gain'),
-                'frequency' => '4x / week',
-                'classes' => ['Strength', 'Boxing'],
-                'reason' => __('messages.recommendation_muscle_gain_reason'),
-            ],
-            'endurance' => [
-                'title' => __('messages.recommended_endurance'),
-                'frequency' => '3x / week',
-                'classes' => ['Cardio', 'Pilates'],
-                'reason' => __('messages.recommendation_endurance_reason'),
-            ],
-            default => [
-                'title' => __('messages.recommended_fitness'),
-                'frequency' => '3x / week',
-                'classes' => ['Yoga', 'Strength'],
-                'reason' => __('messages.recommendation_fitness_reason'),
-            ],
-        };
-    }
-}
-
 if (! function_exists('status_badge_class')) {
     function status_badge_class(?string $status): string
     {

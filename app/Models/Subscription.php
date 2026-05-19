@@ -11,6 +11,9 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    public const PLAN_PRIMARY = 'Primary';
+    public const PLAN_PERSONAL_COACHING = 'Personal Coaching';
+
     protected $fillable = [
         'gym_id',
         'user_id',
@@ -54,5 +57,36 @@ class Subscription extends Model
     {
         return $query->where('status', 'active')
             ->whereBetween('ends_at', [now()->toDateString(), now()->addDays(7)->toDateString()]);
+    }
+
+    /**
+     * @return array<string, array{name: string, price: int}>
+     */
+    public static function plans(): array
+    {
+        return [
+            self::PLAN_PRIMARY => [
+                'name' => __('messages.primary_subscription'),
+                'price' => 299,
+            ],
+            self::PLAN_PERSONAL_COACHING => [
+                'name' => __('messages.personal_coaching_subscription'),
+                'price' => 499,
+            ],
+        ];
+    }
+
+    public static function priceForPlan(string $planName): int
+    {
+        return self::plans()[$planName]['price'] ?? self::plans()[self::PLAN_PRIMARY]['price'];
+    }
+
+    public static function labelForPlan(?string $planName): string
+    {
+        if (! $planName) {
+            return __('messages.no_data');
+        }
+
+        return self::plans()[$planName]['name'] ?? $planName;
     }
 }

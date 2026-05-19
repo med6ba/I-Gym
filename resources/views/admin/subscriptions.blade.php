@@ -1,5 +1,7 @@
 <x-app-layout>
     <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.subscriptions') }}</h2></x-slot>
+    @php($defaultSubscriptionStart = '2026-07-01')
+    @php($defaultSubscriptionEnd = '2026-08-01')
     <div class="mx-auto max-w-7xl space-y-5 px-4 py-6 sm:px-6 lg:px-8">
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
@@ -33,12 +35,20 @@
                     </label>
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.plan') }}</span>
-                        <input name="plan_name" value="{{ old('_modal') === 'add-subscription' ? old('plan_name') : 'Monthly Access' }}" placeholder="Monthly Access" class="igym-input" required>
+                        <select name="plan_name" class="igym-input" required>
+                            @foreach($plans as $planName => $plan)
+                                <option value="{{ $planName }}" @selected((old('_modal') === 'add-subscription' ? old('plan_name') : \App\Models\Subscription::PLAN_PRIMARY) === $planName)>{{ $plan['name'] }} - {{ format_currency($plan['price']) }}</option>
+                            @endforeach
+                        </select>
                     </label>
-                    <label class="igym-field">
+                    <div class="igym-field">
                         <span class="igym-label">{{ __('messages.price') }}</span>
-                        <input type="number" name="price" value="{{ old('_modal') === 'add-subscription' ? old('price') : 299 }}" min="0" step="0.01" placeholder="299" class="igym-input" required>
-                    </label>
+                        <div class="igym-input flex flex-wrap items-center gap-2">
+                            @foreach($plans as $plan)
+                                <x-badge status="info">{{ $plan['name'] }} · {{ format_currency($plan['price']) }}</x-badge>
+                            @endforeach
+                        </div>
+                    </div>
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.payment') }}</span>
                         <select name="payment_status" class="igym-input">
@@ -49,11 +59,11 @@
                     </label>
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.started_at') }}</span>
-                        <input type="date" name="starts_at" value="{{ old('_modal') === 'add-subscription' ? old('starts_at') : now()->toDateString() }}" placeholder="YYYY-MM-DD" class="igym-input" required>
+                        <input type="date" name="starts_at" value="{{ old('_modal') === 'add-subscription' ? old('starts_at') : $defaultSubscriptionStart }}" placeholder="YYYY-MM-DD" class="igym-input" required>
                     </label>
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.ends_at') }}</span>
-                        <input type="date" name="ends_at" value="{{ old('_modal') === 'add-subscription' ? old('ends_at') : now()->addMonth()->toDateString() }}" placeholder="YYYY-MM-DD" class="igym-input" required>
+                        <input type="date" name="ends_at" value="{{ old('_modal') === 'add-subscription' ? old('ends_at') : $defaultSubscriptionEnd }}" placeholder="YYYY-MM-DD" class="igym-input" required>
                     </label>
                 </div>
 
@@ -72,8 +82,8 @@
                     @php($editModal = 'edit-subscription-'.$subscription->id)
                     <tr>
                         <td class="px-4 py-3 font-bold">{{ $subscription->member->name }}</td>
-                        <td class="px-4 py-3">{{ $subscription->plan_name }}</td>
-                        <td class="px-4 py-3">{{ format_currency($subscription->price) }}</td>
+                        <td class="px-4 py-3">{{ \App\Models\Subscription::labelForPlan($subscription->plan_name) }}</td>
+                        <td class="px-4 py-3">{{ format_currency($subscription->price, $subscription->member?->currency) }}</td>
                         <td class="px-4 py-3">{{ $subscription->ends_at->format('M d, Y') }}</td>
                         <td class="px-4 py-3"><x-badge :status="$subscription->status" /></td>
                         <td class="px-4 py-3 text-end">
@@ -113,12 +123,20 @@
                         </label>
                         <label class="igym-field">
                             <span class="igym-label">{{ __('messages.plan') }}</span>
-                            <input name="plan_name" value="{{ old('_modal') === $editModal ? old('plan_name') : $subscription->plan_name }}" placeholder="Monthly Access" class="igym-input" required>
+                            <select name="plan_name" class="igym-input" required>
+                                @foreach($plans as $planName => $plan)
+                                    <option value="{{ $planName }}" @selected((old('_modal') === $editModal ? old('plan_name') : $subscription->plan_name) === $planName)>{{ $plan['name'] }} - {{ format_currency($plan['price'], $subscription->member?->currency) }}</option>
+                                @endforeach
+                            </select>
                         </label>
-                        <label class="igym-field">
+                        <div class="igym-field">
                             <span class="igym-label">{{ __('messages.price') }}</span>
-                            <input type="number" name="price" value="{{ old('_modal') === $editModal ? old('price') : $subscription->price }}" min="0" step="0.01" placeholder="299" class="igym-input" required>
-                        </label>
+                            <div class="igym-input flex flex-wrap items-center gap-2">
+                                @foreach($plans as $plan)
+                                    <x-badge status="info">{{ $plan['name'] }} · {{ format_currency($plan['price'], $subscription->member?->currency) }}</x-badge>
+                                @endforeach
+                            </div>
+                        </div>
                         <label class="igym-field">
                             <span class="igym-label">{{ __('messages.payment') }}</span>
                             <select name="payment_status" class="igym-input">

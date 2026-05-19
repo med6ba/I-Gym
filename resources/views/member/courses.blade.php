@@ -4,14 +4,7 @@
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
         @unless($hasActiveSubscription)<x-alert type="warning">{{ __('messages.subscription_required') }}</x-alert>@endunless
-        <form method="GET" data-ajax-filter data-ajax-target="#member-course-results" class="flex flex-wrap items-end gap-3">
-            <label class="igym-field">
-                <span class="igym-label">{{ __('messages.all_categories') }}</span>
-                <select name="category" class="igym-input min-w-48"><option value="">{{ __('messages.all_categories') }}</option>@foreach($categories as $category)<option value="{{ $category }}" @selected(request('category')===$category)>{{ $category }}</option>@endforeach</select>
-            </label>
-            <x-button type="submit">{{ __('messages.filter') }}</x-button>
-        </form>
-        <div id="member-course-results" data-ajax-target="#member-course-results" class="transition">
+        <div class="transition">
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 @foreach($courses as $course)
                     @php($reserveModal = 'reserve-course-'.$course->id)

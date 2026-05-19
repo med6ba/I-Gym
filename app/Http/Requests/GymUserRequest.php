@@ -20,7 +20,7 @@ class GymUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user?->id)],
             'phone' => ['nullable', 'string', 'max:40'],
-            'password' => [$user ? 'nullable' : 'required', 'string', 'min:8'],
+            'password' => [$user ? 'nullable' : 'required', 'string', 'min:8', 'confirmed'],
             'status' => ['required', Rule::in(['active', 'inactive'])],
         ];
     }
