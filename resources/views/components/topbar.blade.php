@@ -35,13 +35,13 @@
         </div>
 
         <div class="flex items-center gap-2">
-            <div class="relative hidden md:block">
+            <div class="relative">
                 <button type="button" x-on:click="quick = ! quick" class="igym-focus inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30">
                     <x-icon name="sparkles" size="17" class="text-amber-500" />
-                    {{ __('messages.quick') }}
+                    <span class="hidden sm:inline">{{ __('messages.quick') }}</span>
                     <x-icon name="chevron-down" size="15" />
                 </button>
-                <div x-show="quick" x-cloak x-transition x-on:click.outside="quick = false" class="absolute end-0 mt-2 w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-950/10 dark:border-slate-800 dark:bg-slate-900">
+                <div x-show="quick" x-cloak x-transition x-on:click.outside="quick = false" class="absolute end-0 mt-2 w-56 origin-top-right rounded-xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-950/10 dark:border-slate-800 dark:bg-slate-900 sm:w-64">
                     @foreach($quickActions as $action)
                         <a href="{{ route($action['route']) }}" class="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-amber-950/30 dark:hover:text-amber-200">
                             <span class="igym-menu-icon"><x-icon name="{{ $action['icon'] }}" size="18" /></span>

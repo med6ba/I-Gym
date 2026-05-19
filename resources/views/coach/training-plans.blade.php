@@ -61,7 +61,7 @@
 
         <div class="grid gap-4 md:grid-cols-2">
             @foreach($plans as $plan)
-                <div class="igym-card p-5"><div class="flex justify-between gap-3"><p class="font-black">{{ $plan->title }}</p><x-badge status="info">{{ Str::headline($plan->goal) }}</x-badge></div><p class="mt-1 text-sm text-slate-500">{{ $plan->member->name }}</p><p class="mt-3 text-sm">{{ $plan->description }}</p></div>
+                <div class="igym-card p-5"><div class="flex flex-wrap justify-between gap-3"><p class="font-black">{{ $plan->title }}</p><x-badge status="info">{{ Str::headline($plan->goal) }}</x-badge></div><p class="mt-1 text-sm text-slate-500">{{ $plan->member->name }}</p><p class="mt-3 text-sm">{{ $plan->description }}</p></div>
             @endforeach
         </div>
         {{ $plans->links() }}

@@ -11,7 +11,7 @@
                 <div class="space-y-3">
                     @forelse($upcomingSessions as $course)
                         <a href="{{ route('coach.classes.attendance', $course) }}" class="block rounded-xl border border-slate-200 p-4 transition hover:border-amber-300 hover:bg-amber-50/40 dark:border-slate-800 dark:hover:bg-amber-950/20">
-                            <div class="flex justify-between gap-3"><p class="font-bold">{{ $course->title }}</p><x-badge :status="$course->status" /></div>
+                            <div class="flex flex-wrap justify-between gap-3"><p class="font-bold">{{ $course->title }}</p><x-badge :status="$course->status" /></div>
                             <p class="mt-1 text-sm text-slate-500">{{ $course->starts_at->format('M d, H:i') }} · {{ $course->active_reservations_count }}/{{ $course->max_capacity }}</p>
                         </a>
                     @empty

@@ -21,7 +21,7 @@
         <x-chart-card :title="__('messages.notifications')">
             <div class="grid gap-3 md:grid-cols-2">
                 @foreach($notifications as $notification)
-                    <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800"><div class="flex justify-between gap-3"><p class="font-bold">{{ $notification->title }}</p><x-badge :status="$notification->type" /></div><p class="mt-2 text-sm text-slate-500">{{ $notification->message }}</p></div>
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800"><div class="flex flex-wrap justify-between gap-3"><p class="font-bold">{{ $notification->title }}</p><x-badge :status="$notification->type" /></div><p class="mt-2 text-sm text-slate-500">{{ $notification->message }}</p></div>
                 @endforeach
             </div>
         </x-chart-card>

@@ -45,7 +45,7 @@
                             @foreach([
                                 ['icon' => 'dashboard', 'title' => __('messages.role_dashboards'), 'text' => __('messages.role_dashboards_text')],
                                 ['icon' => 'nfc', 'title' => __('messages.nfc_access'), 'text' => __('messages.nfc_access_text')],
-                                ['icon' => 'sparkles', 'title' => __('messages.smart_insights'), 'text' => __('messages.smart_insights_text')],
+                                ['icon' => 'sparkles', 'title' => __('messages.igyma_assistant'), 'text' => __('messages.igyma_members_only_assistant')],
                             ] as $item)
                                 <div class="group flex gap-3 rounded-xl p-3 text-slate-700 transition hover:bg-amber-50 dark:text-slate-200 dark:hover:bg-white/10">
                                     <span class="igym-menu-icon"><x-icon name="{{ $item['icon'] }}" size="18" /></span>
@@ -107,7 +107,7 @@
                         </a>
                     @endforeach
                 </div>
-                <div class="mt-4 grid grid-cols-2 gap-2">
+                <div class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <x-language-switcher />
                     <x-theme-toggle />
                 </div>

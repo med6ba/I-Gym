@@ -35,7 +35,7 @@
                         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ __('messages.theme_help') }}</p>
                     </div>
                 </div>
-                <div class="mt-4 grid grid-cols-3 gap-3">
+                <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
                     <template x-for="(option, key) in { light: '{{ __('messages.light') }}', dark: '{{ __('messages.dark') }}', system: '{{ __('messages.system') }}' }" :key="key">
                         <button type="button" x-on:click="theme = key" x-bind:class="theme === key ? 'border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/40' : 'border-slate-200 dark:border-slate-700'" class="flex flex-col items-center gap-2 rounded-xl border p-4 text-sm font-bold transition hover:border-amber-300 dark:hover:border-amber-800">
                             <span x-show="key === 'light'"><x-icon name="sun" size="22" /></span>

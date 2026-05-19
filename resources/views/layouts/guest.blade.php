@@ -28,7 +28,7 @@
             <div class="absolute inset-0 hidden bg-cover bg-center opacity-20 dark:block" style="background-image: linear-gradient(90deg, rgba(2,6,23,.98), rgba(15,23,42,.86)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
             <div class="absolute inset-0 hidden bg-slate-950/70 dark:block"></div>
             <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6">
-                <div class="flex items-center justify-between gap-4">
+                <div class="flex flex-wrap items-center justify-between gap-4">
                     <a href="{{ route('landing') }}" class="igym-focus rounded-lg">
                         <span class="dark:hidden"><x-application-logo /></span>
                         <span class="hidden dark:block"><x-application-logo tone="inverse" /></span>

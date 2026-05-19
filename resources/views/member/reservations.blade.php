@@ -6,7 +6,7 @@
             @foreach($reservations as $reservation)
                 @php($cancelModal = 'cancel-reservation-'.$reservation->id)
                 <div class="igym-card p-5">
-                    <div class="flex justify-between gap-3"><div><p class="font-black">{{ $reservation->course->title }}</p><p class="text-sm text-slate-500">{{ $reservation->course->starts_at->format('M d, H:i') }} · {{ $reservation->course->coach->name }}</p></div><x-badge :status="$reservation->status" /></div>
+                    <div class="flex flex-wrap justify-between gap-3"><div><p class="font-black">{{ $reservation->course->title }}</p><p class="text-sm text-slate-500">{{ $reservation->course->starts_at->format('M d, H:i') }} · {{ $reservation->course->coach->name }}</p></div><x-badge :status="$reservation->status" /></div>
                     @if($reservation->status === 'reserved')
                         <button type="button" class="igym-action igym-action-danger mt-4" x-on:click="$dispatch('open-modal', '{{ $cancelModal }}')">
                             <x-icon name="trash" size="16" />

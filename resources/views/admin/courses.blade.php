@@ -80,7 +80,7 @@
                     @php($editModal = 'edit-course-'.$course->id)
                     @php($deleteModal = 'delete-course-'.$course->id)
                     <div class="igym-card igym-hover p-5">
-                        <div class="flex items-start justify-between gap-3">
+                        <div class="flex flex-wrap items-start justify-between gap-3">
                             <div><p class="font-black">{{ $course->title }}</p><p class="text-sm text-slate-500">{{ $course->coach->name }} · {{ $course->starts_at->format('M d, H:i') }}</p></div>
                             <x-badge :status="$course->status" />
                         </div>

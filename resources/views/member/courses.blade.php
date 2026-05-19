@@ -10,7 +10,7 @@
                     @php($reserveModal = 'reserve-course-'.$course->id)
                     @php($isReserved = in_array($course->id, $reservedCourseIds))
                     <div class="igym-card igym-hover p-5">
-                        <div class="flex items-start justify-between gap-3"><div><p class="font-black">{{ $course->title }}</p><p class="text-sm text-slate-500">{{ $course->coach->name }} · {{ $course->starts_at->format('M d, H:i') }}</p></div><x-badge :status="$course->category" /></div>
+                        <div class="flex flex-wrap items-start justify-between gap-3"><div><p class="font-black">{{ $course->title }}</p><p class="text-sm text-slate-500">{{ $course->coach->name }} · {{ $course->starts_at->format('M d, H:i') }}</p></div><x-badge :status="$course->category" /></div>
                         <div class="mt-4"><div class="mb-1 flex justify-between text-xs font-bold"><span>{{ $course->active_reservations_count }}/{{ $course->max_capacity }}</span><span>{{ $course->occupancy_rate }}%</span></div><x-progress-bar :value="$course->occupancy_rate" /></div>
                         @if($course->smart_alert)<x-alert type="{{ $course->is_full ? 'danger' : 'warning' }}" class="mt-4">{{ $course->smart_alert }}</x-alert>@endif
                         <button type="button" x-on:click="$dispatch('open-modal', '{{ $reserveModal }}')" @disabled(!$hasActiveSubscription || $course->is_full || $isReserved) class="igym-focus mt-4 w-full rounded-lg border border-amber-500 bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 transition enabled:hover:bg-amber-400 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 dark:disabled:border-slate-700 dark:disabled:bg-slate-800">

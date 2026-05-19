@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
             <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.gyms') }}</h2>
             <div class="flex gap-2">
                 <button type="button" x-on:click="$dispatch('open-modal', 'add-gym')" class="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">

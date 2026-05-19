@@ -8,6 +8,6 @@
     };
 @endphp
 
-<button {{ $attributes->merge(['class' => 'igym-focus inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-bold transition active:scale-[0.99] '.$classes]) }}>
+<button {{ $attributes->merge(['class' => 'igym-focus inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-bold transition active:scale-[0.99] '.$classes]) }}>
     {{ $slot }}
 </button>

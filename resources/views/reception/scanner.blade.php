@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <div x-show="!result" x-cloak class="mt-6 grid grid-cols-3 gap-3">
+            <div x-show="!result" x-cloak class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <button type="button" x-on:click="simulate('allowed')" class="flex flex-col items-center gap-2 rounded-xl border-2 border-emerald-300 bg-emerald-50 p-4 text-sm font-bold text-emerald-800 transition hover:bg-emerald-100 active:scale-95 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200 dark:hover:bg-emerald-950/60">
                     <span class="grid size-10 place-items-center rounded-full bg-emerald-400 text-white"><x-icon name="check" size="22" /></span>
                     <span>{{ __('messages.nfc_allowed') }}</span>
