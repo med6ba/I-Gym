@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+    }
+}
+
+@layer components {
+    .igym-focus {
+        @apply focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950;
+    }
+
+    .igym-card {
+        @apply rounded-xl border border-slate-200 bg-white transition dark:border-slate-800 dark:bg-slate-900;
+    }
+
+    .igym-hover {
+        @apply hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50/40 dark:hover:border-amber-700 dark:hover:bg-amber-950/20;
+    }
+}

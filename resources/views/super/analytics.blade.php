@@ -1,0 +1,46 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.analytics') }}</h2>
+    </x-slot>
+
+    <div class="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+        <div class="grid gap-4 md:grid-cols-3">
+            <x-stat-card label="Reservations" :value="$totalReservations" />
+            <x-stat-card label="Courses" :value="$totalCourses" />
+            <x-stat-card label="Paid Subscription Volume" value="${{ number_format($paidSubscriptions, 2) }}" />
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-2">
+            <x-chart-card title="Plans Mix"><canvas id="plansChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card title="Customer Status"><canvas id="statusChart" class="h-72 w-full"></canvas></x-chart-card>
+        </div>
+
+        <x-table>
+            <thead class="bg-slate-50 dark:bg-slate-800/60">
+                <tr>
+                    <th class="px-4 py-3 text-start font-bold">Gym</th>
+                    <th class="px-4 py-3 text-start font-bold">Members</th>
+                    <th class="px-4 py-3 text-start font-bold">Courses</th>
+                    <th class="px-4 py-3 text-start font-bold">Reservations</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                @foreach($topGyms as $gym)
+                    <tr>
+                        <td class="px-4 py-3 font-semibold">{{ $gym->name }}</td>
+                        <td class="px-4 py-3">{{ $gym->members_count }}</td>
+                        <td class="px-4 py-3">{{ $gym->courses_count }}</td>
+                        <td class="px-4 py-3">{{ $gym->reservations_count }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </x-table>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            new Chart(document.getElementById('plansChart'), { type: 'bar', data: { labels: @json($plansChart['labels']), datasets: [{ data: @json($plansChart['data']), backgroundColor: '#F59E0B' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            new Chart(document.getElementById('statusChart'), { type: 'pie', data: { labels: @json($statusChart['labels']), datasets: [{ data: @json($statusChart['data']), backgroundColor: ['#22C55E', '#FACC15', '#EF4444', '#64748B'] }] }, options: { responsive: true, maintainAspectRatio: false } });
+        });
+    </script>
+</x-app-layout>

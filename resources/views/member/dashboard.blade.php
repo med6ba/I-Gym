@@ -1,0 +1,36 @@
+<x-app-layout>
+    <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.dashboard') }}</h2></x-slot>
+    <div class="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+        @if($subscription?->status !== 'active' || $subscription?->ends_at?->isPast())
+            <x-alert type="warning">{{ __('messages.subscription_required') }}</x-alert>
+        @elseif($subscription->ends_at->diffInDays(now()) <= 7)
+            <x-alert type="warning">Your subscription expires {{ $subscription->ends_at->diffForHumans() }}.</x-alert>
+        @endif
+        <div class="grid gap-4 md:grid-cols-4">
+            <x-stat-card :label="__('messages.subscription')" :value="Str::headline($subscription?->status ?? 'none')" :detail="$subscription?->plan_name" />
+            <x-stat-card label="Next Class" :value="$nextReservation?->course?->title ?? 'None'" :detail="$nextReservation?->course?->starts_at?->format('M d, H:i')" />
+            <x-stat-card label="Latest Weight" value="{{ $latestProgress?->weight ? $latestProgress->weight.' kg' : 'No data' }}" />
+            <x-stat-card :label="__('messages.ai_recommendations')" :value="$recommendation['frequency']" />
+        </div>
+        <div class="grid gap-6 lg:grid-cols-[.9fr_1.1fr]">
+            <x-chart-card :title="__('messages.ai_recommendations')">
+                <p class="text-lg font-black">{{ $recommendation['title'] }}</p>
+                <p class="mt-2 text-sm text-slate-500">{{ $recommendation['reason'] }}</p>
+                <div class="mt-4 flex flex-wrap gap-2">@foreach($recommendation['classes'] as $class)<x-badge status="info">{{ $class }}</x-badge>@endforeach</div>
+            </x-chart-card>
+            <x-chart-card title="Progress Summary"><canvas id="progressChart" class="h-72 w-full"></canvas></x-chart-card>
+        </div>
+        <x-chart-card :title="__('messages.notifications')">
+            <div class="grid gap-3 md:grid-cols-2">
+                @foreach($notifications as $notification)
+                    <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800"><div class="flex justify-between gap-3"><p class="font-bold">{{ $notification->title }}</p><x-badge :status="$notification->type" /></div><p class="mt-2 text-sm text-slate-500">{{ $notification->message }}</p></div>
+                @endforeach
+            </div>
+        </x-chart-card>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            new Chart(document.getElementById('progressChart'), { type: 'line', data: { labels: @json($progressChart['labels']), datasets: [{ label: 'Weight', data: @json($progressChart['data']), borderColor: '#F59E0B', backgroundColor: 'rgba(245,158,11,.15)', fill: true, tension: .35 }] }, options: { responsive: true, maintainAspectRatio: false } });
+        });
+    </script>
+</x-app-layout>
