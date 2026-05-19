@@ -5,8 +5,8 @@
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
         @unless($hasActiveSubscription)<x-alert type="warning">{{ __('messages.subscription_required') }}</x-alert>@endunless
         <form method="GET" class="flex flex-wrap gap-3">
-            <select name="category" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950"><option value="">All categories</option>@foreach($categories as $category)<option value="{{ $category }}" @selected(request('category')===$category)>{{ $category }}</option>@endforeach</select>
-            <x-button>Filter</x-button>
+            <select name="category" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950"><option value="">{{ __('messages.all_categories') }}</option>@foreach($categories as $category)<option value="{{ $category }}" @selected(request('category')===$category)>{{ $category }}</option>@endforeach</select>
+            <x-button>{{ __('messages.filter') }}</x-button>
         </form>
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             @foreach($courses as $course)

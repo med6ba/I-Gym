@@ -8,13 +8,13 @@
             <x-stat-card :label="__('messages.active_members')" :value="$activeMembers" />
             <x-stat-card :label="__('messages.active_coaches')" :value="$activeCoaches" />
             <x-stat-card :label="__('messages.today_classes')" :value="$todayClasses" />
-            <x-stat-card label="Reservations Today" :value="$reservationsToday" />
+            <x-stat-card :label="__('messages.reservations_today')" :value="$reservationsToday" />
             <x-stat-card :label="__('messages.occupancy_rate')" value="{{ $occupancyRate }}%" />
-            <x-stat-card label="No-shows" :value="$noShows" />
+            <x-stat-card :label="__('messages.no_shows')" :value="$noShows" />
         </div>
 
         <div class="grid gap-6 lg:grid-cols-[1fr_.8fr]">
-            <x-chart-card title="Attendance Trend"><canvas id="attendanceChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.attendance_trend')"><canvas id="attendanceChart" class="h-72 w-full"></canvas></x-chart-card>
             <x-chart-card title="{{ __('messages.smart_alerts') }}">
                 <div class="space-y-3">
                     @foreach($smartAlerts as $alert)
@@ -25,7 +25,7 @@
         </div>
 
         <div class="grid gap-6 lg:grid-cols-2">
-            <x-chart-card title="Popular Classes"><canvas id="popularChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.popular_classes')"><canvas id="popularChart" class="h-72 w-full"></canvas></x-chart-card>
             <x-chart-card :title="__('messages.expiring_subscriptions')">
                 <div class="space-y-3">
                     @forelse($expiringSubscriptions as $subscription)
@@ -37,7 +37,7 @@
                             <x-badge status="warning">{{ $subscription->ends_at->diffForHumans() }}</x-badge>
                         </div>
                     @empty
-                        <x-empty-state message="No renewals need attention this week." />
+                        <x-empty-state :message="__('messages.no_renewals_this_week')" />
                     @endforelse
                 </div>
             </x-chart-card>

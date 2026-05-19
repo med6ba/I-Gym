@@ -8,11 +8,11 @@
         <form method="POST" action="{{ route('coach.classes.attendance.store', $course) }}" class="igym-card grid gap-4 p-5 md:grid-cols-3">
             @csrf
             <select name="member_id" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">@foreach($members as $member)<option value="{{ $member->id }}">{{ $member->name }}</option>@endforeach</select>
-            <select name="method" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950"><option value="qr">QR</option><option value="manual">Manual</option></select>
-            <x-button>Mark Present</x-button>
+            <select name="method" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950"><option value="qr">QR</option><option value="manual">{{ __('messages.manual') }}</option></select>
+            <x-button>{{ __('messages.mark_present') }}</x-button>
         </form>
         <x-table>
-            <thead class="bg-slate-50 dark:bg-slate-800/60"><tr><th class="px-4 py-3 text-start">Member</th><th class="px-4 py-3 text-start">Reservation</th><th class="px-4 py-3 text-start">Attendance</th></tr></thead>
+            <thead class="bg-slate-50 dark:bg-slate-800/60"><tr><th class="px-4 py-3 text-start">{{ __('messages.member') }}</th><th class="px-4 py-3 text-start">{{ __('messages.reservation') }}</th><th class="px-4 py-3 text-start">{{ __('messages.attendance') }}</th></tr></thead>
             <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
                 @foreach($course->reservations as $reservation)
                     @php($present = $course->attendances->firstWhere('user_id', $reservation->user_id))

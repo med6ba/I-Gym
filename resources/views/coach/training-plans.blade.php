@@ -6,11 +6,11 @@
         <form method="POST" action="{{ route('coach.training-plans.store') }}" class="igym-card grid gap-4 p-5 lg:grid-cols-3">
             @csrf
             <select name="member_id" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">@foreach($members as $member)<option value="{{ $member->id }}">{{ $member->name }}</option>@endforeach</select>
-            <input name="title" placeholder="Plan title" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
+            <input name="title" placeholder="{{ __('messages.plan_title') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
             <select name="goal" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">@foreach(['weight_loss','muscle_gain','fitness','endurance'] as $goal)<option value="{{ $goal }}">{{ Str::headline($goal) }}</option>@endforeach</select>
-            <textarea name="description" placeholder="Coaching notes" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 lg:col-span-2"></textarea>
-            <textarea name="exercises" placeholder="One exercise per line" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950"></textarea>
-            <x-button>Create Plan</x-button>
+            <textarea name="description" placeholder="{{ __('messages.coaching_notes') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 lg:col-span-2"></textarea>
+            <textarea name="exercises" placeholder="{{ __('messages.one_exercise_per_line') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950"></textarea>
+            <x-button>{{ __('messages.create_plan') }}</x-button>
         </form>
         <div class="grid gap-4 md:grid-cols-2">
             @foreach($plans as $plan)

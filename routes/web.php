@@ -47,7 +47,7 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('super')->name('super.')
     Route::get('/analytics', AnalyticsController::class)->name('analytics');
 });
 
-Route::middleware(['auth', 'role:gym_admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:gym_admin', 'gym.access'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
 
     Route::get('/members', [AdminMemberController::class, 'index'])->name('members.index');
@@ -79,7 +79,7 @@ Route::middleware(['auth', 'role:gym_admin'])->prefix('admin')->name('admin.')->
     Route::post('/notifications', [AdminNotificationController::class, 'store'])->name('notifications.store');
 });
 
-Route::middleware(['auth', 'role:coach'])->prefix('coach')->name('coach.')->group(function () {
+Route::middleware(['auth', 'role:coach', 'gym.access'])->prefix('coach')->name('coach.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'coach'])->name('dashboard');
     Route::get('/classes', [CoachClassController::class, 'index'])->name('classes.index');
     Route::get('/classes/{course}/attendance', [CoachClassController::class, 'attendance'])->name('classes.attendance');
@@ -91,7 +91,7 @@ Route::middleware(['auth', 'role:coach'])->prefix('coach')->name('coach.')->grou
     Route::post('/progress', [CoachProgressController::class, 'store'])->name('progress.store');
 });
 
-Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->group(function () {
+Route::middleware(['auth', 'role:member', 'gym.access'])->prefix('member')->name('member.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'member'])->name('dashboard');
     Route::get('/qr-code', QrCodeController::class)->name('qr-code');
     Route::get('/courses', [MemberCourseController::class, 'index'])->name('courses.index');

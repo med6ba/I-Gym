@@ -5,23 +5,23 @@
 
     <div class="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 lg:px-8">
         <div class="grid gap-4 md:grid-cols-3">
-            <x-stat-card label="Reservations" :value="$totalReservations" />
-            <x-stat-card label="Courses" :value="$totalCourses" />
-            <x-stat-card label="Paid Subscription Volume" value="${{ number_format($paidSubscriptions, 2) }}" />
+            <x-stat-card :label="__('messages.reservations')" :value="$totalReservations" />
+            <x-stat-card :label="__('messages.courses')" :value="$totalCourses" />
+            <x-stat-card :label="__('messages.paid_subscription_volume')" :value="format_currency($paidSubscriptions)" />
         </div>
 
         <div class="grid gap-6 lg:grid-cols-2">
-            <x-chart-card title="Plans Mix"><canvas id="plansChart" class="h-72 w-full"></canvas></x-chart-card>
-            <x-chart-card title="Customer Status"><canvas id="statusChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.plans_mix')"><canvas id="plansChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.customer_status')"><canvas id="statusChart" class="h-72 w-full"></canvas></x-chart-card>
         </div>
 
         <x-table>
             <thead class="bg-slate-50 dark:bg-slate-800/60">
                 <tr>
-                    <th class="px-4 py-3 text-start font-bold">Gym</th>
-                    <th class="px-4 py-3 text-start font-bold">Members</th>
-                    <th class="px-4 py-3 text-start font-bold">Courses</th>
-                    <th class="px-4 py-3 text-start font-bold">Reservations</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.gyms') }}</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.members') }}</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.courses') }}</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.reservations') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-200 dark:divide-slate-800">

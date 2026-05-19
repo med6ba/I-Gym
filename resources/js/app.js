@@ -8,7 +8,9 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-const preferredTheme = localStorage.getItem('igym-theme') || document.documentElement.dataset.userTheme || 'light';
+const preferredTheme = document.documentElement.dataset.authenticated === '1'
+    ? (document.documentElement.dataset.userTheme || 'light')
+    : (localStorage.getItem('igym-theme') || 'light');
 
 function applyTheme(theme) {
     const resolvedTheme = theme === 'system'

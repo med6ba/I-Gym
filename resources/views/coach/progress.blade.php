@@ -6,16 +6,16 @@
         <form method="POST" action="{{ route('coach.progress.store') }}" class="igym-card grid gap-4 p-5 lg:grid-cols-4">
             @csrf
             <select name="member_id" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">@foreach($members as $member)<option value="{{ $member->id }}">{{ $member->name }}</option>@endforeach</select>
-            <input type="number" step=".1" name="weight" placeholder="Weight" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
-            <input type="number" step=".1" name="body_fat" placeholder="Body fat %" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
-            <input type="number" step=".1" name="muscle_mass" placeholder="Muscle mass" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
-            <input name="goal" placeholder="Goal" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
+            <input type="number" step=".1" name="weight" placeholder="{{ __('messages.weight') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
+            <input type="number" step=".1" name="body_fat" placeholder="{{ __('messages.body_fat') }} %" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
+            <input type="number" step=".1" name="muscle_mass" placeholder="{{ __('messages.muscle_mass') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
+            <input name="goal" placeholder="{{ __('messages.goal') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
             <input type="date" name="recorded_at" value="{{ now()->toDateString() }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
-            <input name="notes" placeholder="Notes" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 lg:col-span-2">
-            <x-button>Record Progress</x-button>
+            <input name="notes" placeholder="{{ __('messages.notes') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 lg:col-span-2">
+            <x-button>{{ __('messages.record_progress') }}</x-button>
         </form>
         <x-table>
-            <thead class="bg-slate-50 dark:bg-slate-800/60"><tr><th class="px-4 py-3 text-start">Member</th><th class="px-4 py-3 text-start">Weight</th><th class="px-4 py-3 text-start">Body Fat</th><th class="px-4 py-3 text-start">Recorded</th></tr></thead>
+            <thead class="bg-slate-50 dark:bg-slate-800/60"><tr><th class="px-4 py-3 text-start">{{ __('messages.member') }}</th><th class="px-4 py-3 text-start">{{ __('messages.weight') }}</th><th class="px-4 py-3 text-start">{{ __('messages.body_fat') }}</th><th class="px-4 py-3 text-start">{{ __('messages.recorded') }}</th></tr></thead>
             <tbody class="divide-y divide-slate-200 dark:divide-slate-800">@foreach($progressEntries as $entry)<tr><td class="px-4 py-3 font-bold">{{ $entry->member->name }}</td><td class="px-4 py-3">{{ $entry->weight }}</td><td class="px-4 py-3">{{ $entry->body_fat }}%</td><td class="px-4 py-3">{{ $entry->recorded_at->format('M d, Y') }}</td></tr>@endforeach</tbody>
         </x-table>
         {{ $progressEntries->links() }}

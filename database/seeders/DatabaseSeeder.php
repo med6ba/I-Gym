@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
             'gym_id' => null,
             'password' => 'password',
             'status' => 'active',
+            'language' => 'en',
+            'theme' => 'light',
+            'currency' => 'USD',
+            'bio' => 'SaaS operator account for the I-Gym demo.',
         ]);
 
         $gyms = collect([
@@ -75,6 +79,10 @@ class DatabaseSeeder extends Seeder
                 'role' => 'gym_admin',
                 'phone' => '+212 600 10 20 '.($gymIndex + 1),
                 'status' => 'active',
+                'language' => 'en',
+                'theme' => 'light',
+                'currency' => 'MAD',
+                'bio' => 'Gym operations lead focused on occupancy, retention, and member experience.',
             ]);
 
             $coaches = collect([
@@ -90,6 +98,19 @@ class DatabaseSeeder extends Seeder
                     'role' => 'coach',
                     'phone' => '+212 611 '.($gymIndex + 1).$index.' 00 00',
                     'status' => 'active',
+                    'language' => 'en',
+                    'theme' => 'light',
+                    'currency' => 'MAD',
+                    'age' => 28 + $index,
+                    'height_cm' => 168 + ($index * 5),
+                    'weight_kg' => 64 + ($index * 6),
+                    'gender' => $index === 1 ? 'male' : 'female',
+                    'fitness_goal' => match ($coach['focus']) {
+                        'Strength' => 'muscle_gain',
+                        'Cardio' => 'endurance',
+                        default => 'fitness',
+                    },
+                    'bio' => $coach['focus'].' coach helping members build sustainable routines.',
                 ]);
             });
 
@@ -111,6 +132,15 @@ class DatabaseSeeder extends Seeder
                     'role' => 'member',
                     'phone' => '+212 622 '.($gymIndex + 1).$index.' 00 00',
                     'status' => $index === 7 ? 'inactive' : 'active',
+                    'language' => 'en',
+                    'theme' => $index % 4 === 0 ? 'dark' : 'light',
+                    'currency' => 'MAD',
+                    'age' => 21 + $index,
+                    'height_cm' => 162 + ($index * 3),
+                    'weight_kg' => 58 + ($index * 4),
+                    'gender' => $index % 2 === 0 ? 'male' : 'female',
+                    'fitness_goal' => ['weight_loss', 'muscle_gain', 'fitness', 'endurance'][$index % 4],
+                    'bio' => 'Member profile prepared for the demo booking, QR access, and progress flow.',
                 ]);
             });
 

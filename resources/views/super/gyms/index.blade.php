@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between gap-4">
             <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.gyms') }}</h2>
-            <a href="{{ route('super.gyms.create') }}" class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">Create Gym</a>
+            <a href="{{ route('super.gyms.create') }}" class="rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">{{ __('messages.create_gym') }}</a>
         </div>
     </x-slot>
 
@@ -11,11 +11,11 @@
         <x-table>
             <thead class="bg-slate-50 dark:bg-slate-800/60">
                 <tr>
-                    <th class="px-4 py-3 text-start font-bold">Gym</th>
-                    <th class="px-4 py-3 text-start font-bold">Plan</th>
-                    <th class="px-4 py-3 text-start font-bold">Status</th>
-                    <th class="px-4 py-3 text-start font-bold">Users</th>
-                    <th class="px-4 py-3 text-end font-bold">Actions</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.gyms') }}</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.plan') }}</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.status') }}</th>
+                    <th class="px-4 py-3 text-start font-bold">{{ __('messages.platform_users') }}</th>
+                    <th class="px-4 py-3 text-end font-bold">{{ __('messages.actions') }}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
@@ -29,10 +29,10 @@
                         <td class="px-4 py-3"><x-badge :status="$gym->status" /></td>
                         <td class="px-4 py-3">{{ $gym->users_count }}</td>
                         <td class="px-4 py-3 text-end">
-                            <a href="{{ route('super.gyms.edit', $gym) }}" class="text-sm font-bold text-amber-600 hover:text-amber-500">Edit</a>
+                            <a href="{{ route('super.gyms.edit', $gym) }}" class="text-sm font-bold text-amber-600 hover:text-amber-500">{{ __('messages.edit') }}</a>
                             <form method="POST" action="{{ route('super.gyms.destroy', $gym) }}" class="inline" onsubmit="return confirm('Delete this gym?')">
                                 @csrf @method('DELETE')
-                                <button class="ms-3 text-sm font-bold text-rose-600">Delete</button>
+                                <button class="ms-3 text-sm font-bold text-rose-600">{{ __('messages.delete') }}</button>
                             </form>
                         </td>
                     </tr>

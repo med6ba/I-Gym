@@ -4,12 +4,12 @@
         @if($subscription?->status !== 'active' || $subscription?->ends_at?->isPast())
             <x-alert type="warning">{{ __('messages.subscription_required') }}</x-alert>
         @elseif($subscription->ends_at->diffInDays(now()) <= 7)
-            <x-alert type="warning">Your subscription expires {{ $subscription->ends_at->diffForHumans() }}.</x-alert>
+            <x-alert type="warning">{{ __('messages.expiring_subscriptions') }}: {{ $subscription->ends_at->diffForHumans() }}.</x-alert>
         @endif
         <div class="grid gap-4 md:grid-cols-4">
             <x-stat-card :label="__('messages.subscription')" :value="Str::headline($subscription?->status ?? 'none')" :detail="$subscription?->plan_name" />
-            <x-stat-card label="Next Class" :value="$nextReservation?->course?->title ?? 'None'" :detail="$nextReservation?->course?->starts_at?->format('M d, H:i')" />
-            <x-stat-card label="Latest Weight" value="{{ $latestProgress?->weight ? $latestProgress->weight.' kg' : 'No data' }}" />
+            <x-stat-card :label="__('messages.next_class')" :value="$nextReservation?->course?->title ?? __('messages.no_data')" :detail="$nextReservation?->course?->starts_at?->format('M d, H:i')" />
+            <x-stat-card :label="__('messages.latest_weight')" value="{{ $latestProgress?->weight ? $latestProgress->weight.' kg' : __('messages.no_data') }}" />
             <x-stat-card :label="__('messages.ai_recommendations')" :value="$recommendation['frequency']" />
         </div>
         <div class="grid gap-6 lg:grid-cols-[.9fr_1.1fr]">
@@ -18,7 +18,7 @@
                 <p class="mt-2 text-sm text-slate-500">{{ $recommendation['reason'] }}</p>
                 <div class="mt-4 flex flex-wrap gap-2">@foreach($recommendation['classes'] as $class)<x-badge status="info">{{ $class }}</x-badge>@endforeach</div>
             </x-chart-card>
-            <x-chart-card title="Progress Summary"><canvas id="progressChart" class="h-72 w-full"></canvas></x-chart-card>
+            <x-chart-card :title="__('messages.progress_summary')"><canvas id="progressChart" class="h-72 w-full"></canvas></x-chart-card>
         </div>
         <x-chart-card :title="__('messages.notifications')">
             <div class="grid gap-3 md:grid-cols-2">

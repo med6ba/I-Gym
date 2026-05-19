@@ -64,3 +64,30 @@ if (! function_exists('status_badge_class')) {
         };
     }
 }
+
+if (! function_exists('currency_symbol')) {
+    function currency_symbol(?string $currency = null): string
+    {
+        $currency ??= auth()->user()?->currency ?? 'MAD';
+
+        return match ($currency) {
+            'USD' => '$',
+            'EUR' => '€',
+            'GBP' => '£',
+            'MAD' => 'MAD',
+            default => $currency,
+        };
+    }
+}
+
+if (! function_exists('format_currency')) {
+    function format_currency(float|int|string|null $amount, ?string $currency = null): string
+    {
+        $amount = (float) ($amount ?? 0);
+        $currency ??= auth()->user()?->currency ?? 'MAD';
+        $symbol = currency_symbol($currency);
+        $formatted = number_format($amount, 2);
+
+        return $currency === 'MAD' ? $formatted.' '.$symbol : $symbol.$formatted;
+    }
+}

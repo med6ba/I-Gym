@@ -27,6 +27,13 @@ class User extends Authenticatable
         'status',
         'language',
         'theme',
+        'currency',
+        'age',
+        'height_cm',
+        'weight_kg',
+        'gender',
+        'fitness_goal',
+        'bio',
     ];
 
     protected $hidden = [
@@ -44,7 +51,29 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'height_cm' => 'decimal:2',
+            'weight_kg' => 'decimal:2',
         ];
+    }
+
+    public function avatarUrl(): string
+    {
+        if ($this->avatar) {
+            return str_starts_with($this->avatar, 'http')
+                ? $this->avatar
+                : asset('storage/'.$this->avatar);
+        }
+
+        $initials = collect(explode(' ', $this->name))
+            ->filter()
+            ->take(2)
+            ->map(fn (string $part) => mb_substr($part, 0, 1))
+            ->implode('');
+
+        $safeInitials = htmlspecialchars(mb_strtoupper($initials ?: 'IG'), ENT_QUOTES, 'UTF-8');
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><rect width="160" height="160" rx="28" fill="#F59E0B"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="56" font-weight="800" fill="#0F172A">'.$safeInitials.'</text></svg>';
+
+        return 'data:image/svg+xml;utf8,'.rawurlencode($svg);
     }
 
     public function gym(): BelongsTo

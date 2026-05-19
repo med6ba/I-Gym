@@ -88,6 +88,14 @@ password
 
 `member` sees only their own bookings, QR code, subscription, progress, and notifications.
 
+## Route Security
+
+- `/super/*` requires `auth` and `role:super_admin`.
+- `/admin/*` requires `auth`, `role:gym_admin`, and an active/trial gym workspace.
+- `/coach/*` requires `auth`, `role:coach`, and an active/trial gym workspace.
+- `/member/*` requires `auth`, `role:member`, and an active/trial gym workspace.
+- Tenant route parameters are scoped in `AppServiceProvider`, so `{member}`, `{coach}`, `{course}`, `{reservation}`, `{subscription}`, and `{notification}` resolve only inside the authenticated user’s allowed gym and role context.
+
 ## Database Overview
 
 Core tables:

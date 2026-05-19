@@ -5,14 +5,14 @@
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
         <form method="POST" action="{{ route('admin.courses.store') }}" class="igym-card grid gap-4 p-5 lg:grid-cols-4">
             @csrf
-            <input name="title" placeholder="Class title" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
+            <input name="title" placeholder="{{ __('messages.class_title') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
             <select name="category" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">@foreach($categories as $category)<option>{{ $category }}</option>@endforeach</select>
             <select name="coach_id" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">@foreach($coaches as $coach)<option value="{{ $coach->id }}">{{ $coach->name }}</option>@endforeach</select>
-            <input name="room" placeholder="Room" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
+            <input name="room" placeholder="{{ __('messages.room') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950">
             <input type="datetime-local" name="starts_at" value="{{ now()->addDay()->format('Y-m-d\TH:i') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
             <input type="datetime-local" name="ends_at" value="{{ now()->addDay()->addHour()->format('Y-m-d\TH:i') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
             <input type="number" name="max_capacity" value="12" min="1" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950" required>
-            <input type="hidden" name="status" value="scheduled"><textarea name="description" placeholder="Description" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 lg:col-span-3"></textarea><x-button>Create Course</x-button>
+            <input type="hidden" name="status" value="scheduled"><textarea name="description" placeholder="{{ __('messages.description') }}" class="rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-950 lg:col-span-3"></textarea><x-button>{{ __('messages.create_course') }}</x-button>
         </form>
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             @foreach($courses as $course)
@@ -23,7 +23,7 @@
                     </div>
                     <div class="mt-4"><div class="mb-1 flex justify-between text-xs font-bold"><span>{{ $course->active_reservations_count }}/{{ $course->max_capacity }}</span><span>{{ $course->occupancy_rate }}%</span></div><x-progress-bar :value="$course->occupancy_rate" /></div>
                     @if($course->smart_alert)<x-alert type="warning" class="mt-4">{{ $course->smart_alert }}</x-alert>@endif
-                    <form method="POST" action="{{ route('admin.courses.destroy', $course) }}" class="mt-4">@csrf @method('DELETE')<button class="text-sm font-bold text-rose-600">Cancel Course</button></form>
+                    <form method="POST" action="{{ route('admin.courses.destroy', $course) }}" class="mt-4">@csrf @method('DELETE')<button class="text-sm font-bold text-rose-600">{{ __('messages.cancel_course') }}</button></form>
                 </div>
             @endforeach
         </div>

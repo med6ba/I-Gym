@@ -14,8 +14,8 @@ class LocaleMiddleware
 
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = $request->session()->get('locale')
-            ?? $request->user()?->language
+        $locale = $request->user()?->language
+            ?? $request->session()->get('locale')
             ?? config('app.locale', 'en');
 
         if (! in_array($locale, $this->supported, true)) {

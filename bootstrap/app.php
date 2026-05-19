@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureGymWorkspaceIsAccessible;
 use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Foundation\Application;
@@ -18,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
+            'gym.access' => EnsureGymWorkspaceIsAccessible::class,
             'role' => RoleMiddleware::class,
         ]);
     })

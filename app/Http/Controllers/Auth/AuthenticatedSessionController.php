@@ -27,6 +27,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        $request->session()->put('locale', $request->user()->language);
 
         return redirect()->intended(route($request->user()->dashboardRoute(), absolute: false));
     }
