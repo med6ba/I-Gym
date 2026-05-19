@@ -1,4 +1,4 @@
-const CACHE_NAME = 'igym-pwa-v1';
+const CACHE_NAME = 'igym-pwa-v2';
 const OFFLINE_URL = '/offline.html';
 
 self.addEventListener('install', (event) => {
@@ -7,7 +7,7 @@ self.addEventListener('install', (event) => {
             '/',
             OFFLINE_URL,
             '/manifest.json',
-            '/icons/icon.svg'
+            '/icons/igym-logo.svg'
         ]))
     );
     self.skipWaiting();

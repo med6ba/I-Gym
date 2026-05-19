@@ -131,7 +131,7 @@ I-Gym includes:
 - `public/manifest.json`
 - `public/service-worker.js`
 - `public/offline.html`
-- `public/icons/icon.svg`
+- `public/icons/igym-logo.svg`
 - Standalone display mode and orange theme color
 
 ## Localization
