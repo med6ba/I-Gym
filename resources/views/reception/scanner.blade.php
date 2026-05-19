@@ -2,27 +2,17 @@
     <x-slot name="header">
         <div class="flex items-center justify-between gap-4">
             <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.nfc_reader') }}</h2>
-            <button type="button" x-on:click="$dispatch('open-fullscreen')" class="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-black text-slate-950 hover:bg-amber-400">
-                <x-icon name="scan" size="17" />
-                {{ __('messages.fullscreen_mode') }}
-            </button>
         </div>
     </x-slot>
 
-    <div class="mx-auto flex flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8" x-data='nfcReader(@js($members))' x-init="init()">
+    <div class="mx-auto flex flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8" x-data='nfcReader()' x-init="init()">
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
 
         <div class="relative w-full max-w-md">
-            <label class="igym-field mb-6 text-start">
-                <span class="igym-label">{{ __('messages.member') }}</span>
-                <select x-model="selectedMemberId" class="igym-input">
-                    <option value="">{{ __('messages.member') }}</option>
-                    <template x-for="member in availableMembers" :key="member.id">
-                        <option x-bind:value="member.id" x-text="`${member.name} - ${member.email}`"></option>
-                    </template>
-                </select>
-            </label>
+            <div class="mb-6 text-start">
+                <p class="text-sm leading-6 text-slate-500 dark:text-slate-400">{{ __('messages.nfc_demo_hint') }}</p>
+            </div>
 
             <div class="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-2xl shadow-slate-950/10 dark:border-slate-700 dark:bg-slate-900">
                 <div class="relative mx-auto mb-6">
@@ -93,130 +83,21 @@
         </div>
     </div>
 
-    <div x-data="{ fullscreen: false }" x-on:open-fullscreen.window="fullscreen = true" x-cloak x-show="fullscreen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950" x-transition>
-        <div class="flex size-full flex-col items-center justify-center px-6" x-data='nfcReader(@js($members))' x-init="init()">
-            <div class="relative w-full max-w-md">
-                <label class="igym-field mb-8 text-start">
-                    <span class="igym-label text-slate-300">{{ __('messages.member') }}</span>
-                    <select x-model="selectedMemberId" class="igym-input border-slate-700 bg-slate-900 text-white">
-                        <option value="">{{ __('messages.member') }}</option>
-                        <template x-for="member in availableMembers" :key="member.id">
-                            <option x-bind:value="member.id" x-text="`${member.name} - ${member.email}`"></option>
-                        </template>
-                    </select>
-                </label>
-
-                <div class="text-center">
-                    <div class="relative mx-auto mb-8">
-                        <div class="relative mx-auto flex size-56 items-center justify-center sm:size-64">
-                            <div class="absolute inset-0 rounded-full border-4 border-amber-500/40" x-bind:class="scanning ? 'animate-ping border-emerald-400' : ''"></div>
-                            <div class="absolute inset-3 rounded-full border-2 border-amber-400/20" x-bind:class="scanning ? 'animate-pulse' : ''"></div>
-                            <div class="relative z-10 flex size-48 items-center justify-center rounded-full sm:size-52" x-bind:class="statusClass">
-                                <template x-if="!result && !scanning">
-                                    <svg class="size-16 text-amber-400 sm:size-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <path d="M6 8v8" /><path d="M8 6h8" /><path d="M8 18h8" /><path d="M18 8v8" /><path d="M12 10v4" /><path d="M10 12h4" />
-                                    </svg>
-                                </template>
-                                <template x-if="scanning && !result">
-                                    <svg class="size-16 text-amber-400 motion-safe:animate-spin sm:size-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M21 12a9 9 0 1 1-6.219-8.56" stroke-linecap="round" />
-                                    </svg>
-                                </template>
-                                <template x-if="result === 'allowed'">
-                                    <svg class="size-16 text-white sm:size-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <path d="m20 6-11 11-5-5" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </template>
-                                <template x-if="result === 'warning'">
-                                    <svg class="size-16 text-white sm:size-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <path d="M12 9v4M12 17h.01" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </template>
-                                <template x-if="result === 'denied'">
-                                    <svg class="size-16 text-white sm:size-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <path d="M18 6 6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h2 class="text-2xl font-black text-white sm:text-3xl" x-text="titleText"></h2>
-                    <p class="mt-4 text-base leading-7 text-slate-400" x-text="bodyText"></p>
-
-                    <div x-show="result" x-cloak x-transition class="mt-8 space-y-4">
-                        <div class="mx-auto max-w-sm rounded-xl border p-4 text-start text-sm" x-bind:class="result === 'allowed' ? 'border-emerald-700 bg-emerald-950/50' : result === 'warning' ? 'border-amber-700 bg-amber-950/50' : 'border-rose-700 bg-rose-950/50'">
-                            <p class="font-bold" x-bind:class="result === 'allowed' ? 'text-emerald-300' : result === 'warning' ? 'text-amber-300' : 'text-rose-300'" x-text="detailText"></p>
-                        </div>
-                        <div class="flex justify-center gap-3">
-                            <button type="button" x-on:click="reset()" class="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-4 py-2 text-sm font-bold text-slate-200 hover:bg-slate-800">
-                                <x-icon name="scan" size="16" />
-                                {{ __('messages.nfc_demo_button') }}
-                            </button>
-                            <button type="button" x-on:click="fullscreen = false; reset()" class="inline-flex items-center gap-2 rounded-lg bg-slate-800 px-4 py-2 text-sm font-bold text-slate-200 hover:bg-slate-700">
-                                <x-icon name="x" size="16" />
-                                {{ __('messages.exit_fullscreen') }}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div x-show="!result" x-cloak class="mt-8 grid grid-cols-3 gap-3">
-                    <button type="button" x-on:click="simulate('allowed')" class="flex flex-col items-center gap-2 rounded-xl border-2 border-emerald-700 bg-emerald-950/40 p-4 text-sm font-bold text-emerald-300 transition hover:bg-emerald-950/60 active:scale-95">
-                        <span class="grid size-12 place-items-center rounded-full bg-emerald-500 text-white"><x-icon name="check" size="24" /></span>
-                        <span>{{ __('messages.nfc_allowed') }}</span>
-                    </button>
-                    <button type="button" x-on:click="simulate('warning')" class="flex flex-col items-center gap-2 rounded-xl border-2 border-amber-700 bg-amber-950/40 p-4 text-sm font-bold text-amber-300 transition hover:bg-amber-950/60 active:scale-95">
-                        <span class="grid size-12 place-items-center rounded-full bg-amber-500 text-white"><x-icon name="alert" size="24" /></span>
-                        <span>{{ __('messages.nfc_warning') }}</span>
-                    </button>
-                    <button type="button" x-on:click="simulate('denied')" class="flex flex-col items-center gap-2 rounded-xl border-2 border-rose-700 bg-rose-950/40 p-4 text-sm font-bold text-rose-300 transition hover:bg-rose-950/60 active:scale-95">
-                        <span class="grid size-12 place-items-center rounded-full bg-rose-500 text-white"><x-icon name="x" size="24" /></span>
-                        <span>{{ __('messages.nfc_denied') }}</span>
-                    </button>
-                </div>
-
-                <div x-show="!result" x-cloak class="mt-8">
-                    <button type="button" x-on:click="fullscreen = false" class="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-4 py-2 text-sm font-bold text-slate-400 hover:bg-slate-800 hover:text-slate-200">
-                        <x-icon name="arrow-right" size="16" class="rtl:rotate-180" />
-                        {{ __('messages.exit_fullscreen') }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        function nfcReader(members = []) {
+        function nfcReader() {
             return {
-                members,
-                selectedMemberId: '',
-                warningMemberIds: [],
                 scanning: false,
                 result: null,
                 titleText: '{{ __('messages.nfc_reader_title') }}',
                 bodyText: '{{ __('messages.nfc_reader_body') }}',
                 detailText: '',
                 statusClass: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
-                get availableMembers() {
-                    return this.members.filter((member) => !this.warningMemberIds.includes(Number(member.id)));
-                },
-                get selectedMember() {
-                    return this.members.find((member) => Number(member.id) === Number(this.selectedMemberId));
-                },
                 init() {
-                    window.igymScannerWarningMemberIds = window.igymScannerWarningMemberIds || [];
-                    this.warningMemberIds = window.igymScannerWarningMemberIds;
-                    window.addEventListener('igym-scanner-warning-member', (event) => {
-                        this.warningMemberIds = [...new Set([...this.warningMemberIds, Number(event.detail)])];
-                    });
                     this.titleText = '{{ __('messages.nfc_reader_title') }}';
                     this.bodyText = '{{ __('messages.nfc_reader_body') }}';
                 },
                 simulate(type) {
                     if (this.scanning) return;
-                    const member = this.selectedMember;
                     this.scanning = true;
                     this.result = null;
                     this.statusClass = 'bg-amber-100 text-amber-700 motion-safe:animate-pulse dark:bg-amber-950/50 dark:text-amber-300';
@@ -230,24 +111,17 @@
                             this.statusClass = 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30';
                             this.titleText = '{{ __('messages.nfc_allowed') }}';
                             this.bodyText = '{{ __('messages.nfc_allowed_desc') }}';
-                            this.detailText = member ? `${member.name} - ${member.email}` : '{{ __('messages.nfc_allowed_detail') }}';
+                            this.detailText = '{{ __('messages.nfc_allowed_detail') }}';
                         } else if (type === 'warning') {
                             this.statusClass = 'bg-amber-500 text-white shadow-lg shadow-amber-500/30';
                             this.titleText = '{{ __('messages.nfc_warning') }}';
                             this.bodyText = '{{ __('messages.nfc_warning_desc') }}';
-                            this.detailText = member ? `${member.name} - ${member.email}` : '{{ __('messages.nfc_warning_detail') }}';
-
-                            if (member) {
-                                this.warningMemberIds = [...new Set([...this.warningMemberIds, Number(member.id)])];
-                                window.igymScannerWarningMemberIds = this.warningMemberIds;
-                                window.dispatchEvent(new CustomEvent('igym-scanner-warning-member', { detail: Number(member.id) }));
-                                this.selectedMemberId = '';
-                            }
+                            this.detailText = '{{ __('messages.nfc_warning_detail') }}';
                         } else {
                             this.statusClass = 'bg-rose-500 text-white shadow-lg shadow-rose-500/30';
                             this.titleText = '{{ __('messages.nfc_denied') }}';
                             this.bodyText = '{{ __('messages.nfc_denied_desc') }}';
-                            this.detailText = member ? `${member.name} - ${member.email}` : '{{ __('messages.nfc_denied_detail') }}';
+                            this.detailText = '{{ __('messages.nfc_denied_detail') }}';
                         }
                     }, 1800);
                 },
