@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">{{ __('messages.saas_command_center') }}</x-slot>
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-4">
             <div>

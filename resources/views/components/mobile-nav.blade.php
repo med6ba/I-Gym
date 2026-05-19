@@ -1,6 +1,6 @@
 @php
     $user = auth()->user();
-    $items = collect(igym_navigation_items($user))->reject(fn ($item) => $item['route'] === 'settings.index')->take(3);
+    $items = collect(igym_navigation_items($user))->reject(fn ($item) => $item['route'] === 'settings.index')->take(4);
     $showProfile = ! $user->isSuperAdmin() && ! $user->isReception();
     $navCount = $items->count() + ($showProfile ? 1 : 0) + 1;
     $gridClass = match ($navCount) {

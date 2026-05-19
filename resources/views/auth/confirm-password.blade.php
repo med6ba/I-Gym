@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="title">{{ __('messages.confirm_password') }}</x-slot>
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
     </div>

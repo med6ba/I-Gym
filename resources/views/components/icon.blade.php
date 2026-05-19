@@ -110,6 +110,9 @@
         @case('save')
             <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" /><path d="M17 21v-8H7v8" /><path d="M7 3v5h8" />
             @break
+        @case('send')
+            <path d="M22 2 11 13" /><path d="M22 2l-7 20-4-9-9-4Z" />
+            @break
         @case('trash')
             <path d="M3 6h18" /><path d="M8 6V4h8v2" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6" />
             @break

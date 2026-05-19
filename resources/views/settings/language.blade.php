@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">{{ __('messages.language') }}</x-slot>
     <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.language') }}</h2></x-slot>
     <div class="mx-auto max-w-3xl space-y-5 px-4 py-6 sm:px-6 lg:px-8">
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif

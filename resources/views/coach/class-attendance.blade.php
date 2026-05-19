@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">{{ $course->title }}</x-slot>
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-4"><div><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ $course->title }}</h2><p class="text-sm text-slate-500">{{ $course->starts_at->format('M d, H:i') }} · {{ $course->room }}</p></div><x-badge :status="$course->status" /></div>
     </x-slot>

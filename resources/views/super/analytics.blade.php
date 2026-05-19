@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">{{ __('messages.analytics') }}</x-slot>
     <x-slot name="header">
         <h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.analytics') }}</h2>
     </x-slot>

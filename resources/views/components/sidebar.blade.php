@@ -62,7 +62,7 @@
 </aside>
 
 <x-modal name="confirm-logout">
-    <form method="POST" action="{{ route('logout') }}" class="space-y-5">
+    <form method="POST" action="{{ route('logout') }}" class="space-y-5" x-on:submit="localStorage.removeItem('igyma-messages')">
         @csrf
         <div>
             <p class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.logout_confirm_title') }}</p>

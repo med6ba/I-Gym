@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot name="title">{{ __('messages.qr_code') }}</x-slot>
     <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.qr_code') }}</h2></x-slot>
     <div
         class="mx-auto max-w-3xl space-y-5 px-4 py-6 text-center sm:px-6 lg:px-8"

@@ -8,7 +8,7 @@
         <link rel="manifest" href="/manifest.json">
         <link rel="icon" href="/icons/igym-logo.svg" type="image/svg+xml">
 
-        <title>{{ config('app.name', 'I-Gym') }}</title>
+        <title>{{ $title ?? __('messages.welcome') }} — {{ config('app.name') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />

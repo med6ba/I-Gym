@@ -354,4 +354,16 @@ return [
     'theme_help' => 'Sélectionnez l\'apparence du thème préférée.',
     'fullscreen_mode' => 'Mode Plein Écran',
     'exit_fullscreen' => 'Quitter le Plein Écran',
+
+    // IGyma AI Chatbot
+    'igyma_assistant' => 'Assistant IGyma',
+    'igyma_fitness_assistant' => 'Assistant de fitness',
+    'igyma_members_only_assistant' => 'Assistant IA réservé aux membres alimenté par Groq',
+    'igyma_placeholder' => 'Posez une question à IGyma sur la fitness...',
+    'igyma_suggested_questions' => 'Questions suggérées',
+    'igyma_typing' => 'En cours de saisie...',
+    'igyma_unavailable' => 'IGyma est temporairement indisponible. Veuillez réessayer.',
+    'igyma_message_required' => 'Le message est obligatoire',
+    'igyma_message_string' => 'Le message doit être un texte',
+    'igyma_message_too_long' => 'Le message est trop long',
 ];

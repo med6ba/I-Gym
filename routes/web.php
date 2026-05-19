@@ -14,6 +14,7 @@ use App\Http\Controllers\Coach\ProgressController as CoachProgressController;
 use App\Http\Controllers\Coach\TrainingPlanController as CoachTrainingPlanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Member\CourseController as MemberCourseController;
+use App\Http\Controllers\Member\IgymaController as MemberIgymaController;
 use App\Http\Controllers\Member\NotificationController as MemberNotificationController;
 use App\Http\Controllers\Member\ProgressController as MemberProgressController;
 use App\Http\Controllers\Member\ReservationController as MemberReservationController;
@@ -105,6 +106,11 @@ Route::middleware(['auth', 'role:member', 'gym.access'])->prefix('member')->name
     Route::get('/progress', MemberProgressController::class)->name('progress');
     Route::get('/notifications', [MemberNotificationController::class, 'index'])->name('notifications.index');
     Route::patch('/notifications/{notification}/read', [MemberNotificationController::class, 'markRead'])->name('notifications.read');
+    
+    Route::get('/igyma', [MemberIgymaController::class, 'index'])->name('igyma');
+    Route::post('/igyma/chat', [MemberIgymaController::class, 'chat'])
+        ->middleware('throttle:20,1')
+        ->name('igyma.chat');
 });
 
 Route::middleware(['auth', 'role:reception', 'gym.access'])->prefix('reception')->name('reception.')->group(function () {

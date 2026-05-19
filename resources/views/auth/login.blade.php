@@ -1,4 +1,5 @@
 <x-guest-layout>
+    <x-slot name="title">{{ __('messages.login') }}</x-slot>
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <div class="mb-6">

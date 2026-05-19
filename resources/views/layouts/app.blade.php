@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'I-Gym') }}</title>
+        <title>{{ ($title ?? igym_current_page_title()) ?: __('messages.dashboard') }} — {{ config('app.name') }}</title>
         <meta name="theme-color" content="#F59E0B">
         <meta name="description" content="I-Gym smart fitness app">
         <link rel="manifest" href="/manifest.json">

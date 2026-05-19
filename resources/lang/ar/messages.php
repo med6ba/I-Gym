@@ -354,4 +354,16 @@ return [
     'theme_help' => 'اختر مظهر السمة المفضل.',
     'fullscreen_mode' => 'وضع ملء الشاشة',
     'exit_fullscreen' => 'خروج من ملء الشاشة',
+
+    // IGyma AI Chatbot
+    'igyma_assistant' => 'مساعد IGyma',
+    'igyma_fitness_assistant' => 'مساعد اللياقة البدنية',
+    'igyma_members_only_assistant' => 'مساعد ذكاء اصطناعي حصري للأعضاء مدعوم بواسطة Groq',
+    'igyma_placeholder' => 'اسأل IGyma عن اللياقة البدنية...',
+    'igyma_suggested_questions' => 'أسئلة مقترحة',
+    'igyma_typing' => 'جاري الكتابة...',
+    'igyma_unavailable' => 'IGyma غير متاح حالياً. يرجى المحاولة لاحقاً.',
+    'igyma_message_required' => 'الرسالة مطلوبة',
+    'igyma_message_string' => 'يجب أن تكون الرسالة نصاً',
+    'igyma_message_too_long' => 'الرسالة طويلة جداً',
 ];
