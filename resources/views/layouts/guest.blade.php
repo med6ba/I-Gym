@@ -24,14 +24,12 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans">
-        <div class="relative min-h-screen overflow-hidden bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-white">
-            <div class="absolute inset-0 bg-cover bg-center opacity-35 dark:hidden" style="background-image: linear-gradient(90deg, rgba(255,255,255,.60), rgba(255,247,237,.30)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
-            <div class="absolute inset-0 hidden bg-cover bg-center opacity-45 dark:block" style="background-image: linear-gradient(90deg, rgba(2,6,23,.70), rgba(15,23,42,.50)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
-            <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6">
-                <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="relative min-h-screen overflow-hidden bg-slate-950 text-white">
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: linear-gradient(90deg, rgba(2,6,23,.88), rgba(15,23,42,.68), rgba(15,23,42,.50)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
+            <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col px-3 py-4 sm:px-4 sm:py-6">
+                <div class="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
                     <a href="{{ route('landing') }}" class="igym-focus rounded-lg">
-                        <span class="dark:hidden"><x-application-logo /></span>
-                        <span class="hidden dark:block"><x-application-logo tone="inverse" /></span>
+                        <x-application-logo tone="inverse" />
                     </a>
                     <div class="flex items-center gap-3">
                         <x-language-switcher />
@@ -39,8 +37,8 @@
                     </div>
                 </div>
 
-                <div class="grid flex-1 place-items-center py-10">
-                    <div class="w-full max-w-md rounded-2xl border border-slate-200 bg-white/95 p-6 text-slate-950 shadow-2xl shadow-slate-950/10 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 dark:text-white dark:shadow-black/30">
+                <div class="grid flex-1 place-items-center py-6 sm:py-10">
+                    <div class="igym-auth-panel w-full max-w-sm sm:max-w-md">
                         {{ $slot }}
                     </div>
                 </div>

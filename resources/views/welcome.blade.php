@@ -22,13 +22,10 @@
 </head>
 <body class="font-sans">
     <div class="min-h-screen bg-white text-slate-950 dark:bg-slate-950 dark:text-white" x-data="{ product: false, solutions: false, mobile: false, scrolled: window.scrollY > 12 }" x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 12, { passive: true })">
-        <header class="fixed inset-x-0 top-0 z-40 border-b backdrop-blur-xl transition-all duration-300" :class="scrolled ? 'border-slate-200 bg-white/95 shadow-lg shadow-slate-950/5 dark:border-slate-800 dark:bg-slate-950/95' : 'border-slate-200/70 bg-white/90 shadow-lg shadow-slate-950/5 dark:border-white/10 dark:bg-slate-950/90 dark:shadow-none'">
-            <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <header class="fixed inset-x-0 top-0 z-40 border-b backdrop-blur-xl transition-all duration-300" :class="scrolled ? 'border-slate-200 bg-white/95 shadow-lg shadow-slate-950/5 dark:border-slate-800 dark:bg-slate-950/95' : 'border-white/10 bg-slate-950/80 shadow-none'">
+            <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
                 <a href="{{ route('landing') }}" class="igym-focus rounded-xl">
-                    <span x-show="!scrolled" class="dark:hidden">
-                        <x-application-logo />
-                    </span>
-                    <span x-show="!scrolled" class="hidden dark:block">
+                    <span x-show="!scrolled">
                         <x-application-logo tone="inverse" />
                     </span>
                     <span x-cloak x-show="scrolled">
@@ -38,7 +35,7 @@
 
                 <nav class="hidden items-center gap-2 lg:flex">
                     <div class="relative" x-on:mouseenter="product = true; solutions = false" x-on:mouseleave="product = false" x-on:focusin="product = true; solutions = false" x-on:focusout="product = false">
-                        <button type="button" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold transition" :class="scrolled ? 'text-slate-700 hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-slate-900' : 'text-slate-700 hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white'">
+                        <button type="button" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold transition" :class="scrolled ? 'text-slate-700 hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-slate-900' : 'text-white hover:bg-white/10'">
                             {{ __('messages.product') }}
                             <x-icon name="chevron-down" size="15" />
                         </button>
@@ -57,7 +54,7 @@
                     </div>
 
                     <div class="relative" x-on:mouseenter="solutions = true; product = false" x-on:mouseleave="solutions = false" x-on:focusin="solutions = true; product = false" x-on:focusout="solutions = false">
-                        <button type="button" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold transition" :class="scrolled ? 'text-slate-700 hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-slate-900' : 'text-slate-700 hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white'">
+                        <button type="button" class="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold transition" :class="scrolled ? 'text-slate-700 hover:bg-amber-50 hover:text-amber-800 dark:text-slate-200 dark:hover:bg-slate-900' : 'text-white hover:bg-white/10'">
                             {{ __('messages.solutions') }}
                             <x-icon name="chevron-down" size="15" />
                         </button>
@@ -91,18 +88,19 @@
             {{ __('messages.dashboard') }}
         </a>
     @else
-        <a href="{{ route('login') }}" class="igym-focus grid size-11 place-items-center rounded-xl bg-amber-500 text-slate-950 transition hover:bg-amber-400" aria-label="{{ __('messages.login') }}" title="{{ __('messages.login') }}">
-            <x-icon name="log-in" size="21" />
+        <a href="{{ route('login') }}" class="igym-focus inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-black text-slate-950 transition hover:bg-amber-400" aria-label="{{ __('messages.login') }}" title="{{ __('messages.login') }}">
+            <x-icon name="log-in" size="18" />
+            <span>{{ __('messages.login') }}</span>
         </a>
     @endauth
 </div>
 
-                <button type="button" x-on:click="mobile = ! mobile" class="igym-focus grid size-11 place-items-center rounded-xl border transition lg:hidden" :class="scrolled ? 'border-slate-200 text-slate-700 dark:border-slate-700 dark:text-white' : 'border-slate-200 bg-white text-slate-700 dark:border-white/15 dark:bg-transparent dark:text-white'">
+                <button type="button" x-on:click="mobile = ! mobile" class="igym-focus grid size-11 place-items-center rounded-xl border transition lg:hidden" :class="scrolled ? 'border-slate-200 text-slate-700 dark:border-slate-700 dark:text-white' : 'border-white/15 bg-white/10 text-white'">
                     <x-icon name="menu" size="22" />
                 </button>
             </div>
 
-<div x-cloak x-show="mobile" x-transition class="border-t border-slate-200 bg-white/95 backdrop-blur-xl px-4 py-5 dark:border-slate-800 dark:bg-slate-950/95 lg:hidden">
+<div x-cloak x-show="mobile" x-transition class="border-t border-white/10 bg-slate-950/95 px-4 py-4 text-white backdrop-blur-xl sm:py-5 lg:hidden">
     <div class="flex items-center justify-center gap-3">
         <x-language-switcher />
         <x-theme-toggle />
@@ -122,21 +120,21 @@
         </header>
 
         <main>
-            <section class="igym-landing-hero relative min-h-[88vh] overflow-hidden bg-cover bg-center">
-                <div class="mx-auto flex min-h-[88vh] max-w-7xl items-center px-4 pb-20 pt-32 sm:px-6 lg:px-8">
-                    <div class="max-w-4xl text-slate-950 dark:text-white">
-                        <div class="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-100/80 px-3 py-1.5 text-sm font-black text-amber-800 dark:border-amber-300/30 dark:bg-amber-300/10 dark:text-amber-200">
+            <section class="igym-landing-hero relative min-h-[76vh] overflow-hidden bg-cover bg-center sm:min-h-[88vh]">
+                <div class="mx-auto flex min-h-[76vh] max-w-7xl items-center px-4 pb-14 pt-28 sm:min-h-[88vh] sm:px-6 sm:pb-20 sm:pt-32 lg:px-8">
+                    <div class="max-w-4xl text-white">
+                        <div class="inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-amber-300/15 px-3 py-1.5 text-xs font-black text-amber-100 backdrop-blur-sm sm:text-sm">
                             <x-icon name="sparkles" size="16" />
                             {{ __('messages.next_generation_saas') }}
                         </div>
-                        <h1 class="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-normal sm:text-6xl lg:text-7xl">{{ __('messages.landing_title') }}</h1>
-                        <p class="mt-6 max-w-2xl text-base leading-8 text-slate-700 dark:text-slate-200 sm:text-lg">{{ __('messages.landing_subtitle') }}</p>
-                        <div class="mt-8 flex flex-wrap gap-3">
-                            <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-amber-400">
+                        <h1 class="mt-5 max-w-4xl text-3xl font-black leading-tight tracking-normal sm:mt-6 sm:text-5xl lg:text-7xl">{{ __('messages.landing_title') }}</h1>
+                        <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-200 sm:mt-6 sm:text-lg sm:leading-8">{{ __('messages.landing_subtitle') }}</p>
+                        <div class="mt-6 flex flex-wrap gap-3 sm:mt-8">
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-black text-slate-950 transition hover:bg-amber-400 sm:px-5 sm:py-3">
                                 <x-icon name="log-in" size="18" />
                                 {{ __('messages.start_demo') }}
                             </a>
-                            <a href="#demo" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white/55 px-5 py-3 text-sm font-black text-slate-800 transition hover:bg-white dark:border-white/25 dark:bg-transparent dark:text-white dark:hover:bg-white/10">
+                            <a href="#demo" class="inline-flex items-center gap-2 rounded-xl border border-white/25 bg-black/35 px-4 py-2.5 text-sm font-black text-white transition hover:bg-black/50 sm:px-5 sm:py-3">
                                 {{ __('messages.watch_flow') }}
                                 <x-icon name="arrow-right" size="18" class="rtl:rotate-180" />
                             </a>
@@ -145,27 +143,27 @@
                 </div>
             </section>
 
-            <section class="-mt-16 relative z-10 px-4 sm:px-6 lg:px-8">
-                <div class="mx-auto grid max-w-7xl gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl shadow-slate-950/10 dark:border-slate-800 dark:bg-slate-900 md:grid-cols-4">
+            <section class="-mt-10 relative z-10 px-4 sm:-mt-16 sm:px-6 lg:px-8">
+                <div class="mx-auto grid max-w-7xl gap-2.5 rounded-xl border border-slate-200 bg-white p-2.5 shadow-xl shadow-slate-950/10 dark:border-slate-800 dark:bg-slate-900 sm:gap-3 sm:rounded-2xl sm:p-3 md:grid-cols-4">
                     @foreach([
                         ['icon' => 'building', 'value' => '3+', 'label' => __('messages.customer_gyms')],
                         ['icon' => 'users', 'value' => '4', 'label' => __('messages.secure_roles')],
                         ['icon' => 'nfc', 'value' => 'NFC', 'label' => __('messages.access_simulation')],
                         ['icon' => 'credit-card', 'value' => '2', 'label' => __('messages.subscriptions')],
                     ] as $stat)
-                        <div class="flex items-center gap-3 rounded-xl border border-slate-100 p-4 dark:border-slate-800">
-                            <span class="grid size-11 place-items-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><x-icon name="{{ $stat['icon'] }}" size="20" /></span>
-                            <div><p class="text-2xl font-black">{{ $stat['value'] }}</p><p class="text-sm font-semibold text-slate-500">{{ $stat['label'] }}</p></div>
+                        <div class="flex items-center gap-3 rounded-xl border border-slate-100 p-3 dark:border-slate-800 sm:p-4">
+                            <span class="grid size-10 place-items-center rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 sm:size-11 sm:rounded-xl"><x-icon name="{{ $stat['icon'] }}" size="20" /></span>
+                            <div><p class="text-xl font-black sm:text-2xl">{{ $stat['value'] }}</p><p class="text-xs font-semibold text-slate-500 sm:text-sm">{{ $stat['label'] }}</p></div>
                         </div>
                     @endforeach
                 </div>
             </section>
 
-            <section id="platform" class="scroll-mt-24 py-20">
+            <section id="platform" class="scroll-mt-24 py-12 sm:py-16 lg:py-20">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="max-w-2xl">
-                        <p class="text-sm font-black uppercase text-amber-600">{{ __('messages.platform') }}</p>
-                        <h2 class="mt-3 text-3xl font-black tracking-normal sm:text-4xl">{{ __('messages.platform_title') }}</h2>
+                        <p class="text-xs font-black uppercase text-amber-600 sm:text-sm">{{ __('messages.platform') }}</p>
+                        <h2 class="mt-3 text-2xl font-black tracking-normal sm:text-4xl">{{ __('messages.platform_title') }}</h2>
                     </div>
                     <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                         @foreach([
@@ -174,9 +172,9 @@
                             ['icon' => 'nfc', 'title' => __('messages.nfc_access'), 'text' => __('messages.nfc_access_feature_text')],
                             ['icon' => 'activity', 'title' => __('messages.progress_tracking'), 'text' => __('messages.progress_tracking_text')],
                         ] as $feature)
-                            <div class="rounded-2xl border border-slate-200 bg-white p-5 transition hover:-translate-y-1 hover:border-amber-300 dark:border-slate-800 dark:bg-slate-900">
-                                <span class="grid size-11 place-items-center rounded-xl bg-slate-100 text-amber-600 dark:bg-slate-800 dark:text-amber-300"><x-icon name="{{ $feature['icon'] }}" size="21" /></span>
-                                <h3 class="mt-5 text-lg font-black">{{ $feature['title'] }}</h3>
+                            <div class="rounded-xl border border-slate-200 bg-white p-4 transition hover:-translate-y-1 hover:border-amber-300 dark:border-slate-800 dark:bg-slate-900 sm:rounded-2xl sm:p-5">
+                                <span class="grid size-10 place-items-center rounded-lg bg-slate-100 text-amber-600 dark:bg-slate-800 dark:text-amber-300 sm:size-11 sm:rounded-xl"><x-icon name="{{ $feature['icon'] }}" size="21" /></span>
+                                <h3 class="mt-4 text-base font-black sm:mt-5 sm:text-lg">{{ $feature['title'] }}</h3>
                                 <p class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">{{ $feature['text'] }}</p>
                             </div>
                         @endforeach
@@ -184,12 +182,12 @@
                 </div>
             </section>
 
-            <section id="workflows" class="scroll-mt-24 border-y border-slate-200 bg-slate-50 py-20 dark:border-slate-800 dark:bg-slate-900">
+            <section id="workflows" class="scroll-mt-24 border-y border-slate-200 bg-slate-50 py-12 dark:border-slate-800 dark:bg-slate-900 sm:py-16 lg:py-20">
                 <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[.9fr_1.1fr] lg:px-8">
                     <div>
-                        <p class="text-sm font-black uppercase text-amber-600">{{ __('messages.workflow') }}</p>
-                        <h2 class="mt-3 text-3xl font-black tracking-normal sm:text-4xl">{{ __('messages.workflow_title') }}</h2>
-                        <p class="mt-4 leading-7 text-slate-600 dark:text-slate-400">{{ __('messages.workflow_text_nfc') }}</p>
+                        <p class="text-xs font-black uppercase text-amber-600 sm:text-sm">{{ __('messages.workflow') }}</p>
+                        <h2 class="mt-3 text-2xl font-black tracking-normal sm:text-4xl">{{ __('messages.workflow_title') }}</h2>
+                        <p class="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-400 sm:text-base sm:leading-7">{{ __('messages.workflow_text_nfc') }}</p>
                     </div>
                     <div class="grid gap-3">
                         @foreach([
@@ -198,8 +196,8 @@
                             ['icon' => 'coach', 'title' => __('messages.training_plans'), 'text' => __('messages.coach_text')],
                             ['icon' => 'activity', 'title' => __('messages.progress'), 'text' => __('messages.member_text')],
                         ] as $role)
-                            <div class="flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
-                                <span class="grid size-12 place-items-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"><x-icon name="{{ $role['icon'] }}" size="22" /></span>
+                            <div class="flex gap-3 rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-950 sm:gap-4 sm:rounded-2xl sm:p-4">
+                                <span class="grid size-10 place-items-center rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300 sm:size-12 sm:rounded-xl"><x-icon name="{{ $role['icon'] }}" size="22" /></span>
                                 <div><h3 class="font-black">{{ $role['title'] }}</h3><p class="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">{{ $role['text'] }}</p></div>
                             </div>
                         @endforeach
@@ -207,13 +205,13 @@
                 </div>
             </section>
 
-            <section id="security" class="scroll-mt-24 py-20">
+            <section id="security" class="scroll-mt-24 py-12 sm:py-16 lg:py-20">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="grid gap-8 lg:grid-cols-[1fr_1fr]">
                         <div>
-                            <p class="text-sm font-black uppercase text-amber-600">{{ __('messages.security') }}</p>
-                            <h2 class="mt-3 text-3xl font-black tracking-normal sm:text-4xl">{{ __('messages.security_title') }}</h2>
-                            <p class="mt-4 leading-7 text-slate-600 dark:text-slate-400">{{ __('messages.security_text') }}</p>
+                            <p class="text-xs font-black uppercase text-amber-600 sm:text-sm">{{ __('messages.security') }}</p>
+                            <h2 class="mt-3 text-2xl font-black tracking-normal sm:text-4xl">{{ __('messages.security_title') }}</h2>
+                            <p class="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-400 sm:text-base sm:leading-7">{{ __('messages.security_text') }}</p>
                         </div>
                         <div class="grid gap-3 sm:grid-cols-2">
                             @foreach([
@@ -222,7 +220,7 @@
                                 ['icon' => 'building', 'title' => __('messages.gym_status_gate')],
                                 ['icon' => 'target', 'title' => __('messages.tenant_bindings')],
                             ] as $security)
-                                <div class="rounded-2xl border border-slate-200 p-5 dark:border-slate-800">
+                                <div class="rounded-xl border border-slate-200 p-4 dark:border-slate-800 sm:rounded-2xl sm:p-5">
                                     <x-icon name="{{ $security['icon'] }}" size="24" class="text-amber-500" />
                                     <p class="mt-4 font-black">{{ $security['title'] }}</p>
                                 </div>
@@ -232,14 +230,14 @@
                 </div>
             </section>
 
-            <section id="demo" class="scroll-mt-24 bg-amber-50 py-20 text-slate-950 dark:bg-slate-950 dark:text-white">
+            <section id="demo" class="scroll-mt-24 bg-amber-50 py-12 text-slate-950 dark:bg-slate-950 dark:text-white sm:py-16 lg:py-20">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-wrap items-end justify-between gap-5">
                         <div>
-                            <p class="text-sm font-black uppercase text-amber-600 dark:text-amber-300">{{ __('messages.demo_ready') }}</p>
-                            <h2 class="mt-3 text-3xl font-black tracking-normal sm:text-4xl">{{ __('messages.demo_ready_title') }}</h2>
+                            <p class="text-xs font-black uppercase text-amber-600 dark:text-amber-300 sm:text-sm">{{ __('messages.demo_ready') }}</p>
+                            <h2 class="mt-3 text-2xl font-black tracking-normal sm:text-4xl">{{ __('messages.demo_ready_title') }}</h2>
                         </div>
-                        <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-amber-400">
+                        <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-black text-slate-950 transition hover:bg-amber-400 sm:px-5 sm:py-3">
                             {{ __('messages.open_login') }}
                             <x-icon name="arrow-right" size="18" class="rtl:rotate-180" />
                         </a>
@@ -251,7 +249,7 @@
                             [__('messages.nfc_access'), __('messages.demo_member_text')],
                             [__('messages.progress'), __('messages.demo_coach_text')],
                         ] as $step)
-                            <div class="rounded-2xl border border-amber-200 bg-white p-5 dark:border-white/10 dark:bg-white/5">
+                            <div class="rounded-xl border border-amber-200 bg-white p-4 dark:border-white/10 dark:bg-white/5 sm:rounded-2xl sm:p-5">
                                 <p class="font-black text-amber-700 dark:text-amber-200">{{ $step[0] }}</p>
                                 <p class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{{ $step[1] }}</p>
                             </div>

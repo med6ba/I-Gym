@@ -2,10 +2,10 @@
     <x-slot name="title">{{ __('messages.login') }}</x-slot>
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <div class="mb-6">
-        <p class="text-sm font-black uppercase text-amber-600 dark:text-amber-300">{{ __('messages.welcome_back') }}</p>
-        <h1 class="mt-2 text-3xl font-black tracking-normal text-slate-950 dark:text-white">{{ __('messages.login_title') }}</h1>
-        <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{{ __('messages.login_subtitle') }}</p>
+    <div class="mb-5 sm:mb-6">
+        <p class="text-xs font-black uppercase text-amber-300 sm:text-sm">{{ __('messages.welcome_back') }}</p>
+        <h1 class="mt-2 text-2xl font-black tracking-normal text-white sm:text-3xl">{{ __('messages.login_title') }}</h1>
+        <p class="mt-2 text-xs leading-5 text-slate-300 sm:text-sm sm:leading-6">{{ __('messages.login_subtitle') }}</p>
     </div>
 
     <form method="POST" action="{{ route('login') }}">
@@ -30,13 +30,14 @@
         </div>
 
         <div class="mt-5 flex items-center justify-end">
-            <x-button class="ms-3 grid size-10 place-items-center !px-0 !py-0" aria-label="{{ __('messages.login') }}" title="{{ __('messages.login') }}">
+            <x-button class="ms-3 gap-2" aria-label="{{ __('messages.login') }}" title="{{ __('messages.login') }}">
                 <x-icon name="log-in" size="20" />
+                <span>{{ __('messages.login') }}</span>
             </x-button>
         </div>
     </form>
 
-    <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-300/20 dark:bg-amber-300/10 dark:text-amber-50">
+    <div class="mt-5 rounded-xl border border-amber-300/20 bg-amber-300/10 p-3 text-xs text-amber-50 sm:mt-6 sm:p-4 sm:text-sm">
         <p class="font-bold">{{ __('messages.demo_accounts') }}</p>
         <p class="mt-2">super@igym.com / password</p>
         <p>admin@igym.com / password</p>

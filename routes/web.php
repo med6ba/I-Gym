@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\ActivityLogController as AdminActivityLogController;
+use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\CoachController as AdminCoachController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
@@ -15,10 +15,10 @@ use App\Http\Controllers\Coach\TrainingPlanController as CoachTrainingPlanContro
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Member\CourseController as MemberCourseController;
 use App\Http\Controllers\Member\IgymaController as MemberIgymaController;
+use App\Http\Controllers\Member\NfcController as MemberNfcController;
 use App\Http\Controllers\Member\NotificationController as MemberNotificationController;
 use App\Http\Controllers\Member\ProgressController as MemberProgressController;
 use App\Http\Controllers\Member\ReservationController as MemberReservationController;
-use App\Http\Controllers\Member\NfcController as MemberNfcController;
 use App\Http\Controllers\Member\SubscriptionController as MemberSubscriptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Reception\ScannerController as ReceptionScannerController;
@@ -48,6 +48,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:super_admin'])->prefix('super')->name('super.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'super'])->name('dashboard');
     Route::get('/admins/create', [GymController::class, 'create'])->name('admins.create');
+    Route::get('/gyms/export/{format}', [GymController::class, 'export'])
+        ->whereIn('format', ['excel', 'pdf'])
+        ->name('gyms.export');
     Route::resource('gyms', GymController::class)->except(['show']);
 });
 

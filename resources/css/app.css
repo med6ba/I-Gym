@@ -74,14 +74,26 @@
 
     .igym-landing-hero {
         background-image:
-            linear-gradient(90deg, rgba(255, 255, 255, .96), rgba(255, 247, 237, .82), rgba(255, 255, 255, .42)),
+            linear-gradient(90deg, rgba(2, 6, 23, .94), rgba(15, 23, 42, .72), rgba(15, 23, 42, .42)),
             url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=2200&q=85');
     }
 
     .dark .igym-landing-hero {
         background-image:
-            linear-gradient(90deg, rgba(2, 6, 23, .95), rgba(15, 23, 42, .72), rgba(15, 23, 42, .34)),
+            linear-gradient(90deg, rgba(2, 6, 23, .96), rgba(15, 23, 42, .78), rgba(15, 23, 42, .46)),
             url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=2200&q=85');
+    }
+
+    .igym-auth-panel {
+        @apply rounded-xl border border-white/10 bg-slate-950/80 p-5 text-white shadow-2xl shadow-black/30 backdrop-blur-xl sm:rounded-2xl sm:p-6;
+    }
+
+    .igym-auth-panel label {
+        @apply text-slate-200;
+    }
+
+    .igym-auth-panel input {
+        @apply border-white/15 bg-white/95 text-slate-950 placeholder:text-slate-400 focus:border-amber-500 focus:ring-amber-500;
     }
 
     .igym-chart-frame {

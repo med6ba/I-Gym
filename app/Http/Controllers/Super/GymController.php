@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GymRequest;
 use App\Models\Gym;
 use App\Models\User;
+use App\Support\GymListExporter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -16,7 +19,27 @@ class GymController extends Controller
     public function index(): View
     {
         return view('super.gyms.index', [
-            'gyms' => Gym::with('primaryAdmin')->withCount(['users', 'members', 'coaches'])->latest()->paginate(10),
+            'gyms' => $this->gymListQuery()->paginate(10),
+        ]);
+    }
+
+    public function export(string $format, GymListExporter $exporter): Response
+    {
+        abort_unless(in_array($format, ['excel', 'pdf'], true), 404);
+
+        $gyms = $this->gymListQuery()->get();
+        $filename = 'gyms-'.now()->format('Y-m-d');
+
+        if ($format === 'excel') {
+            return response($exporter->toExcel($gyms), 200, [
+                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'Content-Disposition' => 'attachment; filename="'.$filename.'.xlsx"',
+            ]);
+        }
+
+        return response($exporter->toPdf($gyms), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'.pdf"',
         ]);
     }
 
@@ -78,6 +101,13 @@ class GymController extends Controller
         });
 
         return back()->with('status', __('messages.gym_deleted'));
+    }
+
+    private function gymListQuery(): Builder
+    {
+        return Gym::with('primaryAdmin')
+            ->withCount(['users', 'members', 'coaches'])
+            ->latest();
     }
 
     private function pullAdminData(array &$data): array
