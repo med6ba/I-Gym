@@ -162,7 +162,7 @@ class DatabaseSeeder extends Seeder
             'course_id' => $strengthClass->id,
             'checked_in_by' => $coach->id,
             'check_in_time' => Carbon::parse('2026-07-06 18:05'),
-            'method' => 'qr',
+            'method' => 'nfc',
         ]);
 
         TrainingPlan::create([

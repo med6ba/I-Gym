@@ -9,7 +9,7 @@
         ],
         'gym_admin' => [
             ['label' => __('messages.create_course'), 'route' => 'admin.courses.index', 'icon' => 'calendar'],
-            ['label' => __('messages.attendance'), 'route' => 'admin.attendance.index', 'icon' => 'qr'],
+            ['label' => __('messages.attendance'), 'route' => 'admin.attendance.index', 'icon' => 'nfc'],
             ['label' => __('messages.notifications'), 'route' => 'admin.notifications.index', 'icon' => 'bell'],
         ],
         'coach' => [

@@ -44,7 +44,7 @@ if (! function_exists('igym_navigation_items')) {
                 ['label' => __('messages.courses'), 'route' => 'admin.courses.index', 'active' => 'admin.courses.*', 'icon' => 'calendar'],
                 ['label' => __('messages.reservations'), 'route' => 'admin.reservations.index', 'active' => 'admin.reservations.*', 'icon' => 'attendance'],
                 ['label' => __('messages.subscriptions'), 'route' => 'admin.subscriptions.index', 'active' => 'admin.subscriptions.*', 'icon' => 'credit-card'],
-                ['label' => __('messages.attendance'), 'route' => 'admin.attendance.index', 'active' => 'admin.attendance.*', 'icon' => 'qr'],
+                ['label' => __('messages.attendance'), 'route' => 'admin.attendance.index', 'active' => 'admin.attendance.*', 'icon' => 'nfc'],
                 ['label' => __('messages.notifications'), 'route' => 'admin.notifications.index', 'active' => 'admin.notifications.*', 'icon' => 'bell'],
                 ['label' => __('messages.activity_logs'), 'route' => 'admin.logs.index', 'active' => 'admin.logs.*', 'icon' => 'list'],
             ],
@@ -65,6 +65,7 @@ if (! function_exists('igym_navigation_items')) {
                 ['label' => __('messages.subscription'), 'route' => 'member.subscription', 'active' => 'member.subscription', 'icon' => 'credit-card'],
                 ['label' => __('messages.progress'), 'route' => 'member.progress', 'active' => 'member.progress', 'icon' => 'activity'],
                 ['label' => __('messages.notifications'), 'route' => 'member.notifications.index', 'active' => 'member.notifications.*', 'icon' => 'bell'],
+                ['label' => __('messages.nfc_access'), 'route' => 'member.nfc', 'active' => 'member.nfc', 'icon' => 'nfc'],
                 ['label' => __('messages.igyma_assistant'), 'route' => 'member.igyma', 'active' => 'member.igyma', 'icon' => 'sparkles'],
             ],
         };

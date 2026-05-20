@@ -10,6 +10,7 @@
         <meta name="description" content="I-Gym smart fitness app">
         <link rel="manifest" href="/manifest.json">
         <link rel="icon" href="/icons/igym-logo.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/icons/icon-192.png">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />

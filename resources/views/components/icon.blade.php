@@ -128,6 +128,9 @@
         @case('nfc')
             <path d="M6 8v8" /><path d="M8 6h8" /><path d="M8 18h8" /><path d="M18 8v8" /><path d="M12 10v4" /><path d="M10 12h4" />
             @break
+        @case('download')
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /><path d="M12 15V3" />
+            @break
         @default
             <circle cx="12" cy="12" r="10" />
     @endswitch
