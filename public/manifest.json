@@ -1,8 +1,9 @@
 {
     "name": "I-Gym",
     "short_name": "I-Gym",
+    "id": "/dashboard",
     "description": "Smart Fitness Management for the Next Generation.",
-    "start_url": "/",
+    "start_url": "/dashboard",
     "display": "standalone",
     "display_override": ["standalone", "minimal-ui"],
     "background_color": "#0F172A",

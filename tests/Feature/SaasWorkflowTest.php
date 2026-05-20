@@ -21,7 +21,6 @@ class SaasWorkflowTest extends TestCase
         $response = $this->actingAs($superAdmin)->post(route('super.gyms.store'), [
             'name' => 'North Star Gym',
             'slug' => 'north-star-gym',
-            'email' => 'hello@northstar.test',
             'phone' => '+212 600 000 000',
             'address' => '1 Main Street',
             'city' => 'Casablanca',
@@ -32,6 +31,7 @@ class SaasWorkflowTest extends TestCase
             'admin_name' => 'North Star Admin',
             'admin_email' => 'admin@northstar.test',
             'admin_password' => 'password',
+            'admin_password_confirmation' => 'password',
         ]);
 
         $response
@@ -62,6 +62,7 @@ class SaasWorkflowTest extends TestCase
             'email' => 'coach@example.test',
             'phone' => '+212 611 111 111',
             'password' => 'password',
+            'password_confirmation' => 'password',
             'status' => 'active',
         ])->assertSessionHasNoErrors();
 
@@ -70,6 +71,7 @@ class SaasWorkflowTest extends TestCase
             'email' => 'member@example.test',
             'phone' => '+212 622 222 222',
             'password' => 'password',
+            'password_confirmation' => 'password',
             'status' => 'active',
         ])->assertSessionHasNoErrors();
 

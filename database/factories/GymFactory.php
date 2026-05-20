@@ -14,7 +14,6 @@ class GymFactory extends Factory
         return [
             'name' => $name,
             'slug' => Str::slug($name).'-'.$this->faker->unique()->numberBetween(100, 999),
-            'email' => $this->faker->unique()->companyEmail(),
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->streetAddress(),
             'city' => $this->faker->city(),

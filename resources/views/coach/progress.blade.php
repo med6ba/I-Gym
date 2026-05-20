@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.progress') }}</h2></x-slot>
-    @php($defaultProgressDate = '2026-07-01')
+    @php($defaultProgressDate = now()->toDateString())
     <div class="mx-auto max-w-7xl space-y-5 px-4 py-6 sm:px-6 lg:px-8">
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif

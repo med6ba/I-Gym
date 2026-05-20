@@ -1,7 +1,8 @@
-const CACHE_NAME = 'igym-pwa-v3';
+const CACHE_NAME = 'igym-pwa-v4';
 
 const PRECACHE_URLS = [
     '/',
+    '/offline.html',
     '/manifest.json',
     '/icons/icon-192.png',
     '/icons/icon-512.png',
@@ -24,8 +25,6 @@ self.addEventListener('activate', (event) => {
                     .filter((key) => key !== CACHE_NAME)
                     .map((key) => caches.delete(key))
             )
-        ).then(() => self.clients.matchAll()).then((clients) =>
-            clients.forEach((client) => client.postMessage({ type: 'SW_UPDATED' }))
         )
     );
     self.clients.claim();
@@ -73,13 +72,9 @@ self.addEventListener('fetch', (event) => {
     if (request.mode === 'navigate') {
         event.respondWith(
             fetch(request)
-                .then((response) => {
-                    const copy = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-                    return response;
-                })
+                .then((response) => response)
                 .catch(() =>
-                    caches.match(request).then((cached) => cached || caches.match('/'))
+                    caches.match('/offline.html').then((cached) => cached || caches.match('/'))
                 )
         );
         return;
@@ -88,8 +83,11 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
         fetch(request)
             .then((response) => {
-                const copy = response.clone();
-                caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+                if (response.ok && ['style', 'script', 'image', 'font'].includes(request.destination)) {
+                    const copy = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+                }
+
                 return response;
             })
             .catch(() => caches.match(request))
@@ -98,8 +96,11 @@ self.addEventListener('fetch', (event) => {
 
 function fetchAndCache(request) {
     return fetch(request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+        if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+        }
+
         return response;
     });
 }

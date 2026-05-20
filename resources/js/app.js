@@ -124,6 +124,9 @@ window.addEventListener('load', () => {
 
 
 let deferredPrompt;
+let serviceWorkerRegistration;
+let refreshing = false;
+
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
@@ -133,7 +136,10 @@ window.addEventListener('beforeinstallprompt', (e) => {
 window.installPwa = function () {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+    deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+        delete document.body.dataset.pwaInstallable;
+    });
 };
 
 const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -142,6 +148,12 @@ const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
 if (isIos && !isStandalone) {
     document.body.dataset.iosInstallable = '1';
 }
+
+window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    delete document.body.dataset.pwaInstallable;
+    delete document.body.dataset.iosInstallable;
+});
 
 window.addEventListener('online', () => document.body.dataset.isOnline = '1');
 window.addEventListener('offline', () => delete document.body.dataset.isOnline);
@@ -152,17 +164,41 @@ if (navigator.onLine) {
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then((reg) => {
+        serviceWorkerRegistration = reg;
+
         if (reg.waiting) {
             document.body.dataset.swWaiting = '1';
         }
+
+        reg.addEventListener('updatefound', () => {
+            const worker = reg.installing;
+            if (!worker) return;
+
+            worker.addEventListener('statechange', () => {
+                if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+                    document.body.dataset.swWaiting = '1';
+                }
+            });
+        });
     }).catch(() => {});
 
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-        document.body.dataset.swWaiting = '';
+        if (refreshing) return;
+        refreshing = true;
+        window.location.reload();
+    });
+
+    navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data?.type === 'SW_UPDATED') {
+            document.body.dataset.swWaiting = '1';
+        }
     });
 }
 
 window.installSwUpdate = function () {
-    if (!navigator.serviceWorker.controller) return;
-    navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+    const waitingWorker = serviceWorkerRegistration?.waiting;
+
+    if (waitingWorker) {
+        waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+    }
 };

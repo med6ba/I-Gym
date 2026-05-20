@@ -20,7 +20,7 @@ class ProgressRequest extends FormRequest
             'muscle_mass' => ['nullable', 'numeric', 'min:1', 'max:200'],
             'goal' => ['nullable', 'string', 'max:160'],
             'notes' => ['nullable', 'string', 'max:2000'],
-            'recorded_at' => ['required', 'date', 'after:2026-06-30'],
+            'recorded_at' => ['required', 'date', 'before_or_equal:today'],
         ];
     }
 }

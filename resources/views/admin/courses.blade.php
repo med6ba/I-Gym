@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header"><h2 class="text-2xl font-black text-slate-950 dark:text-white">{{ __('messages.courses') }}</h2></x-slot>
-    @php($defaultCourseStart = '2026-07-01T09:00')
-    @php($defaultCourseEnd = '2026-07-01T10:00')
+    @php($defaultCourseStart = now()->addHour()->minute(0)->second(0)->format('Y-m-d\TH:i'))
+    @php($defaultCourseEnd = now()->addHours(2)->minute(0)->second(0)->format('Y-m-d\TH:i'))
     <div class="mx-auto max-w-7xl space-y-5 px-4 py-6 sm:px-6 lg:px-8">
         @if(session('status')) <x-alert type="success">{{ session('status') }}</x-alert> @endif
         @if($errors->any()) <x-alert type="danger">{{ $errors->first() }}</x-alert> @endif
