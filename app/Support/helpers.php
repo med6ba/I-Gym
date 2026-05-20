@@ -65,7 +65,6 @@ if (! function_exists('igym_navigation_items')) {
                 ['label' => __('messages.subscription'), 'route' => 'member.subscription', 'active' => 'member.subscription', 'icon' => 'credit-card'],
                 ['label' => __('messages.progress'), 'route' => 'member.progress', 'active' => 'member.progress', 'icon' => 'activity'],
                 ['label' => __('messages.notifications'), 'route' => 'member.notifications.index', 'active' => 'member.notifications.*', 'icon' => 'bell'],
-                ['label' => __('messages.nfc_access'), 'route' => 'member.nfc', 'active' => 'member.nfc', 'icon' => 'nfc'],
                 ['label' => __('messages.igyma_assistant'), 'route' => 'member.igyma', 'active' => 'member.igyma', 'icon' => 'sparkles'],
             ],
         };

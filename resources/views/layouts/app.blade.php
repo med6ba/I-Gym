@@ -28,22 +28,18 @@
         </script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans" data-notification-count="{{ auth()->check() ? igym_unread_notification_count() : 0 }}">
+    <body class="font-sans" data-notification-count="{{ auth()->check() ? igym_unread_notification_count() : 0 }}" data-is-dashboard="{{ request()->routeIs('*.dashboard') ? '1' : '0' }}">
         <div
             x-data="{
                 swWaiting: document.body.dataset.swWaiting === '1',
-                installable: document.body.dataset.pwaInstallable === '1',
-                iosInstallable: document.body.dataset.iosInstallable === '1',
                 isOnline: typeof navigator === 'undefined' ? true : navigator.onLine
             }"
             x-init="
                 const observer = new MutationObserver(() => {
                     swWaiting = document.body.dataset.swWaiting === '1';
-                    installable = document.body.dataset.pwaInstallable === '1';
-                    iosInstallable = document.body.dataset.iosInstallable === '1';
                     isOnline = document.body.dataset.isOnline === '1';
                 });
-                observer.observe(document.body, { attributes: true, attributeFilter: ['data-sw-waiting', 'data-pwa-installable', 'data-ios-installable', 'data-is-online'] });
+                observer.observe(document.body, { attributes: true, attributeFilter: ['data-sw-waiting', 'data-is-online'] });
             "
             class="min-h-screen bg-slate-50 dark:bg-slate-950"
         >
@@ -54,10 +50,6 @@
                 {{ __('messages.new_version_available') }}
                 <button type="button" onclick="installSwUpdate()" class="ml-2 underline">{{ __('messages.update_now') }}</button>
             </div>
-            <button x-show="installable" x-cloak type="button" onclick="installPwa()" class="fixed bottom-6 end-6 z-40 hidden items-center gap-2 rounded-xl bg-amber-500 px-4 py-3 text-sm font-black text-slate-950 shadow-xl shadow-amber-900/20 transition hover:bg-amber-400 lg:inline-flex">
-                <x-icon name="download" size="17" />
-                {{ __('messages.install_app') }}
-            </button>
             <div class="flex min-h-screen"
                   x-data="{ sidebarOpen: false, windowWidth: window.innerWidth }"
                   x-init="window.addEventListener('resize', () => windowWidth = window.innerWidth)"

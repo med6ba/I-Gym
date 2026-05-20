@@ -89,34 +89,67 @@ window.addEventListener('igym-theme-applied', () => {
     Object.values(window.igymCharts || {}).forEach((chart) => chart.update());
 });
 
-function playNotificationTone() {
+function playNotificationTone(duration = 0.5) {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
 
     if (!AudioContext) {
-        return;
+        return Promise.resolve(false);
     }
 
     const context = new AudioContext();
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
+    const startTone = () => {
+        const first = context.createOscillator();
+        const second = context.createOscillator();
+        const gain = context.createGain();
+        const now = context.currentTime;
+        const stopAt = now + duration;
 
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(880, context.currentTime);
-    gain.gain.setValueAtTime(0.0001, context.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.08, context.currentTime + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.18);
-    oscillator.connect(gain);
-    gain.connect(context.destination);
-    oscillator.start();
-    oscillator.stop(context.currentTime + 0.2);
+        first.type = 'sine';
+        second.type = 'sine';
+        first.frequency.setValueAtTime(587.33, now);
+        first.frequency.exponentialRampToValueAtTime(659.25, now + 0.12);
+        second.frequency.setValueAtTime(783.99, now + 0.08);
+        second.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.035, now + 0.035);
+        gain.gain.setValueAtTime(0.035, Math.max(now + 0.06, stopAt - 0.16));
+        gain.gain.exponentialRampToValueAtTime(0.0001, stopAt);
+        first.connect(gain);
+        second.connect(gain);
+        gain.connect(context.destination);
+        first.start(now);
+        second.start(now + 0.08);
+        first.stop(stopAt);
+        second.stop(stopAt);
+
+        window.setTimeout(() => context.close().catch(() => {}), (duration * 1000) + 150);
+        return true;
+    };
+
+    if (context.state === 'suspended') {
+        return context.resume().then(startTone).catch(() => false);
+    }
+
+    return Promise.resolve(startTone());
 }
 
 window.addEventListener('load', () => {
     const count = Number(document.body.dataset.notificationCount || 0);
-    const previous = Number(localStorage.getItem('igym-notification-count') || 0);
+    const isDashboard = document.body.dataset.isDashboard === '1';
 
-    if (count > previous && previous > 0) {
-        playNotificationTone();
+    if (isDashboard && count > 0) {
+        playNotificationTone().then((played) => {
+            if (played) return;
+
+            const playAfterInteraction = () => {
+                playNotificationTone();
+                window.removeEventListener('pointerdown', playAfterInteraction);
+                window.removeEventListener('keydown', playAfterInteraction);
+            };
+
+            window.addEventListener('pointerdown', playAfterInteraction, { once: true });
+            window.addEventListener('keydown', playAfterInteraction, { once: true });
+        });
     }
 
     localStorage.setItem('igym-notification-count', String(count));
@@ -142,8 +175,10 @@ window.installPwa = function () {
     });
 };
 
-const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+const isIos = (/iPad|iPhone|iPod/.test(navigator.userAgent)
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1))
+    && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
 if (isIos && !isStandalone) {
     document.body.dataset.iosInstallable = '1';

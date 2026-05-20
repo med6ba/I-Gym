@@ -1,6 +1,7 @@
 @php
     $user = auth()->user();
     $items = igym_navigation_items($user);
+    $unreadNotifications = igym_unread_notification_count($user);
 @endphp
 
 <aside x-data="{ isRtl: document.documentElement.dir === 'rtl' }"
@@ -30,17 +31,27 @@
     <nav class="mt-6 flex-1 space-y-1 overflow-y-auto">
         @foreach($items as $item)
             @php($active = request()->routeIs($item['active']))
+            @php($isNotifications = in_array($item['route'], ['admin.notifications.index', 'member.notifications.index'], true))
             <a href="{{ route($item['route']) }}" class="{{ $active ? 'border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200' : 'border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-50 dark:text-slate-300 dark:hover:border-slate-800 dark:hover:bg-slate-800/60' }} group flex items-center justify-between rounded-xl border px-3 py-2.5 text-sm font-bold transition">
                 <span class="flex items-center gap-3">
                     <x-icon name="{{ $item['icon'] }}" size="18" class="{{ $active ? 'text-amber-600 dark:text-amber-300' : 'text-slate-400 group-hover:text-amber-500' }}" />
                     <span>{{ $item['label'] }}</span>
                 </span>
-                <x-icon name="arrow-right" size="16" class="opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100 rtl:rotate-180" />
+                <span class="flex items-center gap-2">
+                    @if($isNotifications && $unreadNotifications > 0)
+                        <span class="min-w-5 rounded-full bg-rose-500 px-1.5 py-0.5 text-center text-[11px] font-black leading-none text-white ring-2 ring-white dark:ring-slate-900">
+                            {{ $unreadNotifications > 99 ? '99+' : $unreadNotifications }}
+                        </span>
+                    @endif
+                    <x-icon name="arrow-right" size="16" class="opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100 rtl:rotate-180" />
+                </span>
             </a>
         @endforeach
     </nav>
 
     <div class="mt-auto space-y-3 pt-6">
+        <x-install-app-card />
+
         @unless($user->isSuperAdmin() || $user->isReception())
             <a href="{{ route('profile.edit') }}" class="igym-focus group flex items-center gap-3 rounded-xl border border-slate-200 p-3 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-800 dark:hover:border-amber-800 dark:hover:bg-amber-950/30">
                 <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="size-11 rounded-xl object-cover">

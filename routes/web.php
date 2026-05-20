@@ -15,7 +15,6 @@ use App\Http\Controllers\Coach\TrainingPlanController as CoachTrainingPlanContro
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Member\CourseController as MemberCourseController;
 use App\Http\Controllers\Member\IgymaController as MemberIgymaController;
-use App\Http\Controllers\Member\NfcController as MemberNfcController;
 use App\Http\Controllers\Member\NotificationController as MemberNotificationController;
 use App\Http\Controllers\Member\ProgressController as MemberProgressController;
 use App\Http\Controllers\Member\ReservationController as MemberReservationController;
@@ -110,7 +109,6 @@ Route::middleware(['auth', 'role:member', 'gym.access'])->prefix('member')->name
     Route::get('/progress', MemberProgressController::class)->name('progress');
     Route::get('/notifications', [MemberNotificationController::class, 'index'])->name('notifications.index');
     Route::patch('/notifications/{notification}/read', [MemberNotificationController::class, 'markRead'])->name('notifications.read');
-    Route::get('/nfc', [MemberNfcController::class, 'index'])->name('nfc');
 
     Route::get('/igyma', [MemberIgymaController::class, 'index'])->name('igyma');
     Route::post('/igyma/chat', [MemberIgymaController::class, 'chat'])
