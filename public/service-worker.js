@@ -3,7 +3,7 @@ const CACHE_NAME = 'igym-pwa-v3';
 const PRECACHE_URLS = [
     '/',
     '/manifest.json',
-    '/icons/igym-logo.svg',
+    '/icons/icon-192.png',
     '/icons/icon-192.png',
     '/icons/icon-512.png',
 ];
