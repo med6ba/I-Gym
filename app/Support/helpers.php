@@ -189,7 +189,16 @@ if (! function_exists('format_currency')) {
         $amount = (float) ($amount ?? 0);
         $currency ??= auth()->user()?->currency ?? 'MAD';
         $symbol = currency_symbol($currency);
-        $formatted = number_format($amount, 2);
+
+        $rates = [
+            'MAD' => 1,
+            'USD' => 0.10,
+            'EUR' => 0.092,
+            'GBP' => 0.080,
+        ];
+
+        $converted = $amount * ($rates[$currency] ?? 1);
+        $formatted = number_format($converted, 2);
 
         return $currency === 'MAD' ? $formatted.' '.$symbol : $symbol.$formatted;
     }

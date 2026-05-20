@@ -102,34 +102,22 @@
                 </button>
             </div>
 
-<div x-cloak x-show="mobile" x-transition class="border-t border-white/10 bg-slate-950 px-4 py-4 lg:hidden">
-    <div class="space-y-2">
-        @foreach([
-            ['label' => __('messages.product'), 'href' => '#platform', 'icon' => 'dashboard'],
-            ['label' => __('messages.solutions'), 'href' => '#workflows', 'icon' => 'building'],
-        ] as $item)
-            <a href="{{ $item['href'] }}" class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-bold text-slate-200 hover:bg-white/10">
-                <span class="igym-menu-icon"><x-icon name="{{ $item['icon'] }}" size="18" /></span>
-                {{ $item['label'] }}
-            </a>
-        @endforeach
-    </div>
-    <div class="mt-4 grid grid-cols-2 gap-2">
+<div x-cloak x-show="mobile" x-transition class="border-t border-white/10 bg-slate-950/95 backdrop-blur-xl px-4 py-5 lg:hidden">
+    <div class="flex items-center justify-center gap-3">
         <x-language-switcher />
         <x-theme-toggle />
-        @auth
-            <a href="{{ route('profile.edit') }}" class="igym-focus grid place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30" title="{{ __('messages.profile') }}">
-                <x-icon name="user" size="18" />
-            </a>
-            <a href="{{ route('settings.index') }}" class="igym-focus grid place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30" title="{{ __('messages.settings') }}">
-                <x-icon name="settings" size="18" />
-            </a>
-        @endauth
     </div>
-    <a href="{{ auth()->check() ? role_home_route() : route('login') }}" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 py-3 text-sm font-black text-slate-950">
-        <x-icon name="{{ auth()->check() ? 'dashboard' : 'log-in' }}" size="18" />
-        {{ auth()->check() ? __('messages.dashboard') : __('messages.login') }}
-    </a>
+    @auth
+        <a href="{{ role_home_route() }}" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-amber-400">
+            <x-icon name="dashboard" size="18" />
+            {{ __('messages.dashboard') }}
+        </a>
+    @else
+        <a href="{{ route('login') }}" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 py-3 text-sm font-black text-slate-950 transition hover:bg-amber-400">
+            <x-icon name="log-in" size="18" />
+            {{ __('messages.login') }}
+        </a>
+    @endauth
 </div>
         </header>
 
