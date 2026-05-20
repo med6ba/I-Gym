@@ -1,36 +1,55 @@
 # I-Gym
 
-**Smart Fitness Management for the Next Generation.**
+![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.3+-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-111827?style=for-the-badge)
 
-I-Gym is a Laravel SaaS fitness platform built for the hackathon theme **“I-Gym: La Plateforme Fitness Nouvelle Génération”**. It helps a modern gym manage customer gyms, roles, bookings, subscriptions, QR access, coach workflows, attendance, member progress, notifications, and smart dashboards.
+I-Gym is a multi-role fitness SaaS platform for modern gyms. It brings gym operations, class bookings, member access, subscriptions, progress tracking, coaching workflows, analytics, and AI fitness assistance into one Laravel application.
 
-## Main Features
+The project is built as a realistic gym management product, not just a demo screen: every main workspace is role-aware, tenant-scoped by gym, localized, responsive, and backed by structured Laravel controllers, requests, models, factories, migrations, and seeders.
 
-- Five roles: `super_admin`, `gym_admin`, `coach`, `reception`, `member`
-- Laravel Breeze authentication with role redirects
-- Simple SaaS multi-gym isolation using `gym_id`
-- Super Admin customer gym management and global analytics
-- Gym Admin member, coach, course, subscription, attendance, reservation, and notification tools
-- Coach class attendance, member follow-up, training plans, and progress capture
-- Reception QR access simulation with a fake scanner
-- Member booking, QR code access, reservations, subscription status, progress, and notifications
-- Smart occupancy alerts, no-show tracking, subscription expiration alerts, and simulated AI recommendations
-- Responsive Blade + Tailwind UI with dark/light mode
-- English, French, Spanish, and Arabic localization with RTL support
-- PWA manifest, service worker, icon placeholder, and offline fallback
+## Highlights
+
+- Multi-gym SaaS workspace for platform owners and gym teams.
+- Role-based dashboards for super admins, gym admins, coaches, reception staff, and members.
+- Course scheduling, reservations, attendance, subscriptions, notifications, and member progress.
+- NFC access simulation for members and reception check-ins.
+- IGyma, an in-app AI fitness assistant powered by Groq when configured.
+- Super admin gym exports to styled Excel and branded PDF reports.
+- Dark/light themes, language settings, RTL Arabic support, and PWA assets.
+
+## Feature Map
+
+| Role | What they can do |
+| --- | --- |
+| Super Admin | Manage gyms, gym admins, customer status, subscription plans, platform analytics, and gym exports. |
+| Gym Admin | Manage members, coaches, courses, reservations, subscriptions, attendance, notifications, and activity logs. |
+| Coach | View assigned classes, mark class attendance, manage training plans, and record member progress. |
+| Reception | Simulate NFC bracelet scanning and record front-desk check-ins. |
+| Member | Book classes, manage reservations, view subscription status, track progress, receive notifications, use NFC access, and chat with IGyma. |
 
 ## Tech Stack
 
-- Laravel 13
-- Laravel Breeze
-- Laravel Blade
-- MySQL
-- Eloquent relationships, migrations, seeders, factories
-- Form requests and role middleware
-- TailwindCSS, Alpine.js, Chart.js
+- Laravel 13, Laravel Breeze, Blade components
+- PHP 8.3+, Eloquent ORM, migrations, factories, seeders
+- MySQL by default, with Laravel-supported database alternatives available
+- TailwindCSS, Alpine.js, Chart.js, Vite
+- Form requests, custom middleware, scoped route model binding
 - `simplesoftwareio/simple-qrcode`
+- Groq API integration for IGyma
 
-## Installation
+## Requirements
+
+- PHP 8.3 or newer
+- Composer
+- Node.js 22 or newer
+- NPM
+- MySQL or another Laravel-supported database
+
+## Quick Start
+
+Clone the repository and install dependencies:
 
 ```bash
 composer install
@@ -39,13 +58,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Create the MySQL database:
-
-```sql
-CREATE DATABASE igym CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-Set the database credentials in `.env`:
+Create a database and update `.env`:
 
 ```env
 DB_CONNECTION=mysql
@@ -56,7 +69,7 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Run migrations and seeders:
+Run the application:
 
 ```bash
 php artisan migrate:fresh --seed
@@ -64,131 +77,93 @@ npm run build
 php artisan serve
 ```
 
-Open `http://127.0.0.1:8000`.
+Open:
+
+```text
+http://127.0.0.1:8000
+```
+
+For active development, run Vite in a separate terminal:
+
+```bash
+npm run dev
+```
 
 ## Demo Accounts
 
-All demo accounts use the password:
+All seeded demo accounts use:
 
 ```text
 password
 ```
 
-- Super Admin: `super@igym.com`
-- Gym Admin: `admin@igym.com`
-- Coach: `coach@igym.com`
-- Reception: `reception@igym.com`
-- Member: `member@igym.com`
+| Role | Email |
+| --- | --- |
+| Super Admin | `super@igym.com` |
+| Gym Admin | `admin@igym.com` |
+| Coach | `coach@igym.com` |
+| Reception | `reception@igym.com` |
+| Member | `member@igym.com` |
 
-## Roles
+## Environment
 
-`super_admin` manages the commercial SaaS layer: gyms, activation states, subscription plans, and platform analytics.
+Optional IGyma AI setup:
 
-`gym_admin` manages only users and operational data where `gym_id` matches their gym.
+```env
+GROQ_API_KEY=your_key_here
+GROQ_MODEL=llama-3.1-8b-instant
+```
 
-`coach` sees only assigned courses and can mark attendance, manage plans, and record progress inside their gym.
+Useful defaults for local development:
 
-`reception` simulates front-desk QR scanning and records valid gym access check-ins.
+```env
+APP_ENV=local
+APP_DEBUG=true
+SESSION_DRIVER=file
+CACHE_STORE=database
+QUEUE_CONNECTION=database
+```
 
-`member` sees only their own bookings, QR code, subscription, progress, and notifications.
+## Project Structure
 
-## Route Security
+```text
+app/
+  Actions/                 Shared domain actions
+  Http/Controllers/         Role-specific controllers
+  Http/Middleware/          Role and gym access guards
+  Http/Requests/            Validated form requests
+  Models/                   Eloquent models and relationships
+  Support/                  Helpers and export support
+database/
+  migrations/               Core schema
+  seeders/                  Demo SaaS data
+resources/
+  views/                    Blade UI by workspace
+  lang/                     English, French, Spanish, Arabic
+routes/
+  web.php                   Role-protected route groups
+```
 
-- `/super/*` requires `auth` and `role:super_admin`.
-- `/admin/*` requires `auth`, `role:gym_admin`, and an active/trial gym workspace.
-- `/coach/*` requires `auth`, `role:coach`, and an active/trial gym workspace.
-- `/reception/*` requires `auth`, `role:reception`, and an active/trial gym workspace.
-- `/member/*` requires `auth`, `role:member`, and an active/trial gym workspace.
-- Tenant route parameters are scoped in `AppServiceProvider`, so `{member}`, `{coach}`, `{course}`, `{reservation}`, `{subscription}`, and `{notification}` resolve only inside the authenticated user’s allowed gym and role context.
+## Security Model
 
-## Database Overview
+I-Gym uses authenticated route groups, role middleware, and gym workspace access checks. Most operational records include `gym_id`, and route model bindings scope users, courses, reservations, subscriptions, and notifications to the authenticated user’s allowed workspace.
 
-Core tables:
+Super admins operate globally. Gym admins, coaches, reception staff, and members operate inside their assigned gym.
 
-- `gyms`
-- `users`
-- `subscriptions`
-- `courses`
-- `reservations`
-- `attendances`
-- `notifications`
-- `training_plans`
-- `member_progress`
-- `activity_logs`
+## Useful Commands
 
-Every operational table includes `gym_id`. Super admins are global and have `gym_id = null`.
+```bash
+php artisan route:list
+php artisan migrate:fresh --seed
+php artisan test
+npm run build
+vendor/bin/pint
+```
 
-## Innovation Features
+## Product Notes
 
-- Smart occupancy calculation: reservations divided by max capacity
-- Full class booking lockout
-- High demand alert at 80% occupancy
-- QR access simulation with scannable member payloads
-- AI recommendation simulation based on member goal
-- Business insights for gym admins
-- Subscription expiration alerts within seven days
-- No-show tracking from missed reserved classes
-- SaaS customer layer for multiple gyms
+I-Gym is designed for a polished demo and a credible SaaS foundation. The current implementation focuses on gym operations, member experience, role isolation, reporting, and responsive UI. Production extensions could include online payments, real NFC hardware, push notifications, tenant subdomains, and advanced analytics.
 
-## PWA
+## License
 
-I-Gym includes:
-
-- `public/manifest.json`
-- `public/service-worker.js`
-- `public/offline.html`
-- `public/icons/igym-logo.svg`
-- Standalone display mode and orange theme color
-
-## Localization
-
-Language files live in:
-
-- `resources/lang/en/messages.php`
-- `resources/lang/fr/messages.php`
-- `resources/lang/es/messages.php`
-- `resources/lang/ar/messages.php`
-
-Arabic sets `dir="rtl"` at the HTML level.
-
-## Dark and Light Mode
-
-Tailwind dark mode uses the `class` strategy. The UI persists the selected theme in `localStorage` and stores the authenticated user preference in `users.theme`.
-
-## Demo Scenario
-
-1. Login as Super Admin.
-2. Show SaaS dashboard and gym customers.
-3. Open global analytics.
-4. Login as Gym Admin.
-5. Show gym stats, occupancy, and smart alerts.
-6. Create or view a course.
-7. Show reservations and subscription expiration alerts.
-8. Login as Member.
-9. Book an available class.
-10. Show QR code.
-11. Login as Coach.
-12. Mark the member present.
-13. Return to dashboards and show updated attendance.
-
-## Verification Notes
-
-Validated in this workspace:
-
-- `composer dump-autoload`
-- `php artisan route:list --except-vendor`
-- `npm run build`
-- PHP syntax check across app/database/routes/config
-- `php artisan view:cache`
-
-MySQL migration/seed verification requires valid local MySQL credentials. The current shell could not authenticate to MariaDB as `root`.
-
-## Future Improvements
-
-- Real payment gateway integration
-- Real QR scanner camera flow
-- Push notifications
-- Subdomain-based tenant routing
-- Member mobile app wrapper
-- Real AI workout recommendation service
-- Advanced reporting exports
+This project is open-sourced under the MIT license.
