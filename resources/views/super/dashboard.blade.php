@@ -63,52 +63,42 @@
         </x-chart-card>
 
         <x-chart-card :title="__('messages.admin_accounts')">
-            <div class="overflow-x-auto">
-                <table class="w-full min-w-[680px] text-sm">
-                    <thead class="text-xs uppercase text-slate-500">
-                        <tr>
-                            <th class="px-3 py-2 text-start font-black">{{ __('messages.gym_admin') }}</th>
-                            <th class="px-3 py-2 text-start font-black">{{ __('messages.gym_name') }}</th>
-                            <th class="px-3 py-2 text-start font-black">{{ __('messages.status') }}</th>
-                            <th class="px-3 py-2 text-end font-black">{{ __('messages.actions') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
-                        @foreach($adminAccounts as $admin)
-                            <tr>
-                                <td class="px-3 py-3">
-                                    <p class="font-black text-slate-950 dark:text-white">{{ $admin->name }}</p>
-                                    <p class="text-xs text-slate-500">{{ $admin->email }}</p>
-                                </td>
-                                <td class="px-3 py-3">
-                                    <p class="font-bold text-slate-800 dark:text-slate-100">{{ $admin->gym?->name ?? __('messages.no_data') }}</p>
-                                    <p class="text-xs text-slate-500">{{ $admin->gym?->city }}</p>
-                                </td>
-                                <td class="px-3 py-3"><x-badge :status="$admin->status" /></td>
-                                <td class="px-3 py-3 text-end">
-                                    @if($admin->gym)
-                                        @php($editModal = 'edit-dashboard-gym-'.$admin->gym->id)
-                                        <button type="button" class="igym-action igym-action-edit" x-on:click="$dispatch('open-modal', '{{ $editModal }}')" title="{{ __('messages.edit') }}">
-                                            <x-icon name="edit" size="16" />
-                                            {{ __('messages.edit') }}
-                                        </button>
+            <div class="divide-y divide-slate-200 dark:divide-slate-800">
+                @foreach($adminAccounts as $admin)
+                    <div class="flex flex-col gap-1 px-1 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-0">
+                        <div class="flex flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
+                            <div class="min-w-0 sm:w-2/5">
+                                <p class="truncate font-black text-slate-950 dark:text-white">{{ $admin->name }}</p>
+                                <p class="truncate text-xs text-slate-500">{{ $admin->email }}</p>
+                            </div>
+                            <div class="min-w-0 sm:w-2/5">
+                                <p class="truncate font-bold text-slate-800 dark:text-slate-100">{{ $admin->gym?->name ?? __('messages.no_data') }}</p>
+                                <p class="truncate text-xs text-slate-500">{{ $admin->gym?->city }}</p>
+                            </div>
+                            <div class="sm:w-1/6"><x-badge :status="$admin->status" /></div>
+                        </div>
+                        <div class="text-end">
+                            @if($admin->gym)
+                                @php($editModal = 'edit-dashboard-gym-'.$admin->gym->id)
+                                <button type="button" class="igym-action igym-action-edit" x-on:click="$dispatch('open-modal', '{{ $editModal }}')" title="{{ __('messages.edit') }}">
+                                    <x-icon name="edit" size="16" />
+                                    {{ __('messages.edit') }}
+                                </button>
 
-                                        <x-modal name="{{ $editModal }}" :show="old('_modal') === $editModal" maxWidth="2xl">
-                                            <form method="POST" action="{{ route('super.gyms.update', $admin->gym) }}" class="space-y-5">
-                                                @method('PATCH')
-                                                <div>
-                                                    <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.edit_gym', ['name' => $admin->gym->name]) }}</h3>
-                                                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $admin->email }}</p>
-                                                </div>
-                                                @include('super.gyms._form', ['gym' => $admin->gym, 'inModal' => true, 'modalName' => $editModal])
-                                            </form>
-                                        </x-modal>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                <x-modal name="{{ $editModal }}" :show="old('_modal') === $editModal" maxWidth="2xl">
+                                    <form method="POST" action="{{ route('super.gyms.update', $admin->gym) }}" class="space-y-5">
+                                        @method('PATCH')
+                                        <div>
+                                            <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.edit_gym', ['name' => $admin->gym->name]) }}</h3>
+                                            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $admin->email }}</p>
+                                        </div>
+                                        @include('super.gyms._form', ['gym' => $admin->gym, 'inModal' => true, 'modalName' => $editModal])
+                                    </form>
+                                </x-modal>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </x-chart-card>
     </div>

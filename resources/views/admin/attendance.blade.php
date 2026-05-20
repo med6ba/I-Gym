@@ -15,19 +15,18 @@
             <form method="POST" action="{{ route('admin.attendance.store') }}" class="space-y-5">
                 @csrf
                 <input type="hidden" name="_modal" value="record-attendance">
-                <input type="hidden" name="method" value="qr">
 
                 <div>
                     <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.mark_present') }}</h3>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ __('messages.attendance') }}</p>
                 </div>
 
-                <div class="grid gap-4 md:grid-cols-2">
+                <div class="grid gap-4" x-data="{ method: 'nfc' }">
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.member') }}</span>
                         <select name="member_id" class="igym-input" required>
                             @foreach($members as $member)
-                                <option value="{{ $member->id }}" @selected((int) (old('_modal') === 'record-attendance' ? old('member_id') : 0) === $member->id)>{{ $member->name }}</option>
+                                <option value="{{ $member->id }}" data-bracelet="{{ $member->hasBracelet() ? '1' : '0' }}" @selected((int) (old('_modal') === 'record-attendance' ? old('member_id') : 0) === $member->id)>{{ $member->name }}@if($member->hasBracelet()) · 🏷️ {{ __('messages.bracelet_assigned') }}@endif</option>
                             @endforeach
                         </select>
                     </label>
@@ -40,6 +39,23 @@
                             @endforeach
                         </select>
                     </label>
+                    <div>
+                        <span class="igym-label">{{ __('messages.method') }}</span>
+                        <div class="mt-1.5 flex gap-2">
+                            <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold transition has-[:checked]:border-amber-400 has-[:checked]:bg-amber-50 dark:border-slate-700 dark:has-[:checked]:border-amber-700 dark:has-[:checked]:bg-amber-950/30">
+                                <input type="radio" name="method" value="nfc" x-model="method" class="size-4 accent-amber-500">
+                                <x-icon name="nfc" size="18" class="text-amber-500" />
+                                {{ __('messages.nfc') }}
+                            </label>
+                            <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold transition has-[:checked]:border-amber-400 has-[:checked]:bg-amber-50 dark:border-slate-700 dark:has-[:checked]:border-amber-700 dark:has-[:checked]:bg-amber-950/30">
+                                <input type="radio" name="method" value="manual" x-model="method" class="size-4 accent-amber-500">
+                                <x-icon name="user" size="18" class="text-slate-400" />
+                                {{ __('messages.manual') }}
+                            </label>
+                        </div>
+                        <p class="mt-1 text-xs text-slate-400" x-show="method === 'nfc'" x-cloak>{{ __('messages.nfc_attendance_hint') }}</p>
+                        <p class="mt-1 text-xs text-slate-400" x-show="method === 'manual'" x-cloak>{{ __('messages.manual_attendance_hint') }}</p>
+                    </div>
                 </div>
 
                 <div class="flex justify-end gap-3">

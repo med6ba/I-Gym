@@ -17,7 +17,7 @@ class AttendanceRequest extends FormRequest
         return [
             'member_id' => ['required', 'exists:users,id'],
             'course_id' => ['nullable', 'exists:courses,id'],
-            'method' => ['required', Rule::in(['qr', 'manual'])],
+            'method' => ['required', Rule::in(['nfc', 'manual'])],
         ];
     }
 }

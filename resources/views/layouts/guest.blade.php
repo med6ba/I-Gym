@@ -24,9 +24,8 @@
     </head>
     <body class="font-sans">
         <div class="relative min-h-screen overflow-hidden bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-white">
-            <div class="absolute inset-0 bg-cover bg-center opacity-10 dark:hidden" style="background-image: linear-gradient(90deg, rgba(255,255,255,.92), rgba(255,247,237,.72)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
-            <div class="absolute inset-0 hidden bg-cover bg-center opacity-20 dark:block" style="background-image: linear-gradient(90deg, rgba(2,6,23,.98), rgba(15,23,42,.86)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
-            <div class="absolute inset-0 hidden bg-slate-950/70 dark:block"></div>
+            <div class="absolute inset-0 bg-cover bg-center opacity-35 dark:hidden" style="background-image: linear-gradient(90deg, rgba(255,255,255,.60), rgba(255,247,237,.30)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
+            <div class="absolute inset-0 hidden bg-cover bg-center opacity-45 dark:block" style="background-image: linear-gradient(90deg, rgba(2,6,23,.70), rgba(15,23,42,.50)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1800&q=80');"></div>
             <div class="relative mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <a href="{{ route('landing') }}" class="igym-focus rounded-lg">

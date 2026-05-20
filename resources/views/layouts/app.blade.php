@@ -25,17 +25,32 @@
     </head>
     <body class="font-sans" data-notification-count="{{ auth()->check() ? igym_unread_notification_count() : 0 }}">
         <div x-data class="min-h-screen bg-slate-50 dark:bg-slate-950">
-            <div class="flex min-h-screen">
+            <div class="flex min-h-screen"
+                  x-data="{ sidebarOpen: false }"
+                  x-on:open-sidebar="sidebarOpen = true; document.body.classList.add('overflow-hidden')"
+                  x-on:close-sidebar="sidebarOpen = false; document.body.classList.remove('overflow-hidden')"
+                  x-on:keydown.escape="sidebarOpen = false; document.body.classList.remove('overflow-hidden')">
                 @auth
+                    <div x-show="sidebarOpen" x-transition.opacity class="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm lg:hidden" x-on:click="sidebarOpen = false; document.body.classList.remove('overflow-hidden')" x-cloak></div>
                     <x-sidebar />
                 @endauth
 
                 <div class="flex min-w-0 flex-1 flex-col lg:ms-72">
-                    @isset($header)
-                        <div class="border-b border-slate-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900 sm:px-6 lg:px-8">
-                            {{ $header }}
+                    <div class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
+                        <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+                            <div class="flex min-w-0 shrink items-center gap-3">
+                                <button type="button" x-data x-on:click="$dispatch('open-sidebar')" class="igym-focus grid size-10 shrink-0 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30 lg:hidden" title="{{ __('messages.menu') }}">
+                                    <x-icon name="menu" size="18" />
+                                </button>
+                                @isset($header)
+                                    <div class="min-w-0">
+                                        {{ $header }}
+                                    </div>
+                                @endisset
+                            </div>
+
                         </div>
-                    @endisset
+                    </div>
 
                     <main class="flex-1 pb-24 lg:pb-8">
                         {{ $slot }}

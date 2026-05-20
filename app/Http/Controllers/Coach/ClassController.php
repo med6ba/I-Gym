@@ -39,7 +39,7 @@ class ClassController extends Controller
 
         $validated = $request->validate([
             'member_id' => ['required', 'exists:users,id'],
-            'method' => ['required', Rule::in(['qr', 'manual'])],
+            'method' => ['required', Rule::in(['nfc', 'manual'])],
         ]);
 
         $member = User::findOrFail($validated['member_id']);

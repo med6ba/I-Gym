@@ -34,6 +34,7 @@ class User extends Authenticatable
         'gender',
         'fitness_goal',
         'bio',
+        'bracelet_uid',
     ];
 
     protected $hidden = [
@@ -163,6 +164,11 @@ class User extends Authenticatable
     public function isMember(): bool
     {
         return $this->role === 'member';
+    }
+
+    public function hasBracelet(): bool
+    {
+        return ! is_null($this->bracelet_uid);
     }
 
     public function dashboardRoute(): string

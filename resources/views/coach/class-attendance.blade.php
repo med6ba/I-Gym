@@ -36,8 +36,8 @@
                     <label class="igym-field">
                         <span class="igym-label">{{ __('messages.method') }}</span>
                         <select name="method" class="igym-input">
-                            <option value="qr" @selected((old('_modal') === 'mark-class-attendance' ? old('method') : 'qr') === 'qr')>QR</option>
-                            <option value="manual" @selected((old('_modal') === 'mark-class-attendance' ? old('method') : 'qr') === 'manual')>{{ __('messages.manual') }}</option>
+                            <option value="nfc" @selected((old('_modal') === 'mark-class-attendance' ? old('method') : 'nfc') === 'nfc')>NFC</option>
+                            <option value="manual" @selected((old('_modal') === 'mark-class-attendance' ? old('method') : 'nfc') === 'manual')>{{ __('messages.manual') }}</option>
                         </select>
                     </label>
                 </div>

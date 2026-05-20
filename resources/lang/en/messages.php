@@ -16,6 +16,7 @@ return [
     'login' => 'Login',
     'logout' => 'Logout',
     'profile' => 'Profile',
+    'menu' => 'Menu',
     'qr_code' => 'QR Code',
     'nfc_access' => 'NFC Access',
     'nfc_access_text' => 'Tap your bracelet at reception for a quick check-in.',
@@ -357,6 +358,14 @@ return [
     'nfc_warning_detail' => 'Lina Berrada - Monthly Pass · Last entry today (2 of 3 used).',
     'nfc_warned_detail' => 'Mehdi Idrissi - Basic Pass · 3 entries already used today.',
     'scanning' => 'Scanning',
+    'nfc' => 'NFC',
+    'manual_checkin' => 'Manual Check-in',
+    'manual_checkin_hint' => 'Search for a member and mark them as present.',
+    'search_members' => 'Search members...',
+    'bracelet_assigned' => 'Bracelet assigned',
+    'record_attendance' => 'Record Attendance',
+    'nfc_attendance_hint' => 'Member has a bracelet — will be scanned automatically.',
+    'manual_attendance_hint' => 'Manually mark the member as present.',
 
     // IGyma AI Chatbot
     'igyma_assistant' => 'IGyma Assistant',

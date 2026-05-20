@@ -3,10 +3,16 @@
     $items = igym_navigation_items($user);
 @endphp
 
-<aside class="fixed inset-y-0 start-0 z-40 hidden w-72 border-e border-slate-200 bg-white px-4 py-5 dark:border-slate-800 dark:bg-slate-900 lg:flex lg:flex-col">
-    <a href="{{ role_home_route() }}" class="igym-focus rounded-xl shrink-0">
-        <x-application-logo />
-    </a>
+<aside class="fixed inset-y-0 start-0 z-50 w-72 border-e border-slate-200 bg-white px-4 py-5 dark:border-slate-800 dark:bg-slate-900 flex flex-col -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out"
+       x-bind:class="sidebarOpen ? 'translate-x-0 shadow-2xl' : ''">
+    <div class="flex items-center justify-between shrink-0">
+        <a href="{{ role_home_route() }}" class="igym-focus rounded-xl">
+            <x-application-logo />
+        </a>
+        <button type="button" x-on:click="sidebarOpen = false; document.body.classList.remove('overflow-hidden')" class="igym-focus grid size-10 place-items-center rounded-xl text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 lg:hidden">
+            <x-icon name="x" size="18" />
+        </button>
+    </div>
 
     <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/60 dark:bg-amber-950/30 shrink-0">
         <div class="flex items-center gap-3">

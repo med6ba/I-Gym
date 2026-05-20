@@ -85,10 +85,10 @@
     }
 
     .igym-chart-frame {
-        @apply relative h-72 min-h-0 w-full overflow-hidden;
+        @apply relative h-52 min-h-0 w-full overflow-hidden sm:h-72;
     }
 
     .igym-chart-frame > canvas {
-        @apply block size-full;
+        @apply block size-full max-w-full;
     }
 }
