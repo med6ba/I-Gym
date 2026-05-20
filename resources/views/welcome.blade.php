@@ -96,7 +96,7 @@
     @endauth
 </div>
 
-                <button type="button" x-on:click="mobile = ! mobile" class="igym-focus grid size-11 place-items-center rounded-xl border transition lg:hidden" :class="scrolled ? 'border-slate-200 text-slate-800 dark:border-slate-700 dark:text-white' : 'border-white/15 text-white'">
+                <button type="button" x-on:click="mobile = ! mobile" class="igym-focus grid size-11 place-items-center rounded-xl border transition lg:hidden" :class="scrolled ? 'border-slate-200 text-slate-700 dark:border-slate-700 dark:text-white' : 'border-slate-200 bg-white text-slate-700 dark:border-white/15 dark:bg-transparent dark:text-white'">
                     <x-icon name="menu" size="22" />
                 </button>
             </div>

@@ -3,8 +3,9 @@
     $items = igym_navigation_items($user);
 @endphp
 
-<aside class="fixed inset-y-0 start-0 z-50 w-72 border-e border-slate-200 bg-white px-4 py-5 dark:border-slate-800 dark:bg-slate-900 flex flex-col -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out"
-       x-bind:class="sidebarOpen ? 'translate-x-0 shadow-2xl' : ''">
+<aside x-data="{ isRtl: document.documentElement.dir === 'rtl' }"
+       class="fixed inset-y-0 start-0 z-50 w-72 border-e border-slate-200 bg-white px-4 py-5 dark:border-slate-800 dark:bg-slate-900 flex flex-col transition-transform duration-300 ease-in-out"
+       x-bind:style="sidebarOpen || windowWidth >= 1024 ? 'transform: translateX(0)' : 'transform: ' + (isRtl ? 'translateX(100%)' : 'translateX(-100%)')">
     <div class="flex items-center justify-between shrink-0">
         <a href="{{ role_home_route() }}" class="igym-focus rounded-xl">
             <x-application-logo />

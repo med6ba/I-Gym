@@ -115,7 +115,6 @@ Route::middleware(['auth', 'role:member', 'gym.access'])->prefix('member')->name
 
 Route::middleware(['auth', 'role:reception', 'gym.access'])->prefix('reception')->name('reception.')->group(function () {
     Route::get('/scanner', [ReceptionScannerController::class, 'index'])->name('scanner');
-    Route::post('/scanner/check-in', [ReceptionScannerController::class, 'store'])->name('scanner.check-in');
 });
 
 require __DIR__.'/auth.php';

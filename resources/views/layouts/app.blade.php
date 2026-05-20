@@ -26,7 +26,8 @@
     <body class="font-sans" data-notification-count="{{ auth()->check() ? igym_unread_notification_count() : 0 }}">
         <div x-data class="min-h-screen bg-slate-50 dark:bg-slate-950">
             <div class="flex min-h-screen"
-                  x-data="{ sidebarOpen: false }"
+                  x-data="{ sidebarOpen: false, windowWidth: window.innerWidth }"
+                  x-init="window.addEventListener('resize', () => windowWidth = window.innerWidth)"
                   x-on:open-sidebar="sidebarOpen = true; document.body.classList.add('overflow-hidden')"
                   x-on:close-sidebar="sidebarOpen = false; document.body.classList.remove('overflow-hidden')"
                   x-on:keydown.escape="sidebarOpen = false; document.body.classList.remove('overflow-hidden')">

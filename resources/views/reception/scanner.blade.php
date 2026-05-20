@@ -82,46 +82,7 @@
             </p>
         </div>
 
-        <div class="mt-8 w-full max-w-md">
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900">
-                <h3 class="text-lg font-black text-slate-950 dark:text-white">{{ __('messages.manual_checkin') }}</h3>
-                <p class="mb-4 mt-1 text-sm text-slate-500 dark:text-slate-400">{{ __('messages.manual_checkin_hint') }}</p>
 
-                <form method="POST" action="{{ route('reception.scanner.check-in') }}" class="space-y-4" x-data="{ method: 'nfc', search: '' }">
-                    @csrf
-
-                    <label class="igym-field">
-                        <span class="igym-label">{{ __('messages.member') }}</span>
-                        <input type="text" x-model="search" placeholder="{{ __('messages.search_members') }}" class="igym-input mb-2">
-                        <select name="member_id" class="igym-input" required size="5">
-                            @foreach($members as $member)
-                                <option value="{{ $member->id }}" x-show="!search || '{{ strtolower($member->name) }}'.includes(search.toLowerCase())">{{ $member->name }}@if($member->hasBracelet()) · 🏷️ {{ __('messages.bracelet_assigned') }}@endif</option>
-                            @endforeach
-                        </select>
-                    </label>
-
-                    <div>
-                        <span class="igym-label">{{ __('messages.method') }}</span>
-                        <div class="mt-1.5 flex gap-2">
-                            <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold transition has-[:checked]:border-amber-400 has-[:checked]:bg-amber-50 dark:border-slate-700 dark:has-[:checked]:border-amber-700 dark:has-[:checked]:bg-amber-950/30">
-                                <input type="radio" name="method" value="nfc" x-model="method" class="size-4 accent-amber-500">
-                                <x-icon name="nfc" size="18" class="text-amber-500" />
-                                {{ __('messages.nfc') }}
-                            </label>
-                            <label class="flex cursor-pointer items-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-bold transition has-[:checked]:border-amber-400 has-[:checked]:bg-amber-50 dark:border-slate-700 dark:has-[:checked]:border-amber-700 dark:has-[:checked]:bg-amber-950/30">
-                                <input type="radio" name="method" value="manual" x-model="method" class="size-4 accent-amber-500">
-                                <x-icon name="user" size="18" class="text-slate-400" />
-                                {{ __('messages.manual') }}
-                            </label>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="igym-btn igym-btn-primary w-full justify-center">
-                        {{ __('messages.record_attendance') }}
-                    </button>
-                </form>
-            </div>
-        </div>
     </div>
 
     <script>
