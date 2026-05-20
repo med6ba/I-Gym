@@ -19,4 +19,9 @@
             {{ __('messages.install_app') }}
         </button>
     </div>
+    <div x-show="$root.closest('body')?.dataset.iosInstallable" x-cloak class="border-t border-slate-200 px-2 py-2 dark:border-slate-800">
+        <div class="rounded-xl bg-slate-100 px-3 py-2 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+            {{ __('messages.ios_install_instructions') }}
+        </div>
+    </div>
 </nav>

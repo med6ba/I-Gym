@@ -122,11 +122,6 @@ window.addEventListener('load', () => {
     localStorage.setItem('igym-notification-count', String(count));
 });
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js').catch(() => {});
-    });
-}
 
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -139,4 +134,35 @@ window.installPwa = function () {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+};
+
+const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+if (isIos && !isStandalone) {
+    document.body.dataset.iosInstallable = '1';
+}
+
+window.addEventListener('online', () => document.body.dataset.isOnline = '1');
+window.addEventListener('offline', () => delete document.body.dataset.isOnline);
+
+if (navigator.onLine) {
+    document.body.dataset.isOnline = '1';
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js').then((reg) => {
+        if (reg.waiting) {
+            document.body.dataset.swWaiting = '1';
+        }
+    }).catch(() => {});
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        document.body.dataset.swWaiting = '';
+    });
+}
+
+window.installSwUpdate = function () {
+    if (!navigator.serviceWorker.controller) return;
+    navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
 };

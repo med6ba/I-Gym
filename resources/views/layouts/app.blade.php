@@ -9,7 +9,7 @@
         <meta name="theme-color" content="#F59E0B">
         <meta name="description" content="I-Gym smart fitness app">
         <link rel="manifest" href="/manifest.json">
-        <link rel="icon" href="/icons/igym-logo.svg" type="image/svg+xml">
+        <link rel="icon" href="/icons/icon-192.png" type="image/png">
         <link rel="apple-touch-icon" href="/icons/icon-192.png">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -25,7 +25,24 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans" data-notification-count="{{ auth()->check() ? igym_unread_notification_count() : 0 }}">
-        <div x-data class="min-h-screen bg-slate-50 dark:bg-slate-950">
+        <div
+            x-data="{ swWaiting: document.body.dataset.swWaiting === '1', isOnline: document.body.dataset.isOnline === '1' }"
+            x-init="
+                const observer = new MutationObserver(() => {
+                    swWaiting = document.body.dataset.swWaiting === '1';
+                    isOnline = document.body.dataset.isOnline === '1';
+                });
+                observer.observe(document.body, { attributes: true, attributeFilter: ['data-sw-waiting', 'data-is-online'] });
+            "
+            class="min-h-screen bg-slate-50 dark:bg-slate-950"
+        >
+            <div x-show="!isOnline" class="fixed inset-x-0 top-0 z-50 bg-red-600 px-4 py-2 text-center text-xs font-bold text-white shadow-lg" x-cloak>
+                {{ __('messages.you_are_offline') }}
+            </div>
+            <div x-show="swWaiting" class="fixed inset-x-0 top-0 z-50 bg-amber-500 px-4 py-2 text-center text-xs font-bold text-slate-950 shadow-lg" x-cloak>
+                {{ __('messages.new_version_available') }}
+                <button type="button" onclick="installSwUpdate()" class="ml-2 underline">{{ __('messages.update_now') }}</button>
+            </div>
             <div class="flex min-h-screen"
                   x-data="{ sidebarOpen: false, windowWidth: window.innerWidth }"
                   x-init="window.addEventListener('resize', () => windowWidth = window.innerWidth)"

@@ -357,6 +357,10 @@ return [
     'no_bracelet_hint' => 'You don\'t have an NFC bracelet yet. Ask at reception to get one assigned.',
     'contact_reception' => 'Contact reception',
     'install_app' => 'Install App',
+    'you_are_offline' => 'You are offline — some features may not be available.',
+    'new_version_available' => 'A new version of the app is available.',
+    'update_now' => 'Update now',
+    'ios_install_instructions' => 'Tap the Share button, then scroll down and tap "Add to Home Screen".',
 
     // IGyma AI Chatbot
     'igyma_assistant' => 'IGyma Assistant',
