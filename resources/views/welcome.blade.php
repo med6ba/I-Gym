@@ -6,8 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#F59E0B">
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icons/icon-192.png" type="image/png">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="icon" href="/icons/igym-logo.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icons/icon-180.png">
     <title>{{ __('messages.welcome') }} — {{ config('app.name') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet" />
@@ -102,7 +102,7 @@
                 </button>
             </div>
 
-<div x-cloak x-show="mobile" x-transition class="border-t border-white/10 bg-slate-950/95 backdrop-blur-xl px-4 py-5 lg:hidden">
+<div x-cloak x-show="mobile" x-transition class="border-t border-slate-200 bg-white/95 backdrop-blur-xl px-4 py-5 dark:border-slate-800 dark:bg-slate-950/95 lg:hidden">
     <div class="flex items-center justify-center gap-3">
         <x-language-switcher />
         <x-theme-toggle />

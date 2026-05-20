@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-    <rect width="512" height="512" rx="112" fill="#F59E0B"/>
-    <rect x="84" y="178" width="344" height="156" rx="38" fill="#0F172A"/>
-    <rect x="52" y="216" width="64" height="80" rx="20" fill="#0F172A"/>
-    <rect x="396" y="216" width="64" height="80" rx="20" fill="#0F172A"/>
-    <text x="256" y="292" text-anchor="middle" font-family="Arial, sans-serif" font-size="96" font-weight="900" fill="#FACC15">IG</text>
-</svg>

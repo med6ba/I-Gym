@@ -4,8 +4,9 @@ const PRECACHE_URLS = [
     '/',
     '/manifest.json',
     '/icons/icon-192.png',
-    '/icons/icon-192.png',
     '/icons/icon-512.png',
+    '/icons/icon-180.png',
+    '/icons/igym-logo.svg',
 ];
 
 self.addEventListener('install', (event) => {

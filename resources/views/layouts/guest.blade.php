@@ -6,8 +6,8 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="theme-color" content="#F59E0B">
         <link rel="manifest" href="/manifest.json">
-        <link rel="icon" href="/icons/icon-192.png" type="image/png">
-        <link rel="apple-touch-icon" href="/icons/icon-192.png">
+        <link rel="icon" href="/icons/igym-logo.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/icons/icon-180.png">
 
         <title>{{ $title ?? __('messages.welcome') }} — {{ config('app.name') }}</title>
 
